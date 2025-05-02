@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Sammy
+@testable import Networking
 
 // MARK: - PostServiceTests
 

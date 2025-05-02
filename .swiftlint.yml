@@ -5,6 +5,8 @@ excluded:
   - .build
   - SwiftPM
   - Tests
+  - Modules/Networking/.build
+  - Modules/Models/.build
 
 # Enable rules which are not in the default set
 opt_in_rules:

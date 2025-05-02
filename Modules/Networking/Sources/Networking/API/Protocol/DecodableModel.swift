@@ -1,8 +1,6 @@
 import Foundation
 import OSLog
 
-private let logger = Logger(subsystem: "com.Sammy", category: "DecodableModel")
-
 // MARK: - DecodableModel
 
 /// Namespace to group decodable objects
@@ -16,7 +14,7 @@ extension DecodableModel {
         do {
             return try JSONHelper.decoder.decode(Self.self, from: data)
         } catch let error as DecodingError {
-            logger.error("\(error.prettyDescription)")
+            NSLog(error.prettyDescription)
             throw error
         }
     }
@@ -25,7 +23,7 @@ extension DecodableModel {
         do {
             return try JSONHelper.decoder.decode([Self].self, from: data)
         } catch let error as DecodingError {
-            logger.error("\(error.prettyDescription)")
+            NSLog(error.prettyDescription)
             throw error
         }
     }

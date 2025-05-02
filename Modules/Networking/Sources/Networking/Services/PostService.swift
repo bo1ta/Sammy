@@ -1,21 +1,22 @@
 import Foundation
+import Models
 
 // MARK: - PostServiceProtocol
 
-protocol PostServiceProtocol: Sendable {
+public protocol PostServiceProtocol: Sendable {
     func fetchPosts() async throws -> [Post]
 }
 
 // MARK: - PostService
 
-struct PostService: PostServiceProtocol {
+public struct PostService: PostServiceProtocol {
     private let client: APIProvider
 
-    init(client: APIProvider = APIClient()) {
+    public init(client: APIProvider = APIClient()) {
         self.client = client
     }
 
-    func fetchPosts() async throws -> [Post] {
+    public func fetchPosts() async throws -> [Post] {
         let request = APIRequest(method: .get, route: .post(.list))
         let data = try await client.dispatch(request)
         return try FetchPostsResponse.createFrom(data).posts

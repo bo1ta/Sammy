@@ -59,7 +59,7 @@ public struct APIRequest {
 // MARK: APIRequest.APIRequestError
 
 extension APIRequest {
-    public enum APIRequestError: LocalizedError {
+    public enum APIRequestError: LocalizedError, @unchecked Sendable {
         case invalidBody(JSONDictionary, Error)
         case invalidBaseURL
 
