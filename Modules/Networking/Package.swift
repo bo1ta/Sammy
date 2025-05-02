@@ -12,7 +12,7 @@ let package = Package(
             targets: ["Networking"]),
     ],
     dependencies: [
-        .package(name: "Models", path: "../Models")
+        .package(name: "Models", path: "../Models"),
     ],
     targets: [
         .target(
@@ -23,7 +23,5 @@ let package = Package(
             dependencies: ["Networking"],
             resources: [
                 .process("Supporting Files"),
-            ]
-        ),
-    ]
-)
+            ]),
+    ])

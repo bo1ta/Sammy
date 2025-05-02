@@ -1,6 +1,6 @@
 import Foundation
-import SwiftUI
 import Models
+import SwiftUI
 
 // MARK: - PostCard
 

@@ -5,7 +5,7 @@ import Foundation
 public struct Post: Decodable, Sendable {
     public var postData: PostData
     public var creatorData: CreatorData
-    public var countsData: CountsData
+    public var countsData: PostCountsData
     public var communityData: CommunityData
 
     enum CodingKeys: String, CodingKey {
@@ -15,7 +15,7 @@ public struct Post: Decodable, Sendable {
         case communityData = "community"
     }
 
-    public init(postData: PostData, creatorData: CreatorData, countsData: CountsData, communityData: CommunityData) {
+    public init(postData: PostData, creatorData: CreatorData, countsData: PostCountsData, communityData: CommunityData) {
         self.postData = postData
         self.creatorData = creatorData
         self.countsData = countsData

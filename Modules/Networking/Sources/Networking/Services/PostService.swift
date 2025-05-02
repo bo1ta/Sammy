@@ -23,7 +23,7 @@ public struct PostService: PostServiceProtocol {
     }
 }
 
-// MARK: PostService.FetchPostsReponse
+// MARK: PostService.FetchPostsResponse
 
 extension PostService {
     fileprivate struct FetchPostsResponse: Decodable, DecodableModel {

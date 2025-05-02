@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CountsData: Decodable, Sendable {
+public struct PostCountsData: Decodable, Sendable, Hashable {
     public var postID: Int
     public var comments: Int
     public var score: Int
@@ -19,7 +19,15 @@ public struct CountsData: Decodable, Sendable {
         case newestCommentTime = "newest_comment_time"
     }
 
-    public init(postID: Int, comments: Int, score: Int, upvotes: Int, downvotes: Int, published: String, newestCommentTime: String) {
+    public init(
+        postID: Int,
+        comments: Int,
+        score: Int,
+        upvotes: Int,
+        downvotes: Int,
+        published: String,
+        newestCommentTime: String)
+    {
         self.postID = postID
         self.comments = comments
         self.score = score

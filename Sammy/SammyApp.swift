@@ -4,7 +4,7 @@ import SwiftUI
 struct SammyApp: App {
     var body: some Scene {
         WindowGroup {
-            PostsView()
+            AppTabView()
         }
     }
 }

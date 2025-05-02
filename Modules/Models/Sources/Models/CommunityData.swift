@@ -1,12 +1,12 @@
 import Foundation
 
-public struct CommunityData: Codable, Identifiable, Sendable {
+public struct CommunityData: Codable, Identifiable, Sendable, Hashable {
     public var id: Int
     public var name: String
     public var title: String
     public var description: String
     public var published: String
-    public var updated: String
+    public var updated: String?
     public var icon: String?
     public var banner: String?
     public var visibility: String
@@ -25,7 +25,17 @@ public struct CommunityData: Codable, Identifiable, Sendable {
         return URL(string: icon)
     }
 
-    public init(id: Int, name: String, title: String, description: String, published: String, updated: String, icon: String? = nil, banner: String? = nil, visibility: String) {
+    public init(
+        id: Int,
+        name: String,
+        title: String,
+        description: String,
+        published: String,
+        updated: String? = nil,
+        icon: String? = nil,
+        banner: String? = nil,
+        visibility: String)
+    {
         self.id = id
         self.name = name
         self.title = title

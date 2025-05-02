@@ -1,7 +1,7 @@
 import Foundation
-import OSLog
-import Networking
 import Models
+import Networking
+import OSLog
 
 @Observable
 @MainActor
