@@ -18,14 +18,14 @@ struct PostService: PostServiceProtocol {
     func fetchPosts() async throws -> [Post] {
         let request = APIRequest(method: .get, route: .post(.list))
         let data = try await client.dispatch(request)
-        return try FetchPostsReponse.createFrom(data).posts
+        return try FetchPostsResponse.createFrom(data).posts
     }
 }
 
 // MARK: PostService.FetchPostsReponse
 
 extension PostService {
-    fileprivate struct FetchPostsReponse: Decodable, DecodableModel {
+    fileprivate struct FetchPostsResponse: Decodable, DecodableModel {
         var posts: [Post]
     }
 }

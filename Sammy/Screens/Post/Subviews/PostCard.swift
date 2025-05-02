@@ -58,6 +58,7 @@ extension PostCard {
             Text("Posted by u/\(post.creatorData.name)")
                 .font(.system(size: 11, weight: .regular))
         })
+        .buttonStyle(.plain)
     }
 
     /// This will present a share bottom sheet

@@ -15,6 +15,7 @@ struct PostsView: View {
         .task {
             await viewModel.loadPosts()
         }
+        .padding(.top, 1)
     }
 }
 
