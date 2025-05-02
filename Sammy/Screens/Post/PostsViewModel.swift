@@ -22,6 +22,11 @@ final class PostsViewModel {
 
         do {
             posts = try await service.fetchPosts()
+
+            if let firstPost = posts.first {
+                let post = try await service.getByID(firstPost.postData.id)
+                print("inca odata \(post)")
+            }
         } catch {
             logger.error("\(error.localizedDescription)")
         }

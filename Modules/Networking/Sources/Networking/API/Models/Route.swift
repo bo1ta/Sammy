@@ -3,13 +3,16 @@
 public enum Route {
     case post(APIRoute.PostRoute)
     case community(APIRoute.CommunityRoute)
+    case user(APIRoute.UserRoute)
 
     public var path: String {
         switch self {
         case .post(let postRoute):
-            "/post/\(postRoute.path)"
+            "/post\(postRoute.path)"
         case .community(let route):
-            "/community/\(route.path)"
+            "/community\(route.path)"
+        case .user(let route):
+            "/user\(route.path)"
         }
     }
 }
@@ -19,22 +22,45 @@ public enum Route {
 public enum APIRoute {
     public enum PostRoute {
         case list
+        case index
+        case markAsRead
+        case like
 
         var path: String {
             switch self {
+            case .index:
+                ""
             case .list:
-                "list"
+                "/list"
+            case .markAsRead:
+                "/mark_as_read"
+            case .like:
+                "/like"
             }
         }
     }
 
     public enum CommunityRoute {
         case list
+        case index
 
         var path: String {
             switch self {
             case .list:
-                "list"
+                "/list"
+            case .index:
+                ""
+            }
+        }
+    }
+
+    public enum UserRoute {
+        case register
+
+        var path: String {
+            switch self {
+            case .register:
+                "/register"
             }
         }
     }

@@ -30,15 +30,3 @@ class CommunityServiceTests: SammyTestBase {
         }
     }
 }
-
-// MARK: CommunityServiceTests.MockAPIProvider
-
-extension CommunityServiceTests {
-    struct MockAPIProvider: APIProvider {
-        var expectedData: Data?
-
-        func dispatch(_: APIRequest) async throws -> Data {
-            expectedData ?? Data()
-        }
-    }
-}

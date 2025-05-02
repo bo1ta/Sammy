@@ -1,0 +1,5 @@
+{
+    "jwt": "secret-jwt",
+    "registration_created": true,
+    "verify_email_sent": true
+}

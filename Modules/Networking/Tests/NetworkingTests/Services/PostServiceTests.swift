@@ -29,6 +29,25 @@ class PostServiceTests: SammyTestBase {
             #expect(error is DecodingError)
         }
     }
+
+    @Test
+    func getByID() async throws {
+        let jsonData = try parseDataFromFile(name: "getPostByID")
+        let mockAPI = MockAPIProvider(expectedData: jsonData)
+
+        let service = PostService(client: mockAPI)
+        let post = try await service.getByID(1)
+        #expect(post.postData.name == "Redacted name")
+    }
+
+    @Test
+    func markAsRead() async throws {
+        let jsonData = try parseDataFromFile(name: "markAsReadResponse")
+        let mockAPI = MockAPIProvider(expectedData: jsonData)
+
+        let service = PostService(client: mockAPI)
+        _ = try await service.markAsRead(true, id: 1)
+    }
 }
 
 // MARK: PostServiceTests.MockAPIProvider
