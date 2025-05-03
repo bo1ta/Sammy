@@ -6,7 +6,7 @@ struct PostsView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 15) {
+            LazyVStack(spacing: .paddingLarge) {
                 ForEach(viewModel.posts) { post in
                     PostCard(post: post)
                 }
@@ -15,7 +15,7 @@ struct PostsView: View {
         .task {
             await viewModel.loadPosts()
         }
-        .padding(.top, 1)
+        .padding(.top, .paddingSmall)
     }
 }
 

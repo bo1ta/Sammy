@@ -8,7 +8,7 @@ struct PostCard: View {
     let post: Post
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: .paddingMedium) {
             HStack {
                 communityButton
                 creatorButton
@@ -31,8 +31,8 @@ struct PostCard: View {
             }
             .padding([.horizontal, .vertical])
         }
-        .padding(.vertical, 5)
-        .padding(.top, 5)
+        .padding(.vertical, .paddingSmall)
+        .padding(.top, .paddingSmall)
         .background(Color.gray.opacity(0.07), in: .rect)
     }
 }
@@ -46,7 +46,7 @@ extension PostCard {
     private var communityButton: some View {
         Button(action: { }, label: {
             Text("c/\(post.communityData.name)")
-                .font(.system(size: 13, weight: .medium))
+                .font(.system(size: .fontSizeCaption, weight: .medium))
                 .foregroundStyle(Color.purple)
         })
         .buttonStyle(.plain)
@@ -57,7 +57,7 @@ extension PostCard {
     private var creatorButton: some View {
         Button(action: { }, label: {
             Text("Posted by u/\(post.creatorData.name)")
-                .font(.system(size: 11, weight: .regular))
+                .font(.system(size: .fontSizeCaption, weight: .regular))
         })
         .buttonStyle(.plain)
     }
@@ -115,8 +115,8 @@ extension PostCard {
             Text(String(post.countsData.score))
             Image(systemName: "arrow.down")
         }
-        .padding(5)
-        .background(Color.gray.opacity(0.15), in: .rect(cornerRadius: 12))
+        .padding(.paddingSmall)
+        .background(Color.gray.opacity(0.15), in: .rect(cornerRadius: .cornerRadiusMedium))
     }
 
     /// This will navigate to the comment section for the given Post
@@ -127,7 +127,7 @@ extension PostCard {
                 Image(.icChat)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 20)
+                    .frame(height: .iconSizeExtraSmall)
                 Text(String(post.countsData.comments))
             }
         })
