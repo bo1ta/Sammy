@@ -7,13 +7,16 @@ struct CommentRow: View {
     let onDownvote: () -> Void
 
     var body: some View {
-        VStack(spacing: .paddingMedium) {
+        VStack(alignment: .leading, spacing: .paddingMedium) {
             HStack {
                 Text("u/\(comment.creator.name)")
                     .font(.system(size: .fontSizeCaption, weight: .medium))
                     .foregroundStyle(.textPrimary)
+                    .padding(.trailing, .paddingMedium)
                 TinyCircleSeparator()
                 Text("1h")
+                    .font(.system(size: .fontSizeCaption, weight: .medium))
+                    .foregroundStyle(.textPrimary)
             }
 
             Text(comment.commentData.content)

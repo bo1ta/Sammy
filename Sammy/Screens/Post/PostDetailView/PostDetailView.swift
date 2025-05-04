@@ -17,7 +17,6 @@ struct PostDetailView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: .paddingMedium) {
-                titleSection
                 contentSection
                 commentSection
             }
@@ -31,10 +30,10 @@ struct PostDetailView: View {
                             .foregroundStyle(.textPrimary)
                     })
                     VStack(alignment: .leading, spacing: .paddingExtraSmall) {
-                        Text("What's your favorite game?")
+                        Text(viewModel.post.postData.name)
                             .font(.system(size: .fontSizeBody, weight: .medium))
                             .foregroundStyle(.textPrimary)
-                        Text("c/programming")
+                        Text("c/\(viewModel.post.communityData.name)")
                             .font(.system(size: .fontSizeCaption, weight: .light))
                             .foregroundStyle(.textSecondary)
                     }
@@ -44,8 +43,8 @@ struct PostDetailView: View {
         .task {
             await viewModel.fetchCommentsForPost()
         }
+        .background(Color.primaryBackground)
         .navigationBarBackButtonHidden()
-        .padding(.paddingSmall)
     }
 }
 
@@ -57,11 +56,12 @@ extension PostDetailView {
         VStack {
             HStack {
                 Button(action: { }, label: {
-                    Text(viewModel.post.communityData.name)
+                    Text("c/\(viewModel.post.communityData.name)")
                         .font(.system(size: .fontSizeCaption, weight: .medium))
                         .foregroundStyle(Color.accentColor)
                 })
                 .buttonStyle(.plain)
+                .padding(.trailing, .paddingMedium)
 
                 TinyCircleSeparator()
 
@@ -74,6 +74,7 @@ extension PostDetailView {
                 Text("2h")
                     .font(.system(size: .fontSizeCaption, weight: .light))
                     .foregroundStyle(.textSecondary)
+                Spacer()
             }
 
             Text(viewModel.post.postData.name)
@@ -83,7 +84,9 @@ extension PostDetailView {
     }
 
     private var contentSection: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: .paddingLarge) {
+            titleSection
+
             if let body = viewModel.post.postData.body {
                 Text(body)
                     .font(.system(size: .fontSizeBody))
@@ -96,10 +99,33 @@ extension PostDetailView {
 
             PostInteractionBar(postCounts: viewModel.post.postCounts, onUpvote: {}, onDownvote: {}, onShare: {}, onBookmark: {})
         }
+        .padding()
+        .background(Color.card, in: .rect)
+        .overlay {
+            Rectangle()
+                .strokeBorder(.gray, lineWidth: 0.15)
+                .shadow(radius: 1)
+        }
     }
 
     private var commentSection: some View {
         VStack(alignment: .leading) {
+            HStack {
+                Text("Comments")
+                    .font(.system(size: .fontSizeSubheadline, weight: .medium))
+                    .foregroundStyle(.textPrimary)
+
+                Spacer()
+
+                Button(action: {}, label: {
+                    Text("Sort by Best")
+                        .foregroundStyle(Color.accent)
+                        .font(.system(size: .fontSizeCaption, weight: .regular))
+                })
+                .buttonStyle(.plain)
+            }
+            .padding(.bottom, .paddingMedium)
+
             ForEach(viewModel.comments) { comment in
                 CommentRow(
                     comment: comment,
@@ -110,6 +136,13 @@ extension PostDetailView {
                         viewModel.handleVote(.downvote, commentID: comment.id)
                     })
             }
+        }
+        .padding()
+        .background(Color.card, in: .rect)
+        .overlay {
+            Rectangle()
+                .strokeBorder(.gray, lineWidth: 0.15)
+                .shadow(radius: 1)
         }
     }
 
