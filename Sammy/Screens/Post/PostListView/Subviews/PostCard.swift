@@ -15,8 +15,8 @@ struct PostCard: View {
             }
             .padding([.horizontal, .bottom])
 
-            if post.postData.imageURL != nil {
-                postImage
+            if let imageURL = post.postData.imageURL {
+                PostImage(imageURL: imageURL)
             } else {
                 Text(post.postData.name)
                     .padding(.horizontal)
@@ -56,7 +56,7 @@ extension PostCard {
     ///
     private var creatorButton: some View {
         Button(action: { }, label: {
-            Text("Posted by u/\(post.creatorData.name)")
+            Text("Posted by u/\(post.creator.name)")
                 .font(.system(size: .fontSizeCaption, weight: .regular))
         })
         .buttonStyle(.plain)
@@ -80,39 +80,12 @@ extension PostCard {
         .buttonStyle(.plain)
     }
 
-    private var postImage: some View {
-        AsyncImage(url: post.postData.imageURL) { imagePhase in
-            switch imagePhase {
-            case .empty:
-                Color.white
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-
-            case .success(let image):
-                image.resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-
-            case .failure(let error):
-                Color.white
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-                    .onAppear {
-                        print(error.localizedDescription)
-                    }
-
-            @unknown default:
-                fatalError("Unknown default")
-            }
-        }
-    }
-
     /// This will handle the voting actions (upvote, downvote)
     ///
     private var voteStackButton: some View {
         HStack {
             Image(systemName: "arrow.up")
-            Text(String(post.countsData.score))
+            Text(String(post.postCounts.score))
             Image(systemName: "arrow.down")
         }
         .padding(.paddingSmall)
@@ -128,7 +101,7 @@ extension PostCard {
                     .resizable()
                     .scaledToFit()
                     .frame(height: .iconSizeExtraSmall)
-                Text(String(post.countsData.comments))
+                Text(String(post.postCounts.comments))
             }
         })
         .buttonStyle(.plain)

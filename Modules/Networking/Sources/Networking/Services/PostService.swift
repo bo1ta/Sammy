@@ -5,7 +5,7 @@ import Models
 
 public protocol PostServiceProtocol: Sendable {
     func fetchPosts() async throws -> [Post]
-    func getByID(_ id: Int) async throws -> Post
+    func getByID(_ id: Post.ID) async throws -> Post
     func markAsRead(_ markedAsRead: Bool, id: Int) async throws
 }
 
@@ -24,7 +24,7 @@ public struct PostService: PostServiceProtocol {
         return try FetchPostsResponse.createFrom(data).posts
     }
 
-    public func getByID(_ id: Int) async throws -> Post {
+    public func getByID(_ id: Post.ID) async throws -> Post {
         var request = APIRequest(method: .get, route: .post(.index))
         request.queryParams = [
             URLQueryItem(name: "id", value: String(id)),
@@ -34,7 +34,7 @@ public struct PostService: PostServiceProtocol {
         return try GetByIDResponse.createFrom(data).post
     }
 
-    public func markAsRead(_ markedAsRead: Bool, id: Int) async throws {
+    public func markAsRead(_ markedAsRead: Bool, id: Post.ID) async throws {
         var request = APIRequest(method: .post, route: .post(.markAsRead))
         request.body = [
             "post_id": id,
@@ -65,14 +65,14 @@ extension PostService {
     }
 }
 
-// MARK: PostService.FetchPostsResponse
+// MARK: Private types for API responses
 
 extension PostService {
-    private struct FetchPostsResponse: Decodable, DecodableModel {
+    private struct FetchPostsResponse: DecodableModel {
         var posts: [Post]
     }
 
-    private struct GetByIDResponse: Decodable, DecodableModel {
+    private struct GetByIDResponse: DecodableModel {
         var post: Post
 
         enum CodingKeys: String, CodingKey {
@@ -80,7 +80,11 @@ extension PostService {
         }
     }
 
-    private struct MarkAsReadResponse: Decodable, DecodableModel {
+    private struct MarkAsReadResponse: DecodableModel {
         var success: Bool
+    }
+
+    private struct GetCommentsResponse: DecodableModel {
+        let comments: [Comment]
     }
 }

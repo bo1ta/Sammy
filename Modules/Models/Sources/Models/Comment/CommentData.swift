@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Comment: Decodable, Identifiable, Equatable {
+public struct CommentData: Decodable, Identifiable, Equatable, Sendable {
     public let id: Int
     public let creatorID: Int
     public let postID: Int

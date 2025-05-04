@@ -4,22 +4,31 @@ import Foundation
 
 public struct Post: Decodable, Sendable {
     public var postData: PostData
-    public var creatorData: CreatorData
-    public var countsData: PostCountsData
+    public var creator: Person
+    public var postCounts: PostCounts
     public var communityData: CommunityData
 
     enum CodingKeys: String, CodingKey {
         case postData = "post"
-        case creatorData = "creator"
-        case countsData = "counts"
+        case creator
+        case postCounts = "counts"
         case communityData = "community"
     }
 
-    public init(postData: PostData, creatorData: CreatorData, countsData: PostCountsData, communityData: CommunityData) {
+    public init(postData: PostData, creatorData: Person, postCounts: PostCounts, communityData: CommunityData) {
         self.postData = postData
-        self.creatorData = creatorData
-        self.countsData = countsData
+        self.creator = creatorData
+        self.postCounts = postCounts
         self.communityData = communityData
+    }
+}
+
+// MARK: Hashable
+
+extension Post: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(postData.id)
+        hasher.combine(creator.id)
     }
 }
 
