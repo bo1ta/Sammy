@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - ThreadComments
+
 /// A view that displays a hierarchical thread of comments with visual threading indicators.
 ///
 /// This view takes a tree of `CommentNode` objects and renders them with:
@@ -21,6 +23,8 @@ struct ThreadComments: View {
     }
 }
 
+// MARK: - ThreadedCommentNode
+
 /// A recursive view that renders a single comment and its reply thread.
 ///
 /// Displays:
@@ -34,12 +38,12 @@ struct ThreadedCommentNode: View {
     let node: CommentNode
 
     private let threadColors: [Color] = [
-        .blue, .green, .orange, .red, .purple, .pink
+        .blue, .green, .orange, .red, .purple, .pink,
     ]
 
     var body: some View {
         VStack(alignment: .leading, spacing: .paddingMedium) {
-            CommentRow(node: node, depth: 0, onUpvote: {}, onDownvote: {})
+            CommentRow(node: node, depth: 0, onUpvote: { }, onDownvote: { })
                 .padding(.leading, CGFloat(node.depth) * 12)
 
             ForEach(node.children) { childNode in

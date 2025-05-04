@@ -37,8 +37,7 @@ enum CommentTreeBuilder {
                     comment: comment,
                     pathComponents: pathComponents,
                     mutableDict: &mutableDict,
-                    pathToCommentMap: pathToCommentMap
-                )
+                    pathToCommentMap: pathToCommentMap)
             }
         }
 
@@ -61,7 +60,8 @@ enum CommentTreeBuilder {
     /// 3. Builds a path-to-ID lookup dictionary
     ///
     private static func createInitialNodes(from comments: [Comment])
-    -> (nodes: [Int: CommentNode], pathMap: [String: Int]) {
+        -> (nodes: [Int: CommentNode], pathMap: [String: Int])
+    {
         var commentDict = [Int: CommentNode]()
         var pathToCommentMap = [String: Int]()
 
@@ -70,8 +70,7 @@ enum CommentTreeBuilder {
             let node = CommentNode(
                 comment: comment,
                 children: [],
-                depth: depth
-            )
+                depth: depth)
             commentDict[comment.commentData.id] = node
             pathToCommentMap[comment.commentData.path] = comment.commentData.id
         }
@@ -87,7 +86,7 @@ enum CommentTreeBuilder {
     /// Root comments have paths in the format: "0.<commentID>"
     ///
     private static func isRootComment(pathComponents: [String]) -> Bool {
-        return pathComponents.count == 2 && pathComponents[0] == "0"
+        pathComponents.count == 2 && pathComponents[0] == "0"
     }
 
     /// Establishes parent-child relationships between comments.
@@ -107,16 +106,18 @@ enum CommentTreeBuilder {
         comment: Comment,
         pathComponents: [String],
         mutableDict: inout [Int: CommentNode],
-        pathToCommentMap: [String: Int]
-    ) {
+        pathToCommentMap: [String: Int])
+    {
         var parentPathComponents = pathComponents.dropLast()
 
         while !parentPathComponents.isEmpty {
             let parentPath = parentPathComponents.joined(separator: ".")
 
-            if let parentCommentId = pathToCommentMap[parentPath],
-               var parentNode = mutableDict[parentCommentId],
-               let childNode = mutableDict[comment.commentData.id] {
+            if
+                let parentCommentId = pathToCommentMap[parentPath],
+                var parentNode = mutableDict[parentCommentId],
+                let childNode = mutableDict[comment.commentData.id]
+            {
                 parentNode.children.append(childNode)
                 mutableDict[parentCommentId] = parentNode
                 break
@@ -136,7 +137,7 @@ enum CommentTreeBuilder {
     /// 2. Then recursively for all child nodes
     ///
     private static func sortTree(nodes: [CommentNode]) -> [CommentNode] {
-        return nodes
+        nodes
             .sorted { $0.comment.commentData.published > $1.comment.commentData.published }
             .map { node in
                 var mutableNode = node

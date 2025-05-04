@@ -97,7 +97,12 @@ extension PostDetailView {
                 PostImage(imageURL: imageURL)
             }
 
-            PostInteractionBar(postCounts: viewModel.post.postCounts, onUpvote: {}, onDownvote: {}, onShare: {}, onBookmark: {})
+            PostInteractionBar(
+                postCounts: viewModel.post.postCounts,
+                onUpvote: { },
+                onDownvote: { },
+                onShare: { },
+                onBookmark: { })
         }
         .padding()
         .background(Color.card, in: .rect)
@@ -117,7 +122,7 @@ extension PostDetailView {
 
                 Spacer()
 
-                Button(action: {}, label: {
+                Button(action: { }, label: {
                     Text("Sort by Best")
                         .foregroundStyle(Color.accent)
                         .font(.system(size: .fontSizeCaption, weight: .regular))

@@ -1,6 +1,6 @@
 import Foundation
-import Networking
 import Models
+import Networking
 import OSLog
 
 @Observable

@@ -1,5 +1,5 @@
-import SwiftUI
 import Models
+import SwiftUI
 
 struct PostInteractionBar: View {
     var postCounts: PostCounts

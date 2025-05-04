@@ -1,5 +1,7 @@
-import SwiftUI
 import Models
+import SwiftUI
+
+// MARK: - CommentRow
 
 struct CommentRow: View {
     @State private var isCollapsed = false
@@ -76,6 +78,8 @@ extension CommentRow {
         }
     }
 }
+
+// MARK: - DateHelper
 
 enum DateHelper {
     static func relativeTimeFromString(_ dateString: String) -> String {
