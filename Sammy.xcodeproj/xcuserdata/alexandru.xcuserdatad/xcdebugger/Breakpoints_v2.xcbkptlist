@@ -50,21 +50,51 @@
             endingLineNumber = "17"
             landmarkName = "body"
             landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "54E39484-62F5-4109-A83B-C433B9CFB934 - 2e15b54c691a0a4d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.LazyVStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Sammy.CommentNode&gt;, Swift.Int, Sammy.ThreadedCommentNode&gt;&gt; in Sammy.ThreadComments.body.getter : some"
+                  moduleName = "Sammy.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandru/Documents/Projects/Sammy/gith/Sammy/Sammy/Screens/Post/PostDetailView/Subviews/ThreadComments.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17">
+               </Location>
+               <Location
+                  uuid = "54E39484-62F5-4109-A83B-C433B9CFB934 - b18d72ade1ae4924"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;Sammy.CommentNode&gt;, Swift.Int, Sammy.ThreadedCommentNode&gt; in closure #1 () -&gt; SwiftUI.LazyVStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;Sammy.CommentNode&gt;, Swift.Int, Sammy.ThreadedCommentNode&gt;&gt; in Sammy.ThreadComments.body.getter : some"
+                  moduleName = "Sammy.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexandru/Documents/Projects/Sammy/gith/Sammy/Sammy/Screens/Post/PostDetailView/Subviews/ThreadComments.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "88FEA130-5D86-442A-916E-1375637D7024"
+            uuid = "C2E93A7B-A838-45E7-809C-D5C0A8DF4FDC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Sammy/Screens/Post/PostDetailView/PostDetailViewModel.swift"
+            filePath = "SammyTests/CommunityViewModelTests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "fetchCommentsForPost()"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "fetchCommunities()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

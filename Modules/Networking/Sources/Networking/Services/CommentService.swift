@@ -4,7 +4,7 @@ import Models
 // MARK: - CommentServiceProtocol
 
 public protocol CommentServiceProtocol: Sendable {
-    func getAllForPostID(_ id: Post.ID, queryOptions: CommentQueryOptions?) async throws -> [Comment]
+    func getAllForPostID(_ id: Post.ID, queryOptions: [CommentQueryOption]) async throws -> [Comment]
     func setVoteForComment(_ commentID: Comment.ID, voteType: VoteType) async throws
 }
 
@@ -17,14 +17,11 @@ public struct CommentService: CommentServiceProtocol {
         self.client = client
     }
 
-    public func getAllForPostID(_ id: Post.ID, queryOptions: CommentQueryOptions?) async throws -> [Comment] {
+    public func getAllForPostID(_ id: Post.ID, queryOptions: [CommentQueryOption] = []) async throws -> [Comment] {
         var queryParams = [
             URLQueryItem(name: "post_id", value: String(id)),
         ]
-        if let queryOptions {
-            let commentQueryItems = queryOptions.createQueryItems()
-            queryParams.append(contentsOf: commentQueryItems)
-        }
+        queryParams.append(contentsOf: queryOptions.compactMap(\.queryItem))
 
         let request = APIRequest(method: .get, route: .comment(.list), queryParams: queryParams)
         let data = try await client.dispatch(request)

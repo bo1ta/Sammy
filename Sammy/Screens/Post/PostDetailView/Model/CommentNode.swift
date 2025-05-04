@@ -11,14 +11,6 @@ import Models
 /// 2. Provides unique identification for SwiftUI rendering
 /// 3. Maintains parent-child relationships between comments
 ///
-/// ## Example Usage:
-/// ```
-/// // In a SwiftUI view:
-/// List(commentNodes) { node in
-///     CommentView(node: node)
-///         .padding(.leading, CGFloat(node.depth * 15))
-/// }
-/// ```
 struct CommentNode: Identifiable {
     /// The unique identifier matching the wrapped comment's ID
     var id: Int

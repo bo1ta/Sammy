@@ -5,7 +5,7 @@ import OSLog
 
 @Observable
 @MainActor
-final class PostDetailViewModel: ObservableObject {
+final class PostDetailViewModel {
     @ObservationIgnored private(set) var voteTask: Task<Void, Never>?
 
     private(set) var comments: [Comment] = []
@@ -23,8 +23,7 @@ final class PostDetailViewModel: ObservableObject {
 
     func fetchCommentsForPost() async {
         do {
-            let queryOptions = CommentQueryOptions(limit: 50)
-            comments = try await commentService.getAllForPostID(post.id, queryOptions: queryOptions)
+            comments = try await commentService.getAllForPostID(post.id, queryOptions: [.limit(50)])
             commentTree = CommentTreeBuilder.buildTree(from: comments)
         } catch {
             logger.error("Error loading cmments. Error: \(error.localizedDescription)")

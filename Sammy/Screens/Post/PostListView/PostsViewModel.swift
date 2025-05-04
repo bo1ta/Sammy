@@ -13,6 +13,7 @@ final class PostsViewModel {
 
     private(set) var posts: [Post] = []
     private(set) var isLoading = false
+    private(set) var errorMessage: String?
 
     var selectedDestination: Destination?
 
@@ -28,6 +29,7 @@ final class PostsViewModel {
             posts = try await service.fetchPosts()
         } catch {
             logger.error("\(error.localizedDescription)")
+            errorMessage = "An error occured. Please try again later."
         }
     }
 }
