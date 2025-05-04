@@ -4,7 +4,7 @@ public struct CommunityData: Codable, Identifiable, Sendable, Hashable {
     public var id: Int
     public var name: String
     public var title: String
-    public var description: String
+    public var description: String?
     public var published: String
     public var updated: String?
     public var icon: String?
@@ -29,7 +29,7 @@ public struct CommunityData: Codable, Identifiable, Sendable, Hashable {
         id: Int,
         name: String,
         title: String,
-        description: String,
+        description: String? = nil,
         published: String,
         updated: String? = nil,
         icon: String? = nil,
