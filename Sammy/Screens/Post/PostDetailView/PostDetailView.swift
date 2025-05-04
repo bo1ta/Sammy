@@ -53,7 +53,7 @@ struct PostDetailView: View {
 extension PostDetailView {
 
     private var titleSection: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 Button(action: { }, label: {
                     Text("c/\(viewModel.post.communityData.name)")
@@ -126,16 +126,7 @@ extension PostDetailView {
             }
             .padding(.bottom, .paddingMedium)
 
-            ForEach(viewModel.comments) { comment in
-                CommentRow(
-                    comment: comment,
-                    onUpvote: {
-                        viewModel.handleVote(.upvote, commentID: comment.id)
-                    },
-                    onDownvote: {
-                        viewModel.handleVote(.downvote, commentID: comment.id)
-                    })
-            }
+            ThreadComments(commentTree: viewModel.commentTree)
         }
         .padding()
         .background(Color.card, in: .rect)

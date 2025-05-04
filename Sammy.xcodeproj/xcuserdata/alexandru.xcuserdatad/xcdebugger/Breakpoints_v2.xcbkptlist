@@ -18,36 +18,6 @@
             endingLineNumber = "56"
             landmarkName = "makeHTTPBodyForDictionary(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A2DFAD59-3168-4EDB-A6A9-CD850DA61A58 - ec77c1fab239dc7a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sammy.APIRequest.makeHTTPBodyForDictionary(Swift.Dictionary&lt;Swift.String, Any&gt;) throws -&gt; Foundation.Data"
-                  moduleName = "Sammy.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexandru/Documents/github/Sammy/Sammy/Networking/API/Models/APIRequest.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56">
-               </Location>
-               <Location
-                  uuid = "A2DFAD59-3168-4EDB-A6A9-CD850DA61A58 - ec77c1fab239dc7a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sammy.APIRequest.makeHTTPBodyForDictionary(Swift.Dictionary&lt;Swift.String, Any&gt;) throws -&gt; Foundation.Data"
-                  moduleName = "Sammy.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexandru/Documents/github/Sammy/Sammy/Networking/API/Models/APIRequest.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -63,6 +33,38 @@
             startingLineNumber = "54"
             endingLineNumber = "54"
             landmarkName = "makeHTTPBodyForDictionary(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54E39484-62F5-4109-A83B-C433B9CFB934"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sammy/Screens/Post/PostDetailView/Subviews/ThreadComments.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88FEA130-5D86-442A-916E-1375637D7024"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sammy/Screens/Post/PostDetailView/PostDetailViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "fetchCommentsForPost()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
