@@ -10,6 +10,7 @@ final class PostDetailViewModel {
 
     private(set) var comments: [Comment] = []
     private(set) var commentTree: [CommentNode] = []
+    private(set) var errorMessage: String?
 
     private let logger = Logger(subsystem: "com.Sammy", category: "PostDetailViewModel")
     private let commentService: CommentServiceProtocol
@@ -27,6 +28,7 @@ final class PostDetailViewModel {
             commentTree = CommentTreeBuilder.buildTree(from: comments)
         } catch {
             logger.error("Error loading cmments. Error: \(error.localizedDescription)")
+            errorMessage = "Error loading comments."
         }
     }
 
@@ -38,6 +40,7 @@ final class PostDetailViewModel {
                 try await commentService.setVoteForComment(commentID, voteType: voteType)
             } catch {
                 logger.error("Error voting comment. Error: \(error.localizedDescription)")
+                errorMessage = "Error voting comment."
             }
         }
     }

@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - Comment
+
 public struct Comment: Decodable, Sendable, Identifiable {
     public let commentData: CommentData
     public let creator: Person
@@ -31,5 +33,13 @@ public struct Comment: Decodable, Sendable, Identifiable {
         self.postData = postData
         self.communityData = communityData
         self.countsData = countsData
+    }
+}
+
+// MARK: Equatable
+
+extension Comment: Equatable {
+    public static func ==(_ lhs: Comment, rhs: Comment) -> Bool {
+        lhs.id == rhs.id
     }
 }

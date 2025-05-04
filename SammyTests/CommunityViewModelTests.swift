@@ -3,6 +3,8 @@ import Testing
 @testable import Networking
 @testable import Sammy
 
+// MARK: - CommunityViewModelTests
+
 @Suite("CommunityViewModelTests")
 struct CommunityViewModelTests {
     @Test
@@ -33,6 +35,8 @@ struct CommunityViewModelTests {
         #expect(await viewModel.errorMessage == "Something went wrong. Please try again later")
     }
 }
+
+// MARK: CommunityViewModelTests.MockCommunityService
 
 extension CommunityViewModelTests {
     private struct MockCommunityService: CommunityServiceProtocol {
