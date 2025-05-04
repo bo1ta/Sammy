@@ -3,46 +3,6 @@ import Networking
 import OSLog
 import SwiftUI
 
-// MARK: - PostDetailViewModel
-
-@Observable
-@MainActor
-final class PostDetailViewModel: ObservableObject {
-    @ObservationIgnored private(set) var voteTask: Task<Void, Never>?
-
-    private(set) var comments: [Comment] = []
-
-    let post: Post
-
-    private let logger = Logger(subsystem: "com.Sammy", category: "PostDetailViewModel")
-    private let commentService: CommentServiceProtocol
-
-    init(post: Post, commentService: CommentServiceProtocol = CommentService()) {
-        self.post = post
-        self.commentService = commentService
-    }
-
-    func fetchCommentsForPost() async {
-        do {
-            comments = try await commentService.getAllForPostID(post.id, queryOptions: nil)
-        } catch {
-            logger.error("Error loading cmments. Error: \(error.localizedDescription)")
-        }
-    }
-
-    func handleVote(_ voteType: VoteType, commentID: Comment.ID) {
-        voteTask?.cancel()
-
-        voteTask = Task {
-            do {
-                try await commentService.setVoteForComment(commentID, voteType: voteType)
-            } catch {
-                logger.error("Error voting comment. Error: \(error.localizedDescription)")
-            }
-        }
-    }
-}
-
 // MARK: - PostDetailView
 
 struct PostDetailView: View {
@@ -128,9 +88,13 @@ extension PostDetailView {
                 Text(body)
                     .font(.system(size: .fontSizeBody))
                     .foregroundStyle(.textPrimary)
-            } else if let imageURL = viewModel.post.postData.imageURL {
+            }
+
+            if let imageURL = viewModel.post.postData.imageURL {
                 PostImage(imageURL: imageURL)
             }
+
+            PostInteractionBar(postCounts: viewModel.post.postCounts, onUpvote: {}, onDownvote: {}, onShare: {}, onBookmark: {})
         }
     }
 
@@ -149,66 +113,4 @@ extension PostDetailView {
         }
     }
 
-}
-
-// MARK: - TinyCircleSeparator
-
-struct TinyCircleSeparator: View {
-    var body: some View {
-        Circle()
-            .fill(Color.textPrimary)
-            .frame(height: 2)
-    }
-}
-
-// MARK: - CommentRow
-
-struct CommentRow: View {
-    let comment: Comment
-    let onUpvote: () -> Void
-    let onDownvote: () -> Void
-
-    var body: some View {
-        VStack(spacing: .paddingMedium) {
-            HStack {
-                Text("u/\(comment.creator.name)")
-                    .font(.system(size: .fontSizeCaption, weight: .medium))
-                    .foregroundStyle(.textPrimary)
-                TinyCircleSeparator()
-                Text("1h")
-            }
-
-            Text(comment.commentData.content)
-                .font(.system(size: .fontSizeBody, weight: .regular))
-                .foregroundStyle(.textPrimary)
-                .opacity(0.95)
-
-            HStack(spacing: .paddingSmall) {
-                upvoteButton
-                Text(String(comment.countsData.score))
-                    .font(.system(size: .fontSizeCaption, weight: .bold))
-                    .foregroundStyle(.textPrimary)
-                downvoteButton
-            }
-        }
-    }
-
-}
-
-extension CommentRow {
-    private var upvoteButton: some View {
-        Button(action: onUpvote, label: {
-            Image(systemName: "arrow.up")
-                .foregroundStyle(.textPrimary)
-                .font(.system(size: .iconSizeSmall))
-        })
-    }
-
-    private var downvoteButton: some View {
-        Button(action: onDownvote) {
-            Image(systemName: "arrow.down")
-                .foregroundStyle(.textPrimary)
-                .font(.system(size: .iconSizeSmall))
-        }
-    }
 }

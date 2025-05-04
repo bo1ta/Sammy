@@ -8,10 +8,11 @@ struct PostCard: View {
     let post: Post
 
     var body: some View {
-        VStack(alignment: .leading, spacing: .paddingMedium) {
+        VStack(alignment: .center, spacing: .paddingMedium) {
             HStack {
                 communityButton
                 creatorButton
+                Spacer()
             }
             .padding([.horizontal, .bottom])
 
@@ -20,15 +21,11 @@ struct PostCard: View {
             } else {
                 Text(post.postData.name)
                     .padding(.horizontal)
+                    .foregroundStyle(.textPrimary)
+                    .font(.system(size: .fontSizeBody, weight: .regular))
             }
 
-            HStack {
-                voteStackButton
-                commentsButton
-                Spacer()
-                shareButton
-                bookmarkButton
-            }
+            PostInteractionBar(postCounts: post.postCounts, onUpvote: {}, onDownvote: {}, onShare: {}, onBookmark: {})
             .padding([.horizontal, .vertical])
         }
         .padding(.vertical, .paddingSmall)
@@ -58,51 +55,6 @@ extension PostCard {
         Button(action: { }, label: {
             Text("Posted by u/\(post.creator.name)")
                 .font(.system(size: .fontSizeCaption, weight: .regular))
-        })
-        .buttonStyle(.plain)
-    }
-
-    /// This will present a share bottom sheet
-    ///
-    private var shareButton: some View {
-        Button(action: { }, label: {
-            Image(systemName: "square.and.arrow.up")
-        })
-        .buttonStyle(.plain)
-    }
-
-    /// This will bookmark the post (aka favorite)
-    ///
-    private var bookmarkButton: some View {
-        Button(action: { }, label: {
-            Image(systemName: "bookmark")
-        })
-        .buttonStyle(.plain)
-    }
-
-    /// This will handle the voting actions (upvote, downvote)
-    ///
-    private var voteStackButton: some View {
-        HStack {
-            Image(systemName: "arrow.up")
-            Text(String(post.postCounts.score))
-            Image(systemName: "arrow.down")
-        }
-        .padding(.paddingSmall)
-        .background(Color.gray.opacity(0.15), in: .rect(cornerRadius: .cornerRadiusMedium))
-    }
-
-    /// This will navigate to the comment section for the given Post
-    ///
-    private var commentsButton: some View {
-        Button(action: { }, label: {
-            HStack {
-                Image(.icChat)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: .iconSizeExtraSmall)
-                Text(String(post.postCounts.comments))
-            }
         })
         .buttonStyle(.plain)
     }

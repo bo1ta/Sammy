@@ -14,6 +14,7 @@ struct PostsView: View {
                         }, label: {
                             PostCard(post: post)
                         })
+                        .buttonStyle(.plain)
                     }
                 }
             }

@@ -8,7 +8,7 @@ public struct Comment: Decodable, Sendable, Identifiable {
     public let countsData: CommentCounts
 
     public var id: Int {
-        postData.id
+        commentData.id
     }
 
     enum CodingKeys: String, CodingKey {
