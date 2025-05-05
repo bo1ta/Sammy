@@ -1,8 +1,10 @@
 import Foundation
 import Models
 
-final class SearchViewModel: ObservableObject {
+@Observable
+final class SearchViewModel {
     var trendingItems: [TrendingItem]
+    var searchText: String = ""
 
     init(trendingItems: [TrendingItem] = [
         TrendingItem(id: 1, rank: 1, title: "AI Developments", postCount: "12.4k posts"),

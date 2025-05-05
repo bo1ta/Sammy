@@ -1,14 +1,16 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var searchText: String = ""
-    @StateObject private var viewModel = SearchViewModel()
+    @State private var viewModel = SearchViewModel()
 
     var body: some View {
         NavigationStack{
             ScrollView{
                 HStack {
-                    Image("trending")
+                    Image(.icTrending)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: .iconSizeSmall, height: .iconSizeSmall)
                     Text("Trending Today")
                         .font(.system(size: .fontSizeSubheadline, weight: .medium))
                     Spacer()
@@ -27,7 +29,7 @@ struct SearchView: View {
             }
 
         }
-        .searchable(text: $searchText, prompt: "Search posts, communities, users")
+        .searchable(text: $viewModel.searchText, prompt: "Search posts, communities, users")
     }
 }
 
