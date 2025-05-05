@@ -35,6 +35,8 @@ struct ThreadComments: View {
 /// The view uses a color rotation system to distinguish different nesting levels.
 ///
 struct ThreadedCommentNode: View {
+    @State private var isCollapsed = false
+
     let node: CommentNode
 
     private let threadColors: [Color] = [
@@ -42,21 +44,21 @@ struct ThreadedCommentNode: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: .paddingMedium) {
-            CommentRow(node: node, depth: 0, onUpvote: { }, onDownvote: { })
+        VStack(alignment: .leading, spacing: 0) {
+            CommentRow(isCollapsed: $isCollapsed, node: node, depth: 0, onUpvote: { }, onDownvote: { })
                 .padding(.leading, CGFloat(node.depth) * 12)
 
-            ForEach(node.children) { childNode in
-                HStack {
-                    ForEach(0..<childNode.depth, id: \.self) { index in
+            if !isCollapsed {
+                ForEach(node.children) { childNode in
+                    HStack {
                         Rectangle()
-                            .fill(threadColors[index % threadColors.count])
+                            .fill(threadColors[childNode.depth % threadColors.count])
                             .frame(width: 2)
                             .padding(.horizontal, 5)
-                    }
 
-                    /// Recursively render child comment
-                    ThreadedCommentNode(node: childNode)
+                        /// Recursively render child comment
+                        ThreadedCommentNode(node: childNode)
+                    }
                 }
             }
         }

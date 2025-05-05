@@ -22,9 +22,26 @@ final class PostDetailViewModel {
         self.commentService = commentService
     }
 
+    func fetchAllComments(postId: Int, batchSize: Int = 50) async throws -> [Comment] {
+            var allComments: [Comment] = []
+            var page = 1
+            var hasMore = true
+
+            while hasMore {
+
+                let comments = try await commentService.getAllForPostID(post.id, queryOptions: [.page(page), .limit(batchSize)])
+
+                allComments.append(contentsOf: comments)
+                hasMore = comments.count == batchSize
+                page += 1
+            }
+
+            return allComments
+        }
+
     func fetchCommentsForPost() async {
         do {
-            comments = try await commentService.getAllForPostID(post.id, queryOptions: [.limit(50)])
+            comments = try await fetchAllComments(postId: post.id)
             commentTree = CommentTreeBuilder.buildTree(from: comments)
         } catch {
             logger.error("Error loading cmments. Error: \(error.localizedDescription)")

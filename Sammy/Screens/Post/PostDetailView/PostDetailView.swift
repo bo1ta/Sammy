@@ -71,7 +71,7 @@ extension PostDetailView {
 
                 TinyCircleSeparator()
 
-                Text("2h")
+                Text(DateHelper.relativeTimeFromString(viewModel.post.postData.published))
                     .font(.system(size: .fontSizeCaption, weight: .light))
                     .foregroundStyle(.textSecondary)
                 Spacer()

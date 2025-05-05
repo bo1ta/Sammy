@@ -4,7 +4,7 @@ import SwiftUI
 // MARK: - CommentRow
 
 struct CommentRow: View {
-    @State private var isCollapsed = false
+    @Binding var isCollapsed: Bool
 
     let node: CommentNode
     let depth: Int
@@ -55,7 +55,7 @@ struct CommentRow: View {
         .contentShape(Rectangle())
         .onTapGesture {
             if !node.children.isEmpty {
-//                isCollapsed
+                isCollapsed.toggle()
             }
         }
     }
