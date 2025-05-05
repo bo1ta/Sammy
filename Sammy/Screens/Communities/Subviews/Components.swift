@@ -1,9 +1,3 @@
-	 //
-	 //  Components.swift
-	 //  Sammy
-	 //
-	 //  Created by Khanh Nguyen on 5/5/25.
-	 //
 import SwiftUI
 import Models
 
@@ -41,7 +35,7 @@ struct MyCommunitiesView: View {
 						ForEach(filteredCommunities) { community in
 							 HStack {
 									if community.communityData.iconURL != nil {
-										 asyncImageView(url: community.communityData.iconURL)
+										 AsyncImageView(url: community.communityData.iconURL)
 									} else {
 										 Image(systemName: "photo.circle.fill")
 												.resizable()
@@ -71,8 +65,8 @@ struct MyCommunitiesView: View {
 									Spacer()
 
 									Button(action: {
-												// Join action
-									}) {
+										 print("Joined")
+									}, label: {
 										 Text("Join")
 												.font(.callout)
 												.padding(.horizontal, .paddingLarge)
@@ -80,7 +74,7 @@ struct MyCommunitiesView: View {
 												.background(Color.blue.opacity(0.1))
 												.foregroundColor(.blue)
 												.cornerRadius(.cornerRadiusSmall)
-									}
+									})
 							 }
 							 Divider()
 						}
@@ -139,32 +133,33 @@ struct CommunityButtons: View {
 				 }
 	 }
 }
-enum tabOptions {
+
+enum TabOptions {
 	 case myCommunities
 	 case discover
 }
 
-struct asyncImageView: View {
+struct AsyncImageView: View {
 	 let url: URL?
 
 	 var body: some View {
 			Group {
 						AsyncImage(url: url) { phase in
 							 switch phase {
-									case .empty:
+							 case .empty:
 										 ProgressView()
-									case .success(let image):
+							 case .success(let image):
 										 image
 												.resizable()
 												.scaledToFit()
 												.frame(width: .iconSizeJumbo, height: .iconSizeJumbo)
 												.clipShape(Circle())
-									case .failure:
+							 case .failure:
 										 Image(systemName: "exclamationmark.triangle")
 												.resizable()
 												.scaledToFit()
 												.frame(width: .iconSizeLarge, height: .iconSizeLarge)
-									@unknown default:
+							 @unknown default:
 										 EmptyView()
 							 }
 						}

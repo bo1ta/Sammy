@@ -2,10 +2,8 @@ import SwiftUI
 import Models
 
 struct CommunitiesView: View {
-	 @State private var selectedTab: tabOptions = .myCommunities
+	 @State private var selectedTab: TabOptions = .myCommunities
 	 @State private var viewModel = CommunitiesViewModel()
-
-	
 
 	 var body: some View {
 			VStack {
@@ -43,9 +41,6 @@ struct CommunitiesView: View {
 	 }
 
 }
-
-
-
 
 #Preview {
 	 CommunitiesView()
