@@ -10,19 +10,24 @@ struct SearchView: View {
                 HStack {
                     Image("trending")
                     Text("Trending Today")
+                        .font(.system(size: .fontSizeSubheadline, weight: .medium))
                     Spacer()
                 }
-                .padding(.horizontal, CGFloat.screenEdgePadding)
+                .padding(.horizontal, .screenEdgePadding)
+                .padding(.bottom, .paddingSmall)
+
                 VStack(alignment: .leading){
                     ForEach(viewModel.trendingItems) {item in
                         TrendingCard(item: item)
+                            .padding(.bottom, .paddingSmall)
                     }
-                    .padding(.horizontal, CGFloat.screenEdgePadding)
-                Spacer()
+                }
+                .padding(.horizontal, .screenEdgePadding)
+
             }
-            .searchable(text: $searchText, prompt: "Search posts, communities, users")
-            }
+
         }
+        .searchable(text: $searchText, prompt: "Search posts, communities, users")
     }
 }
 

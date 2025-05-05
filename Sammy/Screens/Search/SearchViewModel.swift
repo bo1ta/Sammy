@@ -4,7 +4,7 @@ import Models
 final class SearchViewModel: ObservableObject {
     var trendingItems: [TrendingItem]
 
-    public init(trendingItems: [TrendingItem] = [
+    init(trendingItems: [TrendingItem] = [
         TrendingItem(id: 1, rank: 1, title: "AI Developments", postCount: "12.4k posts"),
         TrendingItem(id: 2, rank: 2, title: "iPhone 16 Review", postCount: "8.9k posts"),
         TrendingItem(id: 3, rank: 3, title: "Climate Change Solutions", postCount: "4.5k posts"),
