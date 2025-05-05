@@ -7,6 +7,7 @@ import Observation
 @MainActor
 final class CommunitiesViewModel {
     @ObservationIgnored private let service: CommunityServiceProtocol
+	  var searchText: String = ""
 
     private(set) var communities: [Community] = []
     private(set) var isLoading = false
