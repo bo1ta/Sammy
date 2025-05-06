@@ -4,7 +4,6 @@ struct AsyncImageView: View {
 	 let url: URL?
 
 	 var body: some View {
-			Group {
 				 AsyncImage(url: url) { phase in
 						switch phase {
 						case .empty:
@@ -25,5 +24,4 @@ struct AsyncImageView: View {
 						}
 				 }
 			}
-	 }
 }
