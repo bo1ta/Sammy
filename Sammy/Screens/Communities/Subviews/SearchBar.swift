@@ -1,9 +1,3 @@
-//
-//  SearchBar.swift
-//  Sammy
-//
-//  Created by Khanh Nguyen on 5/5/25.
-//
 import SwiftUI
 
 struct SearchBar: View {

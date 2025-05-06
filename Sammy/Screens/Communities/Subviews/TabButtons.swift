@@ -1,31 +1,28 @@
-//
-//  TabButtons.swift
-//  Sammy
-//
-//  Created by Khanh Nguyen on 5/5/25.
-//
 import SwiftUI
 
 // MARK: - CommunityButtons
 
-struct CommunityButtons: View {
-    var title: String
-    var isSelected: Bool
-    var action: () -> Void
+struct CommunityButtonStyle: ButtonStyle {
+	 var isSelected: Bool
 
-    var body: some View {
-        Text(title)
-            .foregroundColor(isSelected ? .purple : .gray)
-            .bold(isSelected)
-            .onTapGesture {
-                action()
-            }
-    }
+	 func makeBody(configuration: Configuration) -> some View {
+			configuration.label
+				 .foregroundColor(isSelected ? .purple : .gray)
+				 .bold(isSelected)
+				 .overlay(
+						Rectangle()
+							 .frame(height: 2)
+							 .foregroundColor(isSelected ? .purple : .clear)
+							 .offset(y: 20)
+							 .animation(.easeInOut(duration: 0.3), value: isSelected),
+						alignment: .bottom
+				 )
+	 }
 }
 
-// MARK: - TabOptions
 
-enum TabOptions {
+// MARK: - TabOptions
+enum CommunityFilteringTabs {
     case myCommunities
     case discover
 }

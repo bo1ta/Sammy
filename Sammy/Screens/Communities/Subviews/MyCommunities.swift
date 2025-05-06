@@ -1,10 +1,3 @@
-//
-//  MyCommunities.swift
-//  Sammy
-//
-//  Created by Khanh Nguyen on 5/5/25.
-//
-
 import Models
 import SwiftUI
 
@@ -48,11 +41,11 @@ struct MyCommunitiesView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: .iconSizeJumbo, height: .iconSizeJumbo)
-                                .scaleEffect(0.8)
+																.clipShape(Circle())
                         }
 
                         VStack(alignment: .leading, spacing: .paddingExtraSmall) {
-                            Text(community.communityData.name)
+													 Text("c/\(community.communityData.name)")
                                 .font(.headline)
                                 .lineLimit(1)
                             HStack(spacing: .paddingExtraSmall) {
