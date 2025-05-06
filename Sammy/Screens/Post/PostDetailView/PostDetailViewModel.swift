@@ -22,22 +22,21 @@ final class PostDetailViewModel {
         self.commentService = commentService
     }
 
-    func fetchAllComments(postId: Int, batchSize: Int = 50) async throws -> [Comment] {
-            var allComments: [Comment] = []
-            var page = 1
-            var hasMore = true
+    func fetchAllComments(postId _: Int, batchSize: Int = 50) async throws -> [Comment] {
+        var allComments: [Comment] = []
+        var page = 1
+        var hasMore = true
 
-            while hasMore {
+        while hasMore {
+            let comments = try await commentService.getAllForPostID(post.id, queryOptions: [.page(page), .limit(batchSize)])
 
-                let comments = try await commentService.getAllForPostID(post.id, queryOptions: [.page(page), .limit(batchSize)])
-
-                allComments.append(contentsOf: comments)
-                hasMore = comments.count == batchSize
-                page += 1
-            }
-
-            return allComments
+            allComments.append(contentsOf: comments)
+            hasMore = comments.count == batchSize
+            page += 1
         }
+
+        return allComments
+    }
 
     func fetchCommentsForPost() async {
         do {
