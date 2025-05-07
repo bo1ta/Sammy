@@ -41,11 +41,11 @@ struct MyCommunitiesView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: .iconSizeJumbo, height: .iconSizeJumbo)
-																.clipShape(Circle())
+                                .clipShape(Circle())
                         }
 
                         VStack(alignment: .leading, spacing: .paddingExtraSmall) {
-													 Text("c/\(community.communityData.name)")
+                            Text("c/\(community.communityData.name)")
                                 .font(.headline)
                                 .lineLimit(1)
                             HStack(spacing: .paddingExtraSmall) {
