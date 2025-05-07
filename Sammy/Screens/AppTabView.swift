@@ -5,6 +5,7 @@ import SwiftUI
 enum AppTabs: Int {
     case home
     case communities
+    case profile
 
     var title: String {
         switch self {
@@ -12,6 +13,8 @@ enum AppTabs: Int {
             "Home"
         case .communities:
             "Communities"
+        case .profile:
+            "Profile"
         }
     }
 
@@ -21,6 +24,8 @@ enum AppTabs: Int {
             "house"
         case .communities:
             "person.2"
+        case .profile:
+            "person.crop.circle"
         }
     }
 }
@@ -38,6 +43,13 @@ struct AppTabView: View {
 
             Tab(AppTabs.communities.title, systemImage: AppTabs.communities.systemImageName, value: .communities) {
                 CommunitiesView()
+            }
+            Tab(
+                AppTabs.profile.title,
+                systemImage: AppTabs.profile.systemImageName,
+                value: .profile)
+            {
+                ProfileView()
             }
         }
     }
