@@ -3,6 +3,8 @@ import Models
 import Networking
 import OSLog
 
+// MARK: - PostsViewModel
+
 @Observable
 @MainActor
 final class PostsViewModel {
@@ -11,6 +13,9 @@ final class PostsViewModel {
 
     private(set) var posts: [Post] = []
     private(set) var isLoading = false
+    private(set) var errorMessage: String?
+
+    var selectedDestination: Destination?
 
     init(service: PostServiceProtocol = PostService()) {
         self.service = service
@@ -22,13 +27,17 @@ final class PostsViewModel {
 
         do {
             posts = try await service.fetchPosts()
-
-            if let firstPost = posts.first {
-                let post = try await service.getByID(firstPost.postData.id)
-                print("inca odata \(post)")
-            }
         } catch {
             logger.error("\(error.localizedDescription)")
+            errorMessage = "An error occured. Please try again later."
         }
+    }
+}
+
+// MARK: PostsViewModel.Destination
+
+extension PostsViewModel {
+    enum Destination: Hashable {
+        case detail(Post)
     }
 }

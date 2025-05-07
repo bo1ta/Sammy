@@ -3,3 +3,4 @@ Pods/
 .DS_Store
 *.xcworkspace
 *.xcuserstate
+.build/
