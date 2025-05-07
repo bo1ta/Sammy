@@ -13,6 +13,8 @@ final class CommunitiesViewModel {
     private(set) var isLoading = false
     private(set) var errorMessage: String?
 
+    var searchText = ""
+
     init(service: CommunityServiceProtocol = CommunityService()) {
         self.service = service
     }

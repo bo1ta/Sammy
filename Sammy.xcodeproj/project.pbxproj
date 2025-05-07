@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC1467B52DCBDF8B008C7874 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = BC1467B42DCBDF8B008C7874 /* Storage */; };
 		BC3A50F22DC53BD500B7D0C6 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = BC3A50F12DC53BD500B7D0C6 /* Networking */; };
 		BC3A50F52DC53D3800B7D0C6 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = BC3A50F42DC53D3800B7D0C6 /* Models */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC1467B52DCBDF8B008C7874 /* Storage in Frameworks */,
 				BC3A50F52DC53D3800B7D0C6 /* Models in Frameworks */,
 				BC3A50F22DC53BD500B7D0C6 /* Networking in Frameworks */,
 			);
@@ -122,6 +124,7 @@
 			packageProductDependencies = (
 				BC3A50F12DC53BD500B7D0C6 /* Networking */,
 				BC3A50F42DC53D3800B7D0C6 /* Models */,
+				BC1467B42DCBDF8B008C7874 /* Storage */,
 			);
 			productName = Sammy;
 			productReference = BC3A4F102DC4D4AD00B7D0C6 /* Sammy.app */;
@@ -208,6 +211,7 @@
 			packageReferences = (
 				BC3A50F02DC53BD500B7D0C6 /* XCLocalSwiftPackageReference "Modules/Networking" */,
 				BC3A50F32DC53D3800B7D0C6 /* XCLocalSwiftPackageReference "Modules/Models" */,
+				BC1467B32DCBDF8B008C7874 /* XCLocalSwiftPackageReference "Modules/Storage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BC3A4F112DC4D4AD00B7D0C6 /* Products */;
@@ -623,6 +627,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		BC1467B32DCBDF8B008C7874 /* XCLocalSwiftPackageReference "Modules/Storage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/Storage;
+		};
 		BC3A50F02DC53BD500B7D0C6 /* XCLocalSwiftPackageReference "Modules/Networking" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Modules/Networking;
@@ -634,6 +642,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BC1467B42DCBDF8B008C7874 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Storage;
+		};
 		BC3A50F12DC53BD500B7D0C6 /* Networking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Networking;

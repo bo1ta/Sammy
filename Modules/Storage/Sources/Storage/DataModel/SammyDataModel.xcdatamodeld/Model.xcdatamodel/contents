@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24D70" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Person" representedClassName="Person" syncable="YES">
+        <attribute name="actorID" attributeType="String"/>
+        <attribute name="avatar" optional="YES" attributeType="String"/>
+        <attribute name="banExpires" optional="YES" attributeType="String"/>
+        <attribute name="banned" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="banner" optional="YES" attributeType="String"/>
+        <attribute name="bio" optional="YES" attributeType="String"/>
+        <attribute name="botAccount" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="dateUpdated" optional="YES" attributeType="String"/>
+        <attribute name="displayName" optional="YES" attributeType="String"/>
+        <attribute name="instanceID" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isPersonDeleted" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="local" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="matrixUserID" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="published" attributeType="String"/>
+        <attribute name="uniqueID" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+</model>
