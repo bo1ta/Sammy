@@ -12,6 +12,14 @@ public protocol StorageManagerType {
     ///
     var writerDerivedStorage: NSManagedObjectContext { get }
 
+    func performRead<ResultType>(_ readClosure: @escaping (NSManagedObjectContext) -> ResultType) async -> ResultType
+
+    @discardableResult
+    func performWrite<ResultType>(
+        _ schedule: NSManagedObjectContext.ScheduledTaskType,
+        _ writeClosure: @escaping (NSManagedObjectContext) throws -> ResultType)
+        async throws -> ResultType
+
     /// Save core data changes
     ///
     func saveChanges() async
@@ -28,13 +36,22 @@ extension StorageManagerType {
         }
     }
 
-    public func performWrite<ResultType>(
-        schedule: NSManagedObjectContext.ScheduledTaskType = .immediate,
-        _ writeClosure: @escaping (NSManagedObjectContext) throws -> ResultType)
-        async throws -> ResultType
-    {
-        try await writerDerivedStorage.perform(schedule: schedule) {
-            try writeClosure(writerDerivedStorage)
+    func saveChangesWithClosure() {
+        writerDerivedStorage.perform {
+            self.writerDerivedStorage.saveIfNeeded()
+
+            self.viewStorage.perform {
+                self.viewStorage.saveIfNeeded()
+            }
+        }
+    }
+
+    public func saveChanges() async {
+        await writerDerivedStorage.perform {
+            self.writerDerivedStorage.saveIfNeeded()
+        }
+        await viewStorage.perform {
+            self.viewStorage.saveIfNeeded()
         }
     }
 }

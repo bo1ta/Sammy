@@ -56,3 +56,18 @@ extension Person: ReadOnlyConvertible {
             instanceID: instanceID)
     }
 }
+
+extension Models.Person: Storable {
+    @discardableResult
+    func toEntity(in context: NSManagedObjectContext) throws -> Person {
+        let entity = Person(context: context)
+        let modelToEntityMapping: [String: String] = [
+            "id": "uniqueID",
+            "updated": "dateUpdated",
+            "deleted": "isPersonDeleted",
+        ]
+
+        CoreDataPopulator.populateFromModel(self, toEntity: entity, nameMapping: modelToEntityMapping)
+        return entity
+    }
+}

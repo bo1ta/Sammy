@@ -1,14 +1,22 @@
 import CoreData
 import Foundation
 
-protocol Storable: Identifiable where ID: CVarArg {
+/// Provides bidirectional conversion between models and Core Data entities
+///
+protocol Storable {
+    /// The associated Core Data entity type
     associatedtype Entity: NSManagedObject
 
-    /// Converts the model to a Core Data entity (insert or update).
+    /// Converts the model to a Core Data entity
+    /// - Parameter context: The context to create the entity in
+    /// - Returns: The configured entity instance
+    /// - Throws: Any conversion errors
+    ///
+    /// Example:
+    /// ```
+    /// let post = Post(title: "Hello")
+    /// let entity = try post.toEntity(in: context)
+    /// ```
     ///
     func toEntity(in context: NSManagedObjectContext) throws -> Entity
-
-    /// Create the model from a Core Data entity
-    ///
-    static func from(_ entity: Entity, in context: NSManagedObjectContext) throws -> Self
 }

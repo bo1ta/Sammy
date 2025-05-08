@@ -1,27 +1,35 @@
+import Factory
 import CoreData
 import Models
 import OSLog
 import Principle
 
 public struct CoreDataStore {
-    private let logger = Logger(subsystem: "com.Sammy.Storage", category: "CoreDataStore")
-    private let storageManager: StorageManagerType
+    @Injected(\.storageManager) private var storageManager: StorageManagerType
 
-    public init(storageManager: StorageManagerType = StorageManager.shared) {
-        self.storageManager = storageManager
-    }
+    private let logger = Logger(subsystem: "com.Sammy.Storage", category: "CoreDataStore")
 
     public func personByID(_ id: Models.Person.ID) async -> Models.Person? {
         await storageManager.performRead { context in
-            do {
-                return try Person.query(on: context)
-                    .filter(\.uniqueID == id)
-                    .first()?
-                    .toReadOnly()
-            } catch {
-                logger.error("Error fetching person: \(error)")
-                return nil
-            }
+            Person.query(on: context)
+                .first(where: \.uniqueID == id)?
+                .toReadOnly()
+        }
+    }
+
+    public func personByName(_ name: String) async -> Models.Person? {
+        await storageManager.performRead { context in
+            Person.query(on: context)
+                .first(where: \.name == name)?
+                .toReadOnly()
+        }
+    }
+
+    public func savePerson(_ person: Models.Person) async throws {
+        try await storageManager.performWrite(.immediate) { context in
+            _ = try person.toEntity(in: context)
+
+            context.saveIfNeeded()
         }
     }
 }

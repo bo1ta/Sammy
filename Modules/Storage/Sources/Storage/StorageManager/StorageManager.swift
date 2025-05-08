@@ -1,5 +1,6 @@
 @preconcurrency import CoreData
 import Foundation
+import Combine
 import OSLog
 
 // MARK: - StorageManager
@@ -8,6 +9,9 @@ public final class StorageManager: StorageManagerType, @unchecked Sendable {
     public static let shared = StorageManager()
 
     private let logger = Logger(subsystem: "com.Sammy.Storage", category: "StorageManager")
+    private let coalesceSaveInterval = 0.5
+
+    private var cancellables: Set<AnyCancellable> = []
 
     lazy var persistentContainer: NSPersistentContainer = {
         guard
@@ -17,7 +21,7 @@ public final class StorageManager: StorageManagerType, @unchecked Sendable {
             fatalError("Could not load Core Data model")
         }
 
-        let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)
+        let container = NSPersistentContainer(name: "SammyDataStore", managedObjectModel: model)
 
         let description = container.persistentStoreDescriptions.first
         description?.type = NSSQLiteStoreType
@@ -42,8 +46,6 @@ public final class StorageManager: StorageManagerType, @unchecked Sendable {
         return container
     }()
 
-    init() { }
-
     public var viewStorage: NSManagedObjectContext {
         persistentContainer.viewContext
     }
@@ -55,12 +57,25 @@ public final class StorageManager: StorageManagerType, @unchecked Sendable {
         return managedObjectContext
     }()
 
-    public func saveChanges() async {
-        await writerDerivedStorage.perform {
-            self.writerDerivedStorage.saveIfNeeded()
+    init() {
+        NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: writerDerivedStorage)
+        .debounce(for: .seconds(coalesceSaveInterval), scheduler: DispatchQueue.global())
+        .sink { [weak self] _ in
+            self?.saveChangesWithClosure()
         }
-        await viewStorage.perform {
-            self.viewStorage.saveIfNeeded()
+        .store(in: &cancellables)
+    }
+
+    @discardableResult
+    public func performWrite<ResultType>(
+        _ schedule: NSManagedObjectContext.ScheduledTaskType = .immediate,
+        _ writeClosure: @escaping (NSManagedObjectContext) throws -> ResultType)
+        async throws -> ResultType
+    {
+        try await writerDerivedStorage.perform(schedule: schedule) {
+            let result = try writeClosure(self.writerDerivedStorage)
+            self.writerDerivedStorage.processPendingChanges()
+            return result
         }
     }
 
@@ -96,16 +111,3 @@ public final class StorageManager: StorageManagerType, @unchecked Sendable {
     }
 }
 
-extension NSManagedObjectContext {
-    func saveIfNeeded() {
-        guard hasChanges else {
-            return
-        }
-
-        do {
-            try save()
-        } catch {
-            rollback()
-        }
-    }
-}

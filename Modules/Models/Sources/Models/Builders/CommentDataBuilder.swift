@@ -5,7 +5,7 @@ public class CommentDataBuilder {
     public var content = "Sample comment"
     public var removed = false
     public var published = "2023-01-01T00:00:00Z"
-    public var updated: String? = nil
+    public var updated: String?
     public var deleted = false
     public var local = true
     public var path = "0.1"
@@ -29,8 +29,8 @@ public class CommentDataBuilder {
         return self
     }
 
-    public func build() -> CommentData {
-        CommentData(
+    public func build() -> CommentAttributes {
+        CommentAttributes(
             id: id,
             creatorID: creatorID,
             postID: postID,

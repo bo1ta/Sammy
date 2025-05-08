@@ -1,5 +1,5 @@
 public class CommentBuilder {
-    public var commentData: CommentData = CommentDataBuilder().build()
+    public var commentAttributes: CommentAttributes = CommentDataBuilder().build()
     public var creator: Person = PersonBuilder().build()
     public var postData: PostData = PostDataBuilder().build()
     public var communityData: CommunityData = CommunityDataBuilder().build()
@@ -10,7 +10,7 @@ public class CommentBuilder {
     public func withCommentData(_ builder: (CommentDataBuilder) -> Void) -> Self {
         let commentDataBuilder = CommentDataBuilder()
         builder(commentDataBuilder)
-        self.commentData = commentDataBuilder.build()
+        self.commentAttributes = commentDataBuilder.build()
         return self
     }
 
@@ -23,7 +23,7 @@ public class CommentBuilder {
 
     public func build() -> Comment {
         Comment(
-            commentData: commentData,
+            commentAttributes: commentAttributes,
             creator: creator,
             postData: postData,
             communityData: communityData,

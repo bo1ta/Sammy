@@ -5,15 +5,15 @@ public class PersonBuilder {
     public var avatar: String? = "https://example.com/avatar.jpg"
     public var banned = false
     public var published = "2023-01-01T00:00:00Z"
-    public var updated: String? = nil
+    public var updated: String?
     public var actorID = "https://example.com/u/testuser"
     public var bio: String? = "Just a test user"
     public var local = true
-    public var banner: String? = nil
+    public var banner: String?
     public var deleted = false
-    public var matrixUserID: String? = nil
+    public var matrixUserID: String?
     public var botAccount = false
-    public var banExpires: String? = nil
+    public var banExpires: String?
     public var instanceID = 1
 
     public init() { }
