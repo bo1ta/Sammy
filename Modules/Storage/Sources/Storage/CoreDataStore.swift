@@ -1,13 +1,11 @@
-import Factory
 import CoreData
+import Factory
 import Models
 import OSLog
 import Principle
 
 public struct CoreDataStore {
     @Injected(\.storageManager) private var storageManager: StorageManagerType
-
-    private let logger = Logger(subsystem: "com.Sammy.Storage", category: "CoreDataStore")
 
     public func personByID(_ id: Models.Person.ID) async -> Models.Person? {
         await storageManager.performRead { context in

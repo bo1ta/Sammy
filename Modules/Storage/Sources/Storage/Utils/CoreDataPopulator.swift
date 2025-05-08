@@ -1,6 +1,8 @@
 import CoreData
-import OSLog
 import Foundation
+import OSLog
+
+// MARK: - CoreDataPopulator
 
 enum CoreDataPopulator {
     private static let logger = Logger(subsystem: "com.Sammy.Storage", category: "CoreDataPopulator")
@@ -9,7 +11,7 @@ enum CoreDataPopulator {
         _ model: some Decodable,
         toEntity entity: Entity,
         nameMapping: [String: String])
-    -> Entity
+        -> Entity
     {
         let mirrorModel = Mirror(reflecting: model)
 
@@ -43,7 +45,10 @@ enum CoreDataPopulator {
     private static func convertValue(_ value: Any, toType targetType: NSAttributeType) -> Any? {
         switch value {
         case let intValue as Int:
-            if targetType == .integer64AttributeType || targetType == .integer32AttributeType || targetType == .integer16AttributeType {
+            if
+                targetType == .integer64AttributeType || targetType == .integer32AttributeType || targetType ==
+                .integer16AttributeType
+            {
                 return intValue as NSNumber
             }
 
@@ -78,7 +83,7 @@ enum CoreDataPopulator {
             } else if
                 let intRawValue = stringRepresentable.rawValue as? Int,
                 targetType == .integer64AttributeType || targetType == .integer32AttributeType || targetType ==
-                    .integer16AttributeType
+                .integer16AttributeType
             {
                 return intRawValue as NSNumber
             }

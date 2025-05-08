@@ -12,34 +12,32 @@ public class InMemoryStorageManager: StorageManagerType {
         return managedObjectContext
     }()
 
-    public func reset() {
-        
-    }
-    
+    public func reset() { }
+
     private let logger = Logger(subsystem: "com.Sammy.Storage", category: "InMemoryStorageManager")
 
     lazy var persistentContainer: NSPersistentContainer = {
-          guard
+        guard
             let modelURL = Bundle.module.url(forResource: "SammyDataModel", withExtension: ".momd"),
             let model = NSManagedObjectModel(contentsOf: modelURL)
-          else {
+        else {
             fatalError("Could not load Core Data model")
-          }
+        }
 
-          let description = NSPersistentStoreDescription(url: URL(filePath: "/dev/null"))
-          description.type = NSInMemoryStoreType
-          description.shouldMigrateStoreAutomatically = true
-          description.shouldInferMappingModelAutomatically = true
+        let description = NSPersistentStoreDescription(url: URL(filePath: "/dev/null"))
+        description.type = NSInMemoryStoreType
+        description.shouldMigrateStoreAutomatically = true
+        description.shouldInferMappingModelAutomatically = true
 
-          let container = NSPersistentContainer(name: "LifeCoachDataStore", managedObjectModel: model)
-          container.persistentStoreDescriptions = [description]
+        let container = NSPersistentContainer(name: "LifeCoachDataStore", managedObjectModel: model)
+        container.persistentStoreDescriptions = [description]
 
-          container.loadPersistentStores { _, error in
+        container.loadPersistentStores { _, error in
             if let error {
-              self.logger.error("Failed to load persistent store. Error: \(error)")
+                self.logger.error("Failed to load persistent store. Error: \(error)")
             }
-          }
-          return container
+        }
+        return container
     }()
 
     public func performWrite<ResultType>(

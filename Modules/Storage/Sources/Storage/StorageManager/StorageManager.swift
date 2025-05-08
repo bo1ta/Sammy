@@ -1,6 +1,6 @@
+import Combine
 @preconcurrency import CoreData
 import Foundation
-import Combine
 import OSLog
 
 // MARK: - StorageManager
@@ -59,11 +59,11 @@ public final class StorageManager: StorageManagerType, @unchecked Sendable {
 
     init() {
         NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: writerDerivedStorage)
-        .debounce(for: .seconds(coalesceSaveInterval), scheduler: DispatchQueue.global())
-        .sink { [weak self] _ in
-            self?.saveChangesWithClosure()
-        }
-        .store(in: &cancellables)
+            .debounce(for: .seconds(coalesceSaveInterval), scheduler: DispatchQueue.global())
+            .sink { [weak self] _ in
+                self?.saveChangesWithClosure()
+            }
+            .store(in: &cancellables)
     }
 
     @discardableResult
@@ -110,4 +110,3 @@ public final class StorageManager: StorageManagerType, @unchecked Sendable {
         }
     }
 }
-

@@ -57,6 +57,8 @@ extension Person: ReadOnlyConvertible {
     }
 }
 
+// MARK: - Models.Person + Storable
+
 extension Models.Person: Storable {
     @discardableResult
     func toEntity(in context: NSManagedObjectContext) throws -> Person {

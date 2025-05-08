@@ -1,6 +1,6 @@
 import CoreData
-import Principle
 import OSLog
+import Principle
 
 /// A type-safe, chainable interface for building Core Data queries
 ///
