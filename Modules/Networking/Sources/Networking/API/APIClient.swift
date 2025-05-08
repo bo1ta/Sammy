@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - APIClient
 
-public struct APIClient: APIProvider {
+public struct APIClient: APIClientProvider {
     private let session: URLSession
 
     public init(session: URLSession = .shared) {

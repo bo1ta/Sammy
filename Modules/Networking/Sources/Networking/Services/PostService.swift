@@ -1,5 +1,6 @@
 import Foundation
 import Models
+import Factory
 
 // MARK: - PostServiceProtocol
 
@@ -12,11 +13,7 @@ public protocol PostServiceProtocol: Sendable {
 // MARK: - PostService
 
 public struct PostService: PostServiceProtocol {
-    private let client: APIProvider
-
-    public init(client: APIProvider = APIClient()) {
-        self.client = client
-    }
+    @Injected(\.client) private var client: APIClientProvider
 
     public func fetchPosts() async throws -> [Post] {
         let request = APIRequest(method: .get, route: .post(.list))

@@ -59,11 +59,14 @@ public enum APIRoute {
 
     public enum UserRoute {
         case register
+        case login
 
         var path: String {
             switch self {
             case .register:
                 "/register"
+            case .login:
+                "/login"
             }
         }
     }

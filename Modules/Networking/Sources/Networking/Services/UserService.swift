@@ -1,3 +1,5 @@
+import Factory
+
 // MARK: - UserServiceProtocol
 
 public protocol UserServiceProtocol: Sendable {
@@ -16,11 +18,7 @@ public protocol UserServiceProtocol: Sendable {
 // MARK: - UserService
 
 public struct UserService: UserServiceProtocol {
-    private let client: APIProvider
-
-    public init(client: APIProvider) {
-        self.client = client
-    }
+    @Injected(\.client) private var client: APIClientProvider
 
     public func register(
         username: String,

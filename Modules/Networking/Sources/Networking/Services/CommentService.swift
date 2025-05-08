@@ -1,5 +1,6 @@
 import Foundation
 import Models
+import Factory
 
 // MARK: - CommentServiceProtocol
 
@@ -11,11 +12,7 @@ public protocol CommentServiceProtocol: Sendable {
 // MARK: - CommentService
 
 public struct CommentService: CommentServiceProtocol {
-    private let client: APIProvider
-
-    public init(client: APIProvider = APIClient()) {
-        self.client = client
-    }
+    @Injected(\.client) private var client: APIClientProvider
 
     public func getAllForPostID(_ id: Post.ID, queryOptions: [CommentQueryOption] = []) async throws -> [Comment] {
         var queryParams = [
