@@ -1,5 +1,5 @@
 import Foundation
 
-public protocol APIProvider: Sendable {
+public protocol APIClientProvider: Sendable {
     func dispatch(_ request: APIRequest) async throws -> Data
 }

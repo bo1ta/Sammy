@@ -26,10 +26,10 @@ enum CommentTreeBuilder {
         var mutableDict = commentDict
 
         for comment in comments {
-            let pathComponents = comment.commentData.path.components(separatedBy: ".")
+            let pathComponents = comment.commentAttributes.path.components(separatedBy: ".")
 
             if isRootComment(pathComponents: pathComponents) {
-                if let node = mutableDict[comment.commentData.id] {
+                if let node = mutableDict[comment.commentAttributes.id] {
                     rootNodes.append(node)
                 }
             } else {
@@ -66,13 +66,13 @@ enum CommentTreeBuilder {
         var pathToCommentMap = [String: Int]()
 
         for comment in comments {
-            let depth = comment.commentData.path.components(separatedBy: ".").count - 1
+            let depth = comment.commentAttributes.path.components(separatedBy: ".").count - 1
             let node = CommentNode(
                 comment: comment,
                 children: [],
                 depth: depth)
-            commentDict[comment.commentData.id] = node
-            pathToCommentMap[comment.commentData.path] = comment.commentData.id
+            commentDict[comment.commentAttributes.id] = node
+            pathToCommentMap[comment.commentAttributes.path] = comment.commentAttributes.id
         }
 
         return (commentDict, pathToCommentMap)
@@ -116,7 +116,7 @@ enum CommentTreeBuilder {
             if
                 let parentCommentId = pathToCommentMap[parentPath],
                 var parentNode = mutableDict[parentCommentId],
-                let childNode = mutableDict[comment.commentData.id]
+                let childNode = mutableDict[comment.commentAttributes.id]
             {
                 parentNode.children.append(childNode)
                 mutableDict[parentCommentId] = parentNode
@@ -138,7 +138,7 @@ enum CommentTreeBuilder {
     ///
     private static func sortTree(nodes: [CommentNode]) -> [CommentNode] {
         nodes
-            .sorted { $0.comment.commentData.published > $1.comment.commentData.published }
+            .sorted { $0.comment.commentAttributes.published > $1.comment.commentAttributes.published }
             .map { node in
                 var mutableNode = node
                 mutableNode.children = sortTree(nodes: node.children)

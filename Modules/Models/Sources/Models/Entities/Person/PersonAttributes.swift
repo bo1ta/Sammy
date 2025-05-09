@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - Person
+// MARK: - PersonAttributes
 
-public struct Person: Decodable, Equatable, Identifiable, Sendable {
+public struct PersonAttributes: Decodable, Equatable, Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let displayName: String?
@@ -73,21 +73,5 @@ public struct Person: Decodable, Equatable, Identifiable, Sendable {
         self.botAccount = botAccount
         self.banExpires = banExpires
         self.instanceID = instanceID
-    }
-}
-
-// MARK: Person.CountsData
-
-extension Person {
-    struct CountsData: Decodable {
-        let personID: Int
-        let postCount: Int
-        let commentCount: Int
-
-        enum CodingKeys: String, CodingKey {
-            case personID = "person_id"
-            case postCount = "post_count"
-            case commentCount = "comment_count"
-        }
     }
 }

@@ -4,7 +4,7 @@ public class CommunityDataBuilder {
     public var title = "Sample Community"
     public var description: String? = "A sample community for testing"
     public var published = "2023-01-01T00:00:00Z"
-    public var updated: String? = nil
+    public var updated: String?
     public var icon: String? = "https://example.com/icon.jpg"
     public var banner: String? = "https://example.com/banner.jpg"
     public var visibility = "public"

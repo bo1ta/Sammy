@@ -1,11 +1,11 @@
-import SwiftUI
 import Models
+import SwiftUI
 
 struct TrendingCard: View {
     let item: TrendingItem
 
     var body: some View {
-        HStack{
+        HStack {
             VStack(alignment: .leading, spacing: .paddingSmall) {
                 Text("#\(item.rank) Trending")
                     .font(.system(size: .fontSizeSubheadline, weight: .light))

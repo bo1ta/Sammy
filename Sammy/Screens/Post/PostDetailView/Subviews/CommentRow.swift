@@ -19,7 +19,7 @@ struct CommentRow: View {
                     .foregroundStyle(.textPrimary)
                     .padding(.trailing, .paddingMedium)
                 TinyCircleSeparator()
-                Text(DateHelper.relativeTimeFromString(node.comment.commentData.published))
+                Text(DateHelper.relativeTimeFromString(node.comment.commentAttributes.published))
                     .font(.system(size: .fontSizeCaption, weight: .medium))
                     .foregroundStyle(.textPrimary)
 
@@ -36,7 +36,7 @@ struct CommentRow: View {
             }
 
             if !isCollapsed {
-                Text(node.comment.commentData.content)
+                Text(node.comment.commentAttributes.content)
                     .font(.system(size: .fontSizeBody, weight: .regular))
                     .foregroundStyle(.textPrimary)
                     .opacity(0.95)

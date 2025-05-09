@@ -1,4 +1,6 @@
-public enum ListingType: String, Encodable, Sendable {
+import Foundation
+
+public enum ListingType: String, Codable, Sendable {
     case all = "All"
     case local = "Local"
     case subscribed = "Subscribed"

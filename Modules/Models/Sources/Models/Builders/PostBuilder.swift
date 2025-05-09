@@ -1,6 +1,6 @@
 public class PostBuilder {
     public var postData: PostData = PostDataBuilder().build()
-    public var creator: Person = PersonBuilder().build()
+    public var creator: PersonAttributes = PersonBuilder().build()
     public var postCounts: PostCounts = PostCountsBuilder().build()
     public var communityData: CommunityData = CommunityDataBuilder().build()
 

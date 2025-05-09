@@ -4,8 +4,8 @@ struct SearchView: View {
     @State private var viewModel = SearchViewModel()
 
     var body: some View {
-        NavigationStack{
-            ScrollView{
+        NavigationStack {
+            ScrollView {
                 HStack {
                     Image(.icTrending)
                         .resizable()
@@ -18,16 +18,14 @@ struct SearchView: View {
                 .padding(.horizontal, .screenEdgePadding)
                 .padding(.bottom, .paddingSmall)
 
-                VStack(alignment: .leading){
-                    ForEach(viewModel.trendingItems) {item in
+                VStack(alignment: .leading) {
+                    ForEach(viewModel.trendingItems) { item in
                         TrendingCard(item: item)
                             .padding(.bottom, .paddingSmall)
                     }
                 }
                 .padding(.horizontal, .screenEdgePadding)
-
             }
-
         }
         .searchable(text: $viewModel.searchText, prompt: "Search posts, communities, users")
     }
