@@ -5,6 +5,7 @@ public enum Route {
     case community(APIRoute.CommunityRoute)
     case user(APIRoute.UserRoute)
     case comment(APIRoute.CommentRoute)
+    case site(APIRoute.SiteRoute)
 
     public var path: String {
         switch self {
@@ -16,6 +17,8 @@ public enum Route {
             "/user\(route.path)"
         case .comment(let route):
             "/comment\(route.path)"
+        case .site(let route):
+            "/site\(route.path)"
         }
     }
 }
@@ -60,13 +63,25 @@ public enum APIRoute {
     public enum UserRoute {
         case register
         case login
+        case index
+        case getCaptcha
+        case verifyEmail
+        case listLogins
 
         var path: String {
             switch self {
+            case .index:
+                ""
             case .register:
                 "/register"
             case .login:
                 "/login"
+            case .getCaptcha:
+                "/get_captcha"
+            case .verifyEmail:
+                "/verify_email"
+            case .listLogins:
+                "/list_logins"
             }
         }
     }
@@ -81,6 +96,18 @@ public enum APIRoute {
                 "/list"
             case .like:
                 "/like"
+
+            }
+        }
+    }
+
+    public enum SiteRoute {
+        case index
+
+        var path: String {
+            switch self {
+            case .index:
+                ""
             }
         }
     }

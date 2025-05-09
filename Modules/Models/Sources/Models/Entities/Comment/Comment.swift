@@ -4,7 +4,7 @@ import Foundation
 
 public struct Comment: Decodable, Sendable, Identifiable {
     public let commentAttributes: CommentAttributes
-    public let creator: Person
+    public let creator: PersonAttributes
     public let postData: PostData
     public let communityData: CommunityData
     public let countsData: CommentCounts
@@ -23,7 +23,7 @@ public struct Comment: Decodable, Sendable, Identifiable {
 
     public init(
         commentAttributes: CommentAttributes,
-        creator: Person,
+        creator: PersonAttributes,
         postData: PostData,
         communityData: CommunityData,
         countsData: CommentCounts)

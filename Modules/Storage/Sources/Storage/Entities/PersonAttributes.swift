@@ -36,8 +36,8 @@ extension Person: Identifiable { }
 // MARK: ReadOnlyConvertible
 
 extension Person: ReadOnlyConvertible {
-    func toReadOnly() -> Models.Person {
-        Models.Person(
+    func toReadOnly() -> Models.PersonAttributes {
+        Models.PersonAttributes(
             id: uniqueID,
             name: name,
             displayName: displayName,
@@ -59,7 +59,7 @@ extension Person: ReadOnlyConvertible {
 
 // MARK: - Models.Person + Storable
 
-extension Models.Person: Storable {
+extension Models.PersonAttributes: Storable {
     @discardableResult
     func toEntity(in context: NSManagedObjectContext) throws -> Person {
         let entity = Person(context: context)

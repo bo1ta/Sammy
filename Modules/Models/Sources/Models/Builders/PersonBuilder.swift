@@ -28,8 +28,8 @@ public class PersonBuilder {
         return self
     }
 
-    public func build() -> Person {
-        Person(
+    public func build() -> PersonAttributes {
+        PersonAttributes(
             id: id,
             name: name,
             displayName: displayName,

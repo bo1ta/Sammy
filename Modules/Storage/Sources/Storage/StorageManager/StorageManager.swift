@@ -28,15 +28,6 @@ public final class StorageManager: StorageManagerType, @unchecked Sendable {
         description?.shouldMigrateStoreAutomatically = true
         description?.shouldInferMappingModelAutomatically = true
 
-        if let storeURL = description?.url {
-            do {
-                try container.persistentStoreCoordinator.destroyPersistentStore(at: storeURL, type: .sqlite)
-                logger.info("Deleted persistent store for forced migration")
-            } catch {
-                logger.error("Failed to delete persistent store. Error: \(error)")
-            }
-        }
-
         container.loadPersistentStores { _, error in
             if let error {
                 self.logger.error("Failed to load persistent store. Error: \(error)")

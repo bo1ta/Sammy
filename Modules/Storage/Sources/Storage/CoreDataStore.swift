@@ -7,7 +7,7 @@ import Principle
 public struct CoreDataStore {
     @Injected(\.storageManager) private var storageManager: StorageManagerType
 
-    public func personByID(_ id: Models.Person.ID) async -> Models.Person? {
+    public func personByID(_ id: Models.PersonAttributes.ID) async -> Models.PersonAttributes? {
         await storageManager.performRead { context in
             Person.query(on: context)
                 .first(where: \.uniqueID == id)?
@@ -15,7 +15,7 @@ public struct CoreDataStore {
         }
     }
 
-    public func personByName(_ name: String) async -> Models.Person? {
+    public func personByName(_ name: String) async -> Models.PersonAttributes? {
         await storageManager.performRead { context in
             Person.query(on: context)
                 .first(where: \.name == name)?
@@ -23,7 +23,7 @@ public struct CoreDataStore {
         }
     }
 
-    public func savePerson(_ person: Models.Person) async throws {
+    public func savePerson(_ person: Models.PersonAttributes) async throws {
         try await storageManager.performWrite(.immediate) { context in
             _ = try person.toEntity(in: context)
 

@@ -4,7 +4,7 @@ import Foundation
 
 public struct Post: Decodable, Sendable {
     public var postData: PostData
-    public var creator: Person
+    public var creator: PersonAttributes
     public var postCounts: PostCounts
     public var communityData: CommunityData
 
@@ -15,7 +15,7 @@ public struct Post: Decodable, Sendable {
         case communityData = "community"
     }
 
-    public init(postData: PostData, creatorData: Person, postCounts: PostCounts, communityData: CommunityData) {
+    public init(postData: PostData, creatorData: PersonAttributes, postCounts: PostCounts, communityData: CommunityData) {
         self.postData = postData
         self.creator = creatorData
         self.postCounts = postCounts

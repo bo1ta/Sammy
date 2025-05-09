@@ -7,6 +7,7 @@ public protocol TokenProviderType: Sendable {
     func storeToken(_ token: String) throws
     func getAccessToken() throws -> String
     func clearToken() throws
+    func isLoggedIn() -> Bool
 }
 
 // MARK: - TokenProvider
@@ -18,8 +19,8 @@ public final class TokenProvider: TokenProviderType {
     private static let tokenKey = "accessToken"
 
     private let keychain = KeychainManager(service: "TokenProvider")
-
     private let lockedToken = OSAllocatedUnfairLock<String?>(initialState: nil)
+
     private var cachedToken: String? {
         get {
             lockedToken.withLock { token in
@@ -34,6 +35,16 @@ public final class TokenProvider: TokenProviderType {
     }
 
     // MARK: Public access
+
+    public func isLoggedIn() -> Bool {
+        do {
+            try getAccessToken()
+            return true
+        } catch {
+            print(error.localizedDescription)
+            return false
+        }
+    }
 
     public func storeToken(_ token: String) throws {
         guard let data = token.data(using: .utf8) else {

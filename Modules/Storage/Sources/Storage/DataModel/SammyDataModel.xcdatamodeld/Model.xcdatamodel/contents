@@ -10,7 +10,7 @@
         <attribute name="botAccount" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="dateUpdated" optional="YES" attributeType="String"/>
         <attribute name="displayName" optional="YES" attributeType="String"/>
-        <attribute name="instanceID" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="instanceID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isPersonDeleted" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="local" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="matrixUserID" optional="YES" attributeType="String"/>

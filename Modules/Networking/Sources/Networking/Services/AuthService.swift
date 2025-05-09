@@ -1,4 +1,5 @@
 import Factory
+import Models
 
 // MARK: - AuthServiceProtocol
 
@@ -14,6 +15,11 @@ public protocol AuthServiceProtocol: Sendable {
         answer: String?) async throws -> AuthResponse
 
     func login(usernameOrEmail: String, password: String, twoFactoryAuthToken: String?) async throws -> AuthResponse
+
+    func getCaptcha() async throws -> Captcha
+
+    func verifyEmail(token: String) async throws
+
 }
 
 // MARK: - AuthService
@@ -48,7 +54,6 @@ public struct AuthService: AuthServiceProtocol {
             let data = try await client.dispatch(request)
 
             let response = try AuthResponse.createFrom(data)
-            try tokenProvider.storeToken(response.jwt)
             return response
         }
 
@@ -63,17 +68,31 @@ public struct AuthService: AuthServiceProtocol {
         }
 
         let data = try await client.dispatch(request)
-
+        
         let response = try AuthResponse.createFrom(data)
-        try tokenProvider.storeToken(response.jwt)
+        if let jwtToken = response.jwt {
+            try tokenProvider.storeToken(jwtToken)
+        }
         return response
+    }
+
+    public func getCaptcha() async throws -> Captcha {
+        let request = APIRequest(method: .get, route: .user(.getCaptcha))
+        let data = try await client.dispatch(request)
+        return try GetCaptchaResponse.createFrom(data).ok
+    }
+
+    public func verifyEmail(token: String) async throws {
+        var request = APIRequest(method: .post, route: .user(.verifyEmail))
+        request.body = ["token": token]
+        _ = try await client.dispatch(request)
     }
 }
 
 // MARK: - AuthResponse
 
 public struct AuthResponse: Decodable, DecodableModel {
-    let jwt: String
+    let jwt: String?
     let registrationCreated: Bool
     let verifyEmailSent: Bool
 
@@ -82,4 +101,8 @@ public struct AuthResponse: Decodable, DecodableModel {
         case registrationCreated = "registration_created"
         case verifyEmailSent = "verify_email_sent"
     }
+}
+
+fileprivate struct GetCaptchaResponse: DecodableModel {
+    let ok: Captcha
 }

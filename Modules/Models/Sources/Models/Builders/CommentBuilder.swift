@@ -1,6 +1,6 @@
 public class CommentBuilder {
     public var commentAttributes: CommentAttributes = CommentDataBuilder().build()
-    public var creator: Person = PersonBuilder().build()
+    public var creator: PersonAttributes = PersonBuilder().build()
     public var postData: PostData = PostDataBuilder().build()
     public var communityData: CommunityData = CommunityDataBuilder().build()
     public var countsData: CommentCounts = CommentCountsBuilder().build()

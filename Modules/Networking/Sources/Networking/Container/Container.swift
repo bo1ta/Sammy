@@ -25,6 +25,10 @@ extension Container {
         self { UserService() }
     }
 
+    public var siteService: Factory<SiteServiceProtocol> {
+        self { SiteService() }
+    }
+
     public var tokenProvider: Factory<TokenProviderType> {
         self { TokenProvider() }
             .cached
