@@ -22,7 +22,8 @@ public struct AuthenticationHandler: AuthenticationHandlerProtocol {
     @Injected(\.userService) private var userService
     @Injected(\.authService) private var authService
     @Injected(\.siteService) private var siteService
-    @Injected(\.coreDataStore) private var coreDataStore
+
+    private let dataStore = DataStore<Person>()
 
     public func register(username: String, password: String, showNSFW: Bool, email: String?, captchaUUID: String?, captchaResponse: String?, honeypot: String?, answer: String?) async throws {
         try await authService.register(username: username, password: password, showNSFW: showNSFW, email: email, captchaUUID: captchaUUID, captchaResponse: captchaResponse, honeypot: honeypot, answer: answer)
@@ -40,7 +41,7 @@ public struct AuthenticationHandler: AuthenticationHandlerProtocol {
 
         /// save the person in the core data store
         let personAttributes = localUserView.person
-        try await coreDataStore.savePerson(personAttributes)
+        try await dataStore.importModel(personAttributes)
 
         return personAttributes
     }

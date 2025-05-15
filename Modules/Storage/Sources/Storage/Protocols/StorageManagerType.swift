@@ -17,8 +17,8 @@ public protocol StorageManagerType {
     @discardableResult
     func performWrite<ResultType>(
         _ schedule: NSManagedObjectContext.ScheduledTaskType,
-        _ writeClosure: @escaping (NSManagedObjectContext) throws -> ResultType)
-        async throws -> ResultType
+        _ writeClosure: @escaping (NSManagedObjectContext) throws -> ResultType?)
+        async throws -> ResultType?
 
     /// Save core data changes
     ///

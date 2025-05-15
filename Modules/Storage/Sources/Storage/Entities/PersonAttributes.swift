@@ -1,11 +1,12 @@
 import CoreData
 import Foundation
 import Models
+import Principle
 
 // MARK: - Person
 
 @objc(Person)
-public class Person: NSManagedObject {
+public final class Person: NSManagedObject {
     @nonobjc
     public class func fetchRequest() -> NSFetchRequest<Person> {
         NSFetchRequest<Person>(entityName: "Person")
@@ -36,7 +37,7 @@ extension Person: Identifiable { }
 // MARK: ReadOnlyConvertible
 
 extension Person: ReadOnlyConvertible {
-    func toReadOnly() -> Models.PersonAttributes {
+    public func toReadOnly() -> Models.PersonAttributes {
         Models.PersonAttributes(
             id: uniqueID,
             name: name,
@@ -57,11 +58,28 @@ extension Person: ReadOnlyConvertible {
     }
 }
 
+extension Person: SyncableEntity {
+    public static func predicateForModel(_ model: Models.PersonAttributes) -> NSPredicate {
+        \Person.uniqueID == model.id
+    }
+
+    public func updateEntityFrom(_ model: Models.PersonAttributes) throws -> Self {
+        self.dateUpdated = model.updated
+        self.bio = model.bio
+        self.banner = model.banner
+        self.isPersonDeleted = model.deleted as NSNumber
+        self.banned = model.banned as NSNumber
+        self.published = model.published
+
+        return self
+    }
+}
+
 // MARK: - Models.Person + Storable
 
 extension Models.PersonAttributes: Storable {
     @discardableResult
-    func toEntity(in context: NSManagedObjectContext) throws -> Person {
+    public func toEntity(in context: NSManagedObjectContext) throws -> Person {
         let entity = Person(context: context)
         let modelToEntityMapping: [String: String] = [
             "id": "uniqueID",

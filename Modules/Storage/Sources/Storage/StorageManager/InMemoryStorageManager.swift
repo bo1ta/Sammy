@@ -42,8 +42,8 @@ public class InMemoryStorageManager: StorageManagerType {
 
     public func performWrite<ResultType>(
         _ schedule: NSManagedObjectContext.ScheduledTaskType = .immediate,
-        _ writeClosure: @escaping (NSManagedObjectContext) throws -> ResultType)
-        async throws -> ResultType
+        _ writeClosure: @escaping (NSManagedObjectContext) throws -> ResultType?)
+        async throws -> ResultType?
     {
         try await writerDerivedStorage.perform(schedule: schedule) {
             let result = try writeClosure(self.writerDerivedStorage)

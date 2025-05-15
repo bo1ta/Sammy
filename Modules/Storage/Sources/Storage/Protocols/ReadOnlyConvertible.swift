@@ -1,7 +1,7 @@
 /// Enables conversion between NSManagedObject instances and read-only Swift value types
 /// Typically used to provide immutable models to the UI layer
 ///
-protocol ReadOnlyConvertible {
+public protocol ReadOnlyConvertible {
     /// The associated read-only model type
     associatedtype ReadOnlyType
 

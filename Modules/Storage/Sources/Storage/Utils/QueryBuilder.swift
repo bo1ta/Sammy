@@ -106,7 +106,7 @@ class QueryBuilder<Entity: NSManagedObject> {
     /// - Returns: An optional entity instance
     ///
     func first() -> Entity? {
-        limit(1)
+        _ = limit(1)
         return all().first
     }
 

@@ -3,7 +3,7 @@ import Foundation
 
 /// Provides bidirectional conversion between models and Core Data entities
 ///
-protocol Storable {
+public protocol Storable {
     /// The associated Core Data entity type
     associatedtype Entity: NSManagedObject
 
@@ -18,5 +18,5 @@ protocol Storable {
     /// let entity = try post.toEntity(in: context)
     /// ```
     ///
-    func toEntity(in context: NSManagedObjectContext) throws -> Entity
+    @discardableResult func toEntity(in context: NSManagedObjectContext) throws -> Entity
 }

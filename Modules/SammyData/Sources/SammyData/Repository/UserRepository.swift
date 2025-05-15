@@ -8,16 +8,17 @@ public protocol UserRepositoryProtocol: Sendable {
 }
 
 public struct UserRepository: UserRepositoryProtocol, @unchecked Sendable {
-    @Injected(\.coreDataStore) private var dataStore: CoreDataStore
     @Injected(\.userService) private var service: UserServiceProtocol
     @Injected(\.currentUserProvider) private var currentUserProvider: CurrentUserProvider
+
+    private let dataStore = DataStore<Person>()
 
     public func getCurrent() async throws -> PersonAttributes? {
         guard let personID = currentUserProvider.currentPersonID else {
             return nil
         }
 
-        if let localPerson = await dataStore.personByID(personID) {
+        if let localPerson = await dataStore.first(where: \.uniqueID == personID) {
             return localPerson
         }
 
