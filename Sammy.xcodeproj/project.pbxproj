@@ -12,6 +12,8 @@
 		BC3A50F22DC53BD500B7D0C6 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = BC3A50F12DC53BD500B7D0C6 /* Networking */; };
 		BC3A50F52DC53D3800B7D0C6 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = BC3A50F42DC53D3800B7D0C6 /* Models */; };
 		BC4EB97F2DD7B3D8003956BF /* SwiftyGif in Frameworks */ = {isa = PBXBuildFile; productRef = BC4EB97E2DD7B3D8003956BF /* SwiftyGif */; };
+		BC4EB9922DD7BE21003956BF /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = BC4EB9912DD7BE21003956BF /* Factory */; };
+		BC4EB9942DD7BE21003956BF /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = BC4EB9932DD7BE21003956BF /* FactoryTesting */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,7 @@
 				BC1467B52DCBDF8B008C7874 /* Storage in Frameworks */,
 				BC3A50F52DC53D3800B7D0C6 /* Models in Frameworks */,
 				BC146B6F2DCD7E6D008C7874 /* SammyData in Frameworks */,
+				BC4EB9922DD7BE21003956BF /* Factory in Frameworks */,
 				BC3A50F22DC53BD500B7D0C6 /* Networking in Frameworks */,
 				BC4EB97F2DD7B3D8003956BF /* SwiftyGif in Frameworks */,
 			);
@@ -72,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC4EB9942DD7BE21003956BF /* FactoryTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +135,7 @@
 				BC1467B42DCBDF8B008C7874 /* Storage */,
 				BC146B6E2DCD7E6D008C7874 /* SammyData */,
 				BC4EB97E2DD7B3D8003956BF /* SwiftyGif */,
+				BC4EB9912DD7BE21003956BF /* Factory */,
 			);
 			productName = Sammy;
 			productReference = BC3A4F102DC4D4AD00B7D0C6 /* Sammy.app */;
@@ -154,6 +159,7 @@
 			);
 			name = SammyTests;
 			packageProductDependencies = (
+				BC4EB9932DD7BE21003956BF /* FactoryTesting */,
 			);
 			productName = SammyTests;
 			productReference = BC3A4F212DC4D4AF00B7D0C6 /* SammyTests.xctest */;
@@ -220,6 +226,7 @@
 				BC1467B32DCBDF8B008C7874 /* XCLocalSwiftPackageReference "Modules/Storage" */,
 				BC146B6D2DCD7E6D008C7874 /* XCLocalSwiftPackageReference "Modules/SammyData" */,
 				BC4EB97D2DD7B3D8003956BF /* XCRemoteSwiftPackageReference "SwiftyGif" */,
+				BC4EB9902DD7BE21003956BF /* XCRemoteSwiftPackageReference "Factory" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BC3A4F112DC4D4AD00B7D0C6 /* Products */;
@@ -662,6 +669,14 @@
 				version = 5.4.5;
 			};
 		};
+		BC4EB9902DD7BE21003956BF /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory";
+			requirement = {
+				kind = exactVersion;
+				version = 2.4.11;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -685,6 +700,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC4EB97D2DD7B3D8003956BF /* XCRemoteSwiftPackageReference "SwiftyGif" */;
 			productName = SwiftyGif;
+		};
+		BC4EB9912DD7BE21003956BF /* Factory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC4EB9902DD7BE21003956BF /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
+		};
+		BC4EB9932DD7BE21003956BF /* FactoryTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC4EB9902DD7BE21003956BF /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = FactoryTesting;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
