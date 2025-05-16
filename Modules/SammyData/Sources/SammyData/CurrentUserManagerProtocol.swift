@@ -2,15 +2,15 @@ import Foundation
 import Models
 import Networking
 
-// MARK: - CurrentUserProvider
+// MARK: - CurrentUserManagerProtocol
 
-public protocol CurrentUserProvider {
+public protocol CurrentUserManagerProtocol {
     func getCurrentState() -> CurrentUserState
     func setUser(_ localUser: LocalUser)
     func clearUser()
 }
 
-extension CurrentUserProvider {
+extension CurrentUserManagerProtocol {
     var currentUserID: Int? {
         switch getCurrentState() {
         case .authenticated(let localUser):
@@ -32,7 +32,7 @@ extension CurrentUserProvider {
 
 // MARK: - CurrentUserManager
 
-public class CurrentUserManager: CurrentUserProvider {
+public class CurrentUserManager: CurrentUserManagerProtocol {
     private static let currentUserKey = "currentUser"
     private static let anonymousUserKey = "anonymousUser"
 

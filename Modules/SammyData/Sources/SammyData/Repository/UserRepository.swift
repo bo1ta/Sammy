@@ -13,7 +13,7 @@ public protocol UserRepositoryProtocol: Sendable {
 
 public struct UserRepository: UserRepositoryProtocol, @unchecked Sendable {
     @Injected(\.userService) private var service: UserServiceProtocol
-    @Injected(\.currentUserProvider) private var currentUserProvider: CurrentUserProvider
+    @Injected(\.currentUserProvider) private var currentUserProvider: CurrentUserManagerProtocol
 
     private let dataStore = DataStore<Person>()
 
