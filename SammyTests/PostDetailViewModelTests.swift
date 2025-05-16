@@ -1,4 +1,6 @@
 import Testing
+import FactoryTesting
+@testable import Factory
 @testable import Models
 @testable import Networking
 @testable import Sammy
@@ -7,14 +9,15 @@ import Testing
 
 @Suite("PostDetailViewModelTests")
 struct PostDetailViewModelTests {
-    @Test
+    @Test(.container)
     func fetchCommentsForPostSuccess() async throws {
         let mockComments = CommentBuilder().build()
         let mockPost = PostBuilder().build()
 
         let mockService = MockCommentService(expectedComments: [mockComments])
+        Container.shared.commentService.register { mockService }
 
-        let viewModel = await PostDetailViewModel(post: mockPost, commentService: mockService)
+        let viewModel = await PostDetailViewModel(post: mockPost)
         #expect(await viewModel.comments.isEmpty)
 
         await viewModel.fetchCommentsForPost()
@@ -22,12 +25,14 @@ struct PostDetailViewModelTests {
         #expect(await viewModel.errorMessage == nil)
     }
 
-    @Test
+    @Test(.container)
     func fetchCommentsForPostFailure() async throws {
         let mockPost = PostBuilder().build()
 
         let mockService = MockCommentService(shouldFail: true)
-        let viewModel = await PostDetailViewModel(post: mockPost, commentService: mockService)
+        Container.shared.commentService.register { mockService }
+
+        let viewModel = await PostDetailViewModel(post: mockPost)
         #expect(await viewModel.errorMessage == nil)
 
         await viewModel.fetchCommentsForPost()
@@ -39,7 +44,8 @@ struct PostDetailViewModelTests {
         let mockPost = PostBuilder().build()
 
         let mockService = MockCommentService()
-        let viewModel = await PostDetailViewModel(post: mockPost, commentService: mockService)
+        Container.shared.commentService.register { mockService }
+        let viewModel = await PostDetailViewModel(post: mockPost)
 
         await viewModel.handleVote(.upvote, commentID: 1)
 
@@ -53,7 +59,8 @@ struct PostDetailViewModelTests {
         let mockPost = PostBuilder().build()
 
         let mockService = MockCommentService(shouldFail: true)
-        let viewModel = await PostDetailViewModel(post: mockPost, commentService: mockService)
+        Container.shared.commentService.register { mockService }
+        let viewModel = await PostDetailViewModel(post: mockPost)
 
         await viewModel.handleVote(.upvote, commentID: 1)
 

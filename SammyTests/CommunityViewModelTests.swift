@@ -1,4 +1,6 @@
 import Testing
+import FactoryTesting
+@testable import Factory
 @testable import Models
 @testable import Networking
 @testable import Sammy
@@ -7,13 +9,13 @@ import Testing
 
 @Suite("CommunityViewModelTests")
 struct CommunityViewModelTests {
-    @Test
+    @Test(.container)
     func loadCommunitiesSuccess() async throws {
         let mockCommunity = CommunityBuilder().build()
-        var mockService = MockCommunityService()
-        mockService.expectedCommunities = [mockCommunity]
+        let mockService = MockCommunityService(expectedCommunities: [mockCommunity])
+        Container.shared.communityService.register { mockService }
 
-        let viewModel = await CommunitiesViewModel(service: mockService)
+        let viewModel = await CommunitiesViewModel()
         #expect(await viewModel.communities.isEmpty)
 
         await viewModel.loadCommunities()
@@ -21,12 +23,12 @@ struct CommunityViewModelTests {
         #expect(await viewModel.errorMessage == nil)
     }
 
-    @Test
+    @Test(.container)
     func loadCommunitiesFailure() async throws {
-        var mockService = MockCommunityService()
-        mockService.shouldFail = true
+        let mockService = MockCommunityService(shouldFail: true)
+        Container.shared.communityService.register { mockService }
 
-        let viewModel = await CommunitiesViewModel(service: mockService)
+        let viewModel = await CommunitiesViewModel()
         #expect(await viewModel.errorMessage == nil)
 
         await viewModel.loadCommunities()

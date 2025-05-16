@@ -1,3 +1,4 @@
+import Factory
 import Foundation
 import Models
 
@@ -10,11 +11,7 @@ public protocol CommunityServiceProtocol {
 // MARK: - CommunityService
 
 public struct CommunityService: CommunityServiceProtocol {
-    private let client: APIProvider
-
-    public init(client: APIProvider = APIClient()) {
-        self.client = client
-    }
+    @Injected(\.client) private var client: APIClientProvider
 
     public func fetchCommunities() async throws -> [Community] {
         let request = APIRequest(method: .get, route: .community(.list))

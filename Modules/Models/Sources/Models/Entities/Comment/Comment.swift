@@ -3,18 +3,18 @@ import Foundation
 // MARK: - Comment
 
 public struct Comment: Decodable, Sendable, Identifiable {
-    public let commentData: CommentData
-    public let creator: Person
+    public let commentAttributes: CommentAttributes
+    public let creator: PersonAttributes
     public let postData: PostData
     public let communityData: CommunityData
     public let countsData: CommentCounts
 
     public var id: Int {
-        commentData.id
+        commentAttributes.id
     }
 
     enum CodingKeys: String, CodingKey {
-        case commentData = "comment"
+        case commentAttributes = "comment"
         case creator
         case postData = "post"
         case communityData = "community"
@@ -22,13 +22,13 @@ public struct Comment: Decodable, Sendable, Identifiable {
     }
 
     public init(
-        commentData: CommentData,
-        creator: Person,
+        commentAttributes: CommentAttributes,
+        creator: PersonAttributes,
         postData: PostData,
         communityData: CommunityData,
         countsData: CommentCounts)
     {
-        self.commentData = commentData
+        self.commentAttributes = commentAttributes
         self.creator = creator
         self.postData = postData
         self.communityData = communityData

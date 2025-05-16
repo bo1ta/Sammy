@@ -1,3 +1,4 @@
+import Factory
 import Foundation
 import Models
 import Networking
@@ -8,18 +9,16 @@ import OSLog
 @Observable
 @MainActor
 final class PostsViewModel {
-    @ObservationIgnored private let service: PostServiceProtocol
-    @ObservationIgnored private let logger = Logger(subsystem: "com.Sammy", category: "PostsViewModel")
+    @ObservationIgnored
+    @Injected(\.postService) private var service: PostServiceProtocol
+
+    private let logger = Logger(subsystem: "com.Sammy", category: "PostsViewModel")
 
     private(set) var posts: [Post] = []
     private(set) var isLoading = false
     private(set) var errorMessage: String?
 
     var selectedDestination: Destination?
-
-    init(service: PostServiceProtocol = PostService()) {
-        self.service = service
-    }
 
     func loadPosts() async {
         isLoading = true

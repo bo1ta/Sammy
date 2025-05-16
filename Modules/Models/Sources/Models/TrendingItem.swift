@@ -5,9 +5,9 @@ public struct TrendingItem: Identifiable {
     public let postCount: String
 
     public init(id: Int, rank: Int, title: String, postCount: String) {
-           self.id = id
-           self.rank = rank
-           self.title = title
-           self.postCount = postCount
-       }
+        self.id = id
+        self.rank = rank
+        self.title = title
+        self.postCount = postCount
+    }
 }
