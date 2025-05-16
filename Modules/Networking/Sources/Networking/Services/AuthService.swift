@@ -37,38 +37,43 @@ public struct AuthService: AuthServiceProtocol {
         captchaResponse: String?,
         honeypot: String?,
         answer: String?)
-        async throws -> AuthResponse {
-            var request = APIRequest(method: .post, route: .user(.register))
-            request.body = [
-                "username": username,
-                "password": password,
-                "password_verify": password,
-                "show_nsfw": showNSFW,
-                "email": email as Any,
-                "captcha_uuid": captchaUUID as Any,
-                "captcha_answer": captchaResponse as Any,
-                "honeypot": honeypot as Any,
-                "answer": answer as Any,
-            ]
+        async throws -> AuthResponse
+    {
+        var request = APIRequest(method: .post, route: .user(.register))
+        request.body = [
+            "username": username,
+            "password": password,
+            "password_verify": password,
+            "show_nsfw": showNSFW,
+            "email": email as Any,
+            "captcha_uuid": captchaUUID as Any,
+            "captcha_answer": captchaResponse as Any,
+            "honeypot": honeypot as Any,
+            "answer": answer as Any,
+        ]
 
-            let data = try await client.dispatch(request)
+        let data = try await client.dispatch(request)
 
-            let response = try AuthResponse.createFrom(data)
-            return response
-        }
+        return try AuthResponse.createFrom(data)
+    }
 
-    public func login(usernameOrEmail: String, password: String, twoFactoryAuthToken: String? = nil) async throws -> AuthResponse {
+    public func login(
+        usernameOrEmail: String,
+        password: String,
+        twoFactoryAuthToken: String? = nil)
+        async throws -> AuthResponse
+    {
         var request = APIRequest(method: .post, route: .user(.login))
         request.body = [
             "username_or_email": usernameOrEmail,
-            "password": password
+            "password": password,
         ]
         if let twoFactoryAuthToken {
             request.body?["totp_2fa_token"] = twoFactoryAuthToken
         }
 
         let data = try await client.dispatch(request)
-        
+
         let response = try AuthResponse.createFrom(data)
         if let jwtToken = response.jwt {
             try tokenProvider.storeToken(jwtToken)
@@ -91,7 +96,7 @@ public struct AuthService: AuthServiceProtocol {
 
 // MARK: - AuthResponse
 
-public struct AuthResponse: Decodable, DecodableModel {
+public struct AuthResponse: Decodable, DecodableModel, Sendable {
     let jwt: String?
     let registrationCreated: Bool
     let verifyEmailSent: Bool
@@ -103,6 +108,8 @@ public struct AuthResponse: Decodable, DecodableModel {
     }
 }
 
-fileprivate struct GetCaptchaResponse: DecodableModel {
-    let ok: Captcha
+// MARK: - GetCaptchaResponse
+
+private struct GetCaptchaResponse: DecodableModel {
+    let ok: Captcha // swiftlint:disable:this identifier_name
 }

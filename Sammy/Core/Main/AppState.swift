@@ -1,6 +1,6 @@
+import Combine
 import Factory
 import Foundation
-import Combine
 import SammyData
 
 @Observable
@@ -13,6 +13,7 @@ final class AppState {
         case loggedIn
         case loggedOut
         case loading
+        case anonymous
     }
 
     private(set) var currentState = State.loggedOut
@@ -24,16 +25,16 @@ final class AppState {
     @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
     @ObservationIgnored
-    @Injected(\.navigationCoordinator) private var navigationCoordinator
+    @Injected(\.userStore) private var userStore: UserStore
 
     @ObservationIgnored
-    @Injected(\.userStore) private var userStore: UserStore
+    @Injected(\.loadingManager) private var loadingManager: LoadingManager
 
     // MARK: Observed properties
 
     var toast: Toast?
     var progress = 0.0
-
+    var isLoading = true
 
     // MARK: Setup
 
@@ -48,6 +49,12 @@ final class AppState {
             }
             .store(in: &cancellables)
 
+        loadingManager.loadingPublisher
+            .sink { [weak self] isLoading in
+                self?.isLoading = isLoading
+            }
+            .store(in: &cancellables)
+
         userStore.eventPublisher
             .sink { [weak self] event in
                 self?.handleUserEvent(event)
@@ -59,16 +66,14 @@ final class AppState {
         switch event {
         case .didLogin:
             currentState = .loggedIn
+        case .didAnonymousLogin:
+            currentState = .anonymous
         case .didLogout:
             currentState = .loggedOut
         }
     }
 
     func initialLoad() async {
-        guard let _ = await userStore.loadCurrentUser() else {
-            currentState = .loggedOut
-            return
-        }
-        currentState = .loggedIn
+        await userStore.initialLoad()
     }
 }

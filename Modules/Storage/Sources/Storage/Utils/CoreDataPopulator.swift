@@ -7,6 +7,9 @@ import OSLog
 enum CoreDataPopulator {
     private static let logger = Logger(subsystem: "com.Sammy.Storage", category: "CoreDataPopulator")
 
+    /// Populate entity by mirroring model's properties.
+    /// `Note`: This does not populate relationships.
+    ///
     static func populateFromModel<Entity: NSManagedObject>(
         _ model: some Decodable,
         toEntity entity: Entity,
@@ -30,8 +33,6 @@ enum CoreDataPopulator {
             } else {
                 logger.error("Cannot set non-optional property \(entityPropertyName) on entity")
             }
-
-            // TODO: Basic relationship handling
         }
 
         return entity

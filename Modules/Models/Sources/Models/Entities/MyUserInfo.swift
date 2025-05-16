@@ -1,3 +1,5 @@
+// MARK: - MyUserInfo
+
 public struct MyUserInfo: Decodable {
     public let localUserView: LocalUserView
     public let follows: [Follows]

@@ -3,6 +3,8 @@ import Models
 import Networking
 import Storage
 
+// MARK: - AuthenticationHandlerProtocol
+
 public protocol AuthenticationHandlerProtocol {
     func register(
         username: String,
@@ -17,6 +19,8 @@ public protocol AuthenticationHandlerProtocol {
     func login(usernameOrEmail: String, password: String, twoFactoryAuthToken: String?) async throws -> PersonAttributes
 }
 
+// MARK: - AuthenticationHandler
+
 public struct AuthenticationHandler: AuthenticationHandlerProtocol {
     @Injected(\.currentUserProvider) private var currentUserProvider
     @Injected(\.userService) private var userService
@@ -25,11 +29,34 @@ public struct AuthenticationHandler: AuthenticationHandlerProtocol {
 
     private let dataStore = DataStore<Person>()
 
-    public func register(username: String, password: String, showNSFW: Bool, email: String?, captchaUUID: String?, captchaResponse: String?, honeypot: String?, answer: String?) async throws {
-        try await authService.register(username: username, password: password, showNSFW: showNSFW, email: email, captchaUUID: captchaUUID, captchaResponse: captchaResponse, honeypot: honeypot, answer: answer)
+    public func register(
+        username: String,
+        password: String,
+        showNSFW: Bool,
+        email: String?,
+        captchaUUID: String?,
+        captchaResponse: String?,
+        honeypot: String?,
+        answer: String?)
+        async throws
+    {
+        try await authService.register(
+            username: username,
+            password: password,
+            showNSFW: showNSFW,
+            email: email,
+            captchaUUID: captchaUUID,
+            captchaResponse: captchaResponse,
+            honeypot: honeypot,
+            answer: answer)
     }
 
-    public func login(usernameOrEmail: String, password: String, twoFactoryAuthToken: String?) async throws -> PersonAttributes {
+    public func login(
+        usernameOrEmail: String,
+        password: String,
+        twoFactoryAuthToken _: String?)
+        async throws -> PersonAttributes
+    {
         _ = try await authService.login(usernameOrEmail: usernameOrEmail, password: password, twoFactoryAuthToken: nil)
 
         /// login succeeded, time to fetch the current user

@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "SammyData",
     platforms: [
-        .iOS(.v17)
+        .iOS(.v17),
     ],
     products: [
         .library(
@@ -22,11 +22,9 @@ let package = Package(
     targets: [
         .target(
             name: "SammyData", dependencies: [
-                "Storage", "Models", "Networking", "Factory"
+                "Storage", "Models", "Networking", "Factory",
             ]),
         .testTarget(
             name: "SammyDataTests",
-            dependencies: ["SammyData"]
-        ),
-    ]
-)
+            dependencies: ["SammyData"]),
+    ])

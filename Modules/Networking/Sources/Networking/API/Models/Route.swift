@@ -96,7 +96,6 @@ public enum APIRoute {
                 "/list"
             case .like:
                 "/like"
-
             }
         }
     }

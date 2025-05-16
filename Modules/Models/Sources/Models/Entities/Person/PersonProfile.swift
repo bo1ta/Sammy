@@ -17,4 +17,3 @@ public struct PersonProfile: Decodable {
         self.isAdmin = isAdmin
     }
 }
-

@@ -20,7 +20,7 @@ let package = Package(
             name: "Networking",
             dependencies: [
                 .product(name: "Models", package: "Models"),
-                "Factory"
+                "Factory",
             ]),
         .testTarget(
             name: "NetworkingTests",

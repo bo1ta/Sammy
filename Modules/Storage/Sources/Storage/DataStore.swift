@@ -6,12 +6,14 @@ import Principle
 
 public typealias ManagedEntityType = NSManagedObject & ReadOnlyConvertible
 
+// MARK: - DataStore
+
 public struct DataStore<Entity: ManagedEntityType> {
     @Injected(\.storageManager) private var storageManager: StorageManagerType
 
     public init() { }
 
-    public func getAll(matching predicate: Principle.Predicate<Entity>? = nil) async -> [Entity.ReadOnlyType] {
+    public func getAll(matching _: Principle.Predicate<Entity>? = nil) async -> [Entity.ReadOnlyType] {
         await storageManager.performRead { context in
             Entity.query(on: context)
                 .all()
@@ -35,8 +37,22 @@ public struct DataStore<Entity: ManagedEntityType> {
         }
     }
 
+    public func contains(where predicate: Principle.Predicate<Entity>) async -> Bool {
+        await storageManager.performRead { context in
+            if let entity = Entity.query(on: context).first(where: predicate) {
+                return true
+            }
+            return false
+        }
+    }
+
     @discardableResult
-    public func updateField<V>(matching predicate: Principle.Predicate<Entity>, keyPath: WritableKeyPath<Entity, V>, to value: V) async throws -> Entity.ReadOnlyType? {
+    public func updateField<V>(
+        matching predicate: Principle.Predicate<Entity>,
+        keyPath: WritableKeyPath<Entity, V>,
+        to value: V)
+        async throws -> Entity.ReadOnlyType?
+    {
         try await storageManager.performWrite(.immediate) { context in
             guard let entity = Entity.query(on: context).first(where: predicate) else {
                 return nil
@@ -52,17 +68,17 @@ public struct DataStore<Entity: ManagedEntityType> {
 extension DataStore where Entity: SyncableEntity {
     public func importModel(_ model: Entity.ReadOnlyModel) async throws {
         try await storageManager.performWrite(.immediate) { context in
-        guard let predicate = Entity.predicateForModel(model) as? Principle.Predicate<Entity> else {
-            return
-        }
+            guard let predicate = Entity.predicateForModel(model) as? Principle.Predicate<Entity> else {
+                return
+            }
 
-        if let existingEntity = Entity.query(on: context).first(where: predicate) {
-            try existingEntity.updateEntityFrom(model)
-        } else {
-            try model.toEntity(in: context)
+            if let existingEntity = Entity.query(on: context).first(where: predicate) {
+                try existingEntity.updateEntityFrom(model)
+            } else {
+                try model.toEntity(in: context)
+            }
         }
     }
-  }
 
     public func importModels(_ models: [Entity.ReadOnlyModel]) async throws where Entity: SyncableEntity {
         try await storageManager.performWrite(.enqueued) { context in
@@ -72,7 +88,7 @@ extension DataStore where Entity: SyncableEntity {
                 }
 
                 if let existingEntity = Entity.query(on: context).first(where: predicate) {
-                   try existingEntity.updateEntityFrom(model)
+                    try existingEntity.updateEntityFrom(model)
                 } else {
                     try model.toEntity(in: context)
                 }

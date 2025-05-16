@@ -1,9 +1,13 @@
-import Models
 import Factory
+import Models
+
+// MARK: - SiteServiceProtocol
 
 public protocol SiteServiceProtocol {
     func getSite() async throws -> SiteResponse
 }
+
+// MARK: - SiteService
 
 public struct SiteService: SiteServiceProtocol {
     @Injected(\.client) private var client: APIClientProvider
@@ -14,5 +18,7 @@ public struct SiteService: SiteServiceProtocol {
         return try SiteResponse.createFrom(data)
     }
 }
+
+// MARK: - SiteResponse + DecodableModel
 
 extension SiteResponse: DecodableModel { }

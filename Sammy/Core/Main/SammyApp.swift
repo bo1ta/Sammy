@@ -8,18 +8,21 @@ struct SammyApp: App {
         WindowGroup {
             Group {
                 switch appState.currentState {
-                case .loggedIn:
+                case .loggedIn, .anonymous:
                     AppTabView()
                 case .loggedOut:
-                    LoginView()
+                    SplashView()
                 case .loading:
                     EmptyView()
                         .springLoadingBehavior(.enabled)
                 }
             }
             .toastView(toast: $appState.toast)
+            .if(appState.isLoading) { view in
+                view.overlay(LoadingOverlayView())
+            }
             .task {
-              await appState.initialLoad()
+                await appState.initialLoad()
             }
         }
     }

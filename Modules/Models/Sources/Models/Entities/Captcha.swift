@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Captcha: Decodable {
+public struct Captcha: Decodable, Sendable {
     public let png: String
     public let wav: String
     public let uuid: String

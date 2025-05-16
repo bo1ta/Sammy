@@ -8,7 +8,7 @@ import Principle
 @objc(Person)
 public final class Person: NSManagedObject {
     @nonobjc
-    public class func fetchRequest() -> NSFetchRequest<Person> {
+    public static func fetchRequest() -> NSFetchRequest<Person> {
         NSFetchRequest<Person>(entityName: "Person")
     }
 
@@ -58,6 +58,8 @@ extension Person: ReadOnlyConvertible {
     }
 }
 
+// MARK: SyncableEntity
+
 extension Person: SyncableEntity {
     public static func predicateForModel(_ model: Models.PersonAttributes) -> NSPredicate {
         \Person.uniqueID == model.id
@@ -75,7 +77,7 @@ extension Person: SyncableEntity {
     }
 }
 
-// MARK: - Models.Person + Storable
+// MARK: - Models.PersonAttributes + Storable
 
 extension Models.PersonAttributes: Storable {
     @discardableResult

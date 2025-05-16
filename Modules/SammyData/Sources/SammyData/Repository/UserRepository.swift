@@ -1,11 +1,15 @@
-import Storage
-import Networking
 import Factory
 import Models
+import Networking
+import Storage
+
+// MARK: - UserRepositoryProtocol
 
 public protocol UserRepositoryProtocol: Sendable {
     func getCurrent() async throws -> PersonAttributes?
 }
+
+// MARK: - UserRepository
 
 public struct UserRepository: UserRepositoryProtocol, @unchecked Sendable {
     @Injected(\.userService) private var service: UserServiceProtocol

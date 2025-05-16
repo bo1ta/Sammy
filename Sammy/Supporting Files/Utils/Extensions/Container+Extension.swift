@@ -6,6 +6,11 @@ extension Container {
             .cached
     }
 
+    var loadingManager: Factory<LoadingManager> {
+        self { LoadingManager() }
+            .cached
+    }
+
     var navigationCoordinator: Factory<NavigationCoordinator> {
         self { NavigationCoordinator() }
             .singleton

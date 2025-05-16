@@ -13,7 +13,7 @@ enum AppTabs: Int {
             "Home"
         case .communities:
             "Communities"
-        case .search: 
+        case .search:
             "Search"
         }
     }
@@ -24,7 +24,7 @@ enum AppTabs: Int {
             "house"
         case .communities:
             "person.2"
-        case .search: 
+        case .search:
             "magnifyingglass"
         }
     }

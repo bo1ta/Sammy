@@ -33,7 +33,22 @@ public struct SiteAttributes: Decodable {
         case contentWarning = "content_warning"
     }
 
-    public init(id: Int, name: String, sidebar: String? = nil, published: String, updated: String? = nil, icon: String? = nil, banner: String? = nil, description: String? = nil, actorID: String, lastRefreshedAt: String, inboxUrl: String, contentWarning: String? = nil, publicKey: String, instanceID: Int) {
+    public init(
+        id: Int,
+        name: String,
+        sidebar: String? = nil,
+        published: String,
+        updated: String? = nil,
+        icon: String? = nil,
+        banner: String? = nil,
+        description: String? = nil,
+        actorID: String,
+        lastRefreshedAt: String,
+        inboxUrl: String,
+        contentWarning: String? = nil,
+        publicKey: String,
+        instanceID: Int)
+    {
         self.id = id
         self.name = name
         self.sidebar = sidebar

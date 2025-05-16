@@ -82,7 +82,7 @@ public final class TokenProvider: TokenProviderType {
     }
 }
 
-// MARK: - TokenProvider.TokenError
+// MARK: TokenProvider.TokenError
 
 extension TokenProvider {
     enum TokenError: LocalizedError {

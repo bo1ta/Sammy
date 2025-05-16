@@ -1,16 +1,34 @@
-import Foundation
-import Factory
-import Models
-import Storage
-import Networking
 import Combine
+import Factory
+import Foundation
+import Models
+import Networking
+import Storage
 
-public final class UserStore {
+// MARK: - UserStore
+
+public final class UserStore: @unchecked Sendable {
     @Injected(\.userRepository) private var repository
     @Injected(\.authenticationHandler) private var authenticationHandler
     @Injected(\.currentUserProvider) private var currentUserProvider
 
     private(set) var currentPerson: PersonAttributes?
+    private(set) var isAnonymous = false
+
+    var currentUserState: CurrentUserState {
+        currentUserProvider.getCurrentState()
+    }
+
+    var currentUserID: Int? {
+        currentUserProvider.currentUserID
+    }
+
+    var isLoggedIn: Bool {
+        if let currentPerson {
+            return true
+        }
+        return false
+    }
 
     private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()
 
@@ -18,6 +36,19 @@ public final class UserStore {
         eventSubject
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
+    }
+
+    public func initialLoad() async {
+        switch currentUserState {
+        case .authenticated:
+            await peformPostLogin()
+
+        case .anonymous:
+            performAnonymousLogin()
+
+        case .unauthenticated:
+            break
+        }
     }
 
     @discardableResult
@@ -32,14 +63,22 @@ public final class UserStore {
     }
 
     public func peformPostLogin() async {
-        guard let _ = await loadCurrentUser() else {
+        guard await loadCurrentUser() != nil else {
             return
         }
         eventSubject.send(.didLogin)
     }
+
+    public func performAnonymousLogin() {
+        isAnonymous = true
+        eventSubject.send(.didAnonymousLogin)
+    }
 }
+
+// MARK: - UserStoreEvent
 
 public enum UserStoreEvent {
     case didLogin
+    case didAnonymousLogin
     case didLogout
 }

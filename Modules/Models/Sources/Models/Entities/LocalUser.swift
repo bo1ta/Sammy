@@ -21,7 +21,17 @@ public struct LocalUser: Codable {
         case showAvatars = "show_avatars"
     }
 
-    public init(id: Int, personID: Int, email: String?, showNSFW: Bool, theme: String, defaultSortType: PersonSortType, defaultListingType: ListingType, interfaceLanguage: String, showAvatars: Bool) {
+    public init(
+        id: Int,
+        personID: Int,
+        email: String?,
+        showNSFW: Bool,
+        theme: String,
+        defaultSortType: PersonSortType,
+        defaultListingType: ListingType,
+        interfaceLanguage: String,
+        showAvatars: Bool)
+    {
         self.id = id
         self.personID = personID
         self.email = email

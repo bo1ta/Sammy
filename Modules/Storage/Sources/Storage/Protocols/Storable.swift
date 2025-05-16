@@ -18,5 +18,6 @@ public protocol Storable {
     /// let entity = try post.toEntity(in: context)
     /// ```
     ///
-    @discardableResult func toEntity(in context: NSManagedObjectContext) throws -> Entity
+    @discardableResult
+    func toEntity(in context: NSManagedObjectContext) throws -> Entity
 }

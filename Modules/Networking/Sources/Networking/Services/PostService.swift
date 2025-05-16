@@ -1,6 +1,6 @@
+import Factory
 import Foundation
 import Models
-import Factory
 
 // MARK: - PostServiceProtocol
 

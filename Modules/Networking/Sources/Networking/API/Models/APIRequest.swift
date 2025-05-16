@@ -1,6 +1,6 @@
+import Factory
 import Foundation
 import OSLog
-import Factory
 
 public typealias JSONDictionary = [String: Any]
 

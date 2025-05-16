@@ -1,8 +1,8 @@
+import Factory
 import Foundation
 import Models
 import Networking
 import OSLog
-import Factory
 
 // MARK: - PostsViewModel
 
