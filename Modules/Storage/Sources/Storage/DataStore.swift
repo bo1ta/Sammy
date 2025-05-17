@@ -13,11 +13,25 @@ public struct DataStore<Entity: ManagedEntityType> {
 
     public init() { }
 
-    public func getAll(matching _: Principle.Predicate<Entity>? = nil) async -> [Entity.ReadOnlyType] {
+    public func getAll(matching predicate: Principle.Predicate<Entity>? = nil) async -> [Entity.ReadOnlyType] {
         await storageManager.performRead { context in
-            Entity.query(on: context)
-                .all()
+            var queryBuilder = Entity.query(on: context)
+            if let predicate {
+                queryBuilder = queryBuilder.filter(predicate)
+            }
+
+            return queryBuilder.all()
                 .map { $0.toReadOnly() }
+        }
+    }
+
+    public func count(matching predicate: Principle.Predicate<Entity>? = nil) async -> Int {
+        await storageManager.performRead { context in
+            var queryBuilder = Entity.query(on: context)
+            if let predicate {
+                queryBuilder = queryBuilder.filter(predicate)
+            }
+            return queryBuilder.count()
         }
     }
 

@@ -16,7 +16,7 @@ public protocol AuthenticationHandlerProtocol {
         honeypot: String?,
         answer: String?) async throws
 
-    func login(usernameOrEmail: String, password: String, twoFactoryAuthToken: String?) async throws -> PersonAttributes
+    func login(usernameOrEmail: String, password: String, twoFactoryAuthToken: String?) async throws -> Models.PersonAttributes
 }
 
 // MARK: - AuthenticationHandler
@@ -55,7 +55,7 @@ public struct AuthenticationHandler: AuthenticationHandlerProtocol {
         usernameOrEmail: String,
         password: String,
         twoFactoryAuthToken _: String?)
-        async throws -> PersonAttributes
+    async throws -> Models.PersonAttributes
     {
         _ = try await authService.login(usernameOrEmail: usernameOrEmail, password: password, twoFactoryAuthToken: nil)
 

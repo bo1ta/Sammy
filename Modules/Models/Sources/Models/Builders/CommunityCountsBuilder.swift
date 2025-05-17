@@ -1,4 +1,4 @@
-public class CommunityCountsDataBuilder {
+public class CommunityCountsBuilder {
     public var communityID = 1
     public var subscribers = 100
     public var posts = 50
@@ -25,8 +25,8 @@ public class CommunityCountsDataBuilder {
 
     // ... add similar methods for all properties
 
-    public func build() -> CommunityCountsData {
-        CommunityCountsData(
+    public func build() -> CommunityCounts {
+        CommunityCounts(
             communityID: communityID,
             subscribers: subscribers,
             posts: posts,

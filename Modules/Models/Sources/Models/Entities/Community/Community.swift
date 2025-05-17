@@ -6,14 +6,14 @@ public struct Community: Decodable, Sendable, Identifiable, Hashable {
     public let communityData: CommunityData
     public let subscribed: String
     public let blocked: Bool
-    public let countsData: CommunityCountsData
+    public let counts: CommunityCounts
     public let bannedFromCommunity: Bool
 
     enum CodingKeys: String, CodingKey {
         case communityData = "community"
         case subscribed
         case blocked
-        case countsData = "counts"
+        case counts
         case bannedFromCommunity = "banned_from_community"
     }
 
@@ -25,13 +25,13 @@ public struct Community: Decodable, Sendable, Identifiable, Hashable {
         communityData: CommunityData,
         subscribed: String,
         blocked: Bool,
-        countsData: CommunityCountsData,
+        counts: CommunityCounts,
         bannedFromCommunity: Bool)
     {
         self.communityData = communityData
         self.subscribed = subscribed
         self.blocked = blocked
-        self.countsData = countsData
+        self.counts = counts
         self.bannedFromCommunity = bannedFromCommunity
     }
 }

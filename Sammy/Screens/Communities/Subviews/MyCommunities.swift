@@ -51,7 +51,7 @@ struct MyCommunitiesView: View {
                             HStack(spacing: .paddingExtraSmall) {
                                 Image(systemName: "person.fill")
                                     .foregroundStyle(.secondary)
-                                Text("\(community.countsData.subscribers) members")
+                                Text("\(community.counts.subscribers) members")
                                     .font(.system(size: .fontSizeSubheadline))
                                     .foregroundStyle(.gray.opacity(0.9))
                                     .lineLimit(1)

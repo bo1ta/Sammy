@@ -6,7 +6,7 @@ import Storage
 // MARK: - UserRepositoryProtocol
 
 public protocol UserRepositoryProtocol: Sendable {
-    func getCurrent() async throws -> PersonAttributes?
+    func getCurrent() async throws -> Models.PersonAttributes?
 }
 
 // MARK: - UserRepository
@@ -17,7 +17,7 @@ public struct UserRepository: UserRepositoryProtocol, @unchecked Sendable {
 
     private let dataStore = DataStore<Person>()
 
-    public func getCurrent() async throws -> PersonAttributes? {
+    public func getCurrent() async throws -> Models.PersonAttributes? {
         guard let personID = currentUserProvider.currentPersonID else {
             return nil
         }
