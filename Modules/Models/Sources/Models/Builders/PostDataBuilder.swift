@@ -24,8 +24,8 @@ public class PostDataBuilder {
         return self
     }
 
-    public func build() -> PostData {
-        PostData(
+    public func build() -> PostAttributes {
+        PostAttributes(
             id: id,
             name: name,
             url: url,

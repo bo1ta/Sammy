@@ -53,7 +53,7 @@ public struct DataStore<Entity: ManagedEntityType> {
 
     public func contains(where predicate: Principle.Predicate<Entity>) async -> Bool {
         await storageManager.performRead { context in
-            if let entity = Entity.query(on: context).first(where: predicate) {
+            if Entity.query(on: context).first(where: predicate) != nil {
                 return true
             }
             return false

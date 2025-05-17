@@ -1,8 +1,8 @@
 public class PostBuilder {
-    public var postData: PostData = PostDataBuilder().build()
+    public var postData: PostAttributes = PostDataBuilder().build()
     public var creator: PersonAttributes = PersonBuilder().build()
     public var postCounts: PostCounts = PostCountsBuilder().build()
-    public var communityData: CommunityData = CommunityDataBuilder().build()
+    public var communityAttributes: CommunityAttributes = CommunityDataBuilder().build()
 
     public init() { }
 
@@ -30,7 +30,7 @@ public class PostBuilder {
     public func withCommunityData(_ builder: (CommunityDataBuilder) -> Void) -> PostBuilder {
         let communityDataBuilder = CommunityDataBuilder()
         builder(communityDataBuilder)
-        self.communityData = communityDataBuilder.build()
+        self.communityAttributes = communityDataBuilder.build()
         return self
     }
 
@@ -39,6 +39,6 @@ public class PostBuilder {
             postData: postData,
             creatorData: creator,
             postCounts: postCounts,
-            communityData: communityData)
+            communityAttributes: communityAttributes)
     }
 }

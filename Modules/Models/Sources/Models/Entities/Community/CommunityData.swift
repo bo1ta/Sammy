@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CommunityData: Codable, Identifiable, Sendable, Hashable {
+public struct CommunityAttributes: Codable, Identifiable, Sendable, Hashable {
     public var id: Int
     public var name: String
     public var title: String

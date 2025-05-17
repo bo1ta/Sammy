@@ -1,4 +1,4 @@
-public struct LocalUser: Codable {
+public struct LocalUserAttributes: Codable {
     public let id: Int
     public let personID: Int
     public let email: String?

@@ -44,4 +44,27 @@ struct DataStoreTests {
         let localPerson = await store.first(where: \.name == person.name)
         #expect(localPerson?.id == person.id)
     }
+
+    @Test
+    func testImportPersonCounts() async throws {
+        let mockModel = PersonCountsBuilder().build()
+
+        let store = DataStore<Storage.PersonCounts>()
+        try await store.importModel(mockModel)
+
+        let localCounts = try #require(await store.first(where: \.personID == mockModel.personID))
+        #expect(localCounts.postCount == mockModel.postCount)
+    }
+
+    @Test
+    func testImportCommentAttributes() async throws {
+        let mockModel = CommentAttributesFactory.create()
+
+        let store = DataStore<Storage.CommentAttributes>()
+        try await store.importModel(mockModel)
+
+        let localCommentAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
+        #expect(localCommentAttributes == mockModel)
+    }
+
 }

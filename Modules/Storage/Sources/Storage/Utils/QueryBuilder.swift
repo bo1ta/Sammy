@@ -117,4 +117,12 @@ class QueryBuilder<Entity: NSManagedObject> {
     func first(where predicate: Principle.Predicate<Entity>) -> Entity? {
         filter(predicate).first()
     }
+
+    /// Returns the first result matching the given predicate
+    /// - Parameter predicate: The predicate to filter by
+    /// - Returns: An optional entity instance
+    ///
+    func first(where predicate: NSPredicate) -> Entity? {
+        filter(predicate).first()
+    }
 }

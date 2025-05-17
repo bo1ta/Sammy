@@ -16,6 +16,20 @@ public struct PersonDetails: Decodable {
         case posts
         case moderates
     }
+
+    public init(
+        personProfile: PersonProfile,
+        siteAttributes: SiteAttributes,
+        comments: [Comment],
+        posts: [Post],
+        moderates: [Moderates])
+    {
+        self.personProfile = personProfile
+        self.siteAttributes = siteAttributes
+        self.comments = comments
+        self.posts = posts
+        self.moderates = moderates
+    }
 }
 
 // MARK: PersonDetails.Moderates

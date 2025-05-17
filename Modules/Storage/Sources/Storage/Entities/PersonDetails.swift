@@ -1,13 +1,7 @@
-//
-//  PersonDetails+CoreDataClass.swift
-//  Sammy
-//
-//  Created by Alexandru Solomon on 17.05.2025.
-//
-//
-
 import CoreData
 import Foundation
+import Models
+import Principle
 
 // MARK: - PersonDetails
 
@@ -18,9 +12,33 @@ public class PersonDetails: NSManagedObject {
         NSFetchRequest<PersonDetails>(entityName: "PersonDetails")
     }
 
-    @NSManaged public var personID: Int64
-    @NSManaged public var comments: NSSet?
-    @NSManaged public var posts: NSSet?
+    @NSManaged public var personID: Int
+    @NSManaged public var comments: Set<Comment>
+    @NSManaged public var posts: Set<Post>
+    @NSManaged public var moderates: Set<PersonModerates>
+    @NSManaged public var personProfile: PersonProfile
+    @NSManaged public var siteAttributes: SiteAttributes
+}
+
+// MARK: Generated accessors for comments
+extension PersonDetails {
+
+    @objc(addCommentsObject:)
+    @NSManaged
+    public func addToComments(_ value: Comment)
+
+    @objc(removeCommentsObject:)
+    @NSManaged
+    public func removeFromComments(_ value: Comment)
+
+    @objc(addComments:)
+    @NSManaged
+    public func addToComments(_ values: Set<Comment>)
+
+    @objc(removeComments:)
+    @NSManaged
+    public func removeFromComments(_ values: Set<Comment>)
+
 }
 
 // MARK: Generated accessors for posts
@@ -36,14 +54,54 @@ extension PersonDetails {
 
     @objc(addPosts:)
     @NSManaged
-    public func addToPosts(_ values: NSSet)
+    public func addToPosts(_ values: Set<Post>)
 
     @objc(removePosts:)
     @NSManaged
-    public func removeFromPosts(_ values: NSSet)
+    public func removeFromPosts(_ values: Set<Post>)
 
 }
 
-// MARK: Identifiable
+// MARK: Generated accessors for moderates
+extension PersonDetails {
 
-extension PersonDetails: Identifiable { }
+    @objc(addModeratesObject:)
+    @NSManaged
+    public func addToModerates(_ value: PersonModerates)
+
+    @objc(removeModeratesObject:)
+    @NSManaged
+    public func removeFromModerates(_ value: PersonModerates)
+
+    @objc(addModerates:)
+    @NSManaged
+    public func addToModerates(_ values: Set<PersonModerates>)
+
+    @objc(removeModerates:)
+    @NSManaged
+    public func removeFromModerates(_ values: Set<PersonModerates>)
+
+}
+
+// MARK: ReadOnlyConvertible
+
+extension PersonDetails: ReadOnlyConvertible {
+    public func toReadOnly() -> Models.PersonDetails {
+        Models.PersonDetails(
+            personProfile: personProfile.toReadOnly(),
+            siteAttributes: siteAttributes.toReadOnly(),
+            comments: comments.map { $0.toReadOnly() },
+            posts: posts.map { $0.toReadOnly() },
+            moderates: moderates.map { $0.toReadOnly() })
+    }
+}
+
+// MARK: SyncableEntity
+
+extension PersonDetails: SyncableEntity {
+    public static func predicateForModel(_ model: Models.PersonDetails) -> NSPredicate {
+        \PersonDetails.personID == model.personProfile.person.id
+    }
+
+    public func updateEntityFrom(_: Models.PersonDetails) throws -> Self { }
+}

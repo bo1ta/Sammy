@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PostData: Codable, Identifiable, Hashable, Sendable {
+public struct PostAttributes: Codable, Identifiable, Hashable, Sendable {
     public let id: Int
     public let name: String
     public let url: String?

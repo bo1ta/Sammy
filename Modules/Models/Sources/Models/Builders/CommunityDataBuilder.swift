@@ -21,8 +21,8 @@ public class CommunityDataBuilder {
         return self
     }
 
-    public func build() -> CommunityData {
-        CommunityData(
+    public func build() -> CommunityAttributes {
+        CommunityAttributes(
             id: id,
             name: name,
             title: title,

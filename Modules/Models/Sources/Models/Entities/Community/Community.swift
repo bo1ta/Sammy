@@ -3,14 +3,14 @@ import Foundation
 // MARK: - Community
 
 public struct Community: Decodable, Sendable, Identifiable, Hashable {
-    public let communityData: CommunityData
+    public let attributes: CommunityAttributes
     public let subscribed: String
     public let blocked: Bool
     public let counts: CommunityCounts
     public let bannedFromCommunity: Bool
 
     enum CodingKeys: String, CodingKey {
-        case communityData = "community"
+        case attributes = "community"
         case subscribed
         case blocked
         case counts
@@ -18,17 +18,17 @@ public struct Community: Decodable, Sendable, Identifiable, Hashable {
     }
 
     public var id: Int {
-        communityData.id
+        attributes.id
     }
 
     public init(
-        communityData: CommunityData,
+        attributes: CommunityAttributes,
         subscribed: String,
         blocked: Bool,
         counts: CommunityCounts,
         bannedFromCommunity: Bool)
     {
-        self.communityData = communityData
+        self.attributes = attributes
         self.subscribed = subscribed
         self.blocked = blocked
         self.counts = counts
@@ -40,6 +40,6 @@ public struct Community: Decodable, Sendable, Identifiable, Hashable {
 
 extension Community: Equatable {
     public static func ==(lhs: Community, rhs: Community) -> Bool {
-        lhs.communityData.id == rhs.communityData.id
+        lhs.attributes.id == rhs.attributes.id
     }
 }

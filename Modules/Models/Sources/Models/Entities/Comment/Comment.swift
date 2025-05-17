@@ -5,8 +5,8 @@ import Foundation
 public struct Comment: Decodable, Sendable, Identifiable {
     public let commentAttributes: CommentAttributes
     public let creator: PersonAttributes
-    public let postData: PostData
-    public let communityData: CommunityData
+    public let postData: PostAttributes
+    public let communityAttributes: CommunityAttributes
     public let countsData: CommentCounts
 
     public var id: Int {
@@ -17,21 +17,21 @@ public struct Comment: Decodable, Sendable, Identifiable {
         case commentAttributes = "comment"
         case creator
         case postData = "post"
-        case communityData = "community"
+        case communityAttributes = "community"
         case countsData = "counts"
     }
 
     public init(
         commentAttributes: CommentAttributes,
         creator: PersonAttributes,
-        postData: PostData,
-        communityData: CommunityData,
+        postData: PostAttributes,
+        communityAttributes: CommunityAttributes,
         countsData: CommentCounts)
     {
         self.commentAttributes = commentAttributes
         self.creator = creator
         self.postData = postData
-        self.communityData = communityData
+        self.communityAttributes = communityAttributes
         self.countsData = countsData
     }
 }

@@ -1,5 +1,5 @@
 public class CommunityBuilder {
-    public var communityData: CommunityData = CommunityDataBuilder().build()
+    public var attributes: CommunityAttributes = CommunityDataBuilder().build()
     public var subscribed = "Subscribed"
     public var blocked = false
     public var counts: CommunityCounts = CommunityCountsBuilder().build()
@@ -10,7 +10,7 @@ public class CommunityBuilder {
     public func withCommunityData(_ builder: (CommunityDataBuilder) -> Void) -> Self {
         let communityDataBuilder = CommunityDataBuilder()
         builder(communityDataBuilder)
-        self.communityData = communityDataBuilder.build()
+        self.attributes = communityDataBuilder.build()
         return self
     }
 
@@ -33,7 +33,7 @@ public class CommunityBuilder {
 
     public func build() -> Community {
         Community(
-            communityData: communityData,
+            attributes: attributes,
             subscribed: subscribed,
             blocked: blocked,
             counts: counts,

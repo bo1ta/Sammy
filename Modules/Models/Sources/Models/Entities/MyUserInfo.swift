@@ -1,7 +1,7 @@
 // MARK: - MyUserInfo
 
 public struct MyUserInfo: Decodable {
-    public let localUserView: LocalUserView
+    public let localUserView: LocalUser
     public let follows: [Follows]
 
     enum CodingKeys: String, CodingKey {
@@ -9,11 +9,13 @@ public struct MyUserInfo: Decodable {
         case follows
     }
 
-    public init(localUserView: LocalUserView, follows: [Follows]) {
+    public init(localUserView: LocalUser, follows: [Follows]) {
         self.localUserView = localUserView
         self.follows = follows
     }
 }
+
+// MARK: MyUserInfo.Follows
 
 extension MyUserInfo {
     public struct Follows: Decodable {
@@ -21,18 +23,21 @@ extension MyUserInfo {
         let follower: PersonAttributes
     }
 
-    public struct LocalUserView: Decodable {
-        public let localUser: LocalUser
-        public let person: PersonAttributes
+}
 
-        enum CodingKeys: String, CodingKey {
-            case localUser = "local_user"
-            case person
-        }
+// MARK: - LocalUser
 
-        public init(localUser: LocalUser, person: PersonAttributes) {
-            self.localUser = localUser
-            self.person = person
-        }
+public struct LocalUser: Decodable {
+    public let userAttributes: LocalUserAttributes
+    public let personAttributes: PersonAttributes
+
+    enum CodingKeys: String, CodingKey {
+        case userAttributes = "local_user"
+        case personAttributes = "person"
+    }
+
+    public init(userAttributes: LocalUserAttributes, personAttributes: PersonAttributes) {
+        self.userAttributes = userAttributes
+        self.personAttributes = personAttributes
     }
 }

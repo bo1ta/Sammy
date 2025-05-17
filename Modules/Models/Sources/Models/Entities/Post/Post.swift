@@ -3,23 +3,28 @@ import Foundation
 // MARK: - Post
 
 public struct Post: Decodable, Sendable {
-    public var postData: PostData
+    public var postData: PostAttributes
     public var creator: PersonAttributes
     public var postCounts: PostCounts
-    public var communityData: CommunityData
+    public var communityAttributes: CommunityAttributes
 
     enum CodingKeys: String, CodingKey {
         case postData = "post"
         case creator
         case postCounts = "counts"
-        case communityData = "community"
+        case communityAttributes = "community"
     }
 
-    public init(postData: PostData, creatorData: PersonAttributes, postCounts: PostCounts, communityData: CommunityData) {
+    public init(
+        postData: PostAttributes,
+        creatorData: PersonAttributes,
+        postCounts: PostCounts,
+        communityAttributes: CommunityAttributes)
+    {
         self.postData = postData
         self.creator = creatorData
         self.postCounts = postCounts
-        self.communityData = communityData
+        self.communityAttributes = communityAttributes
     }
 }
 
