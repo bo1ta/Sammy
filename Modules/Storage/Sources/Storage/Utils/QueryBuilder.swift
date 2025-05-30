@@ -26,7 +26,7 @@ class QueryBuilder<Entity: NSManagedObject> {
     ///
     /// Example:
     /// ```
-    /// let allPosts = ManagedPost.query(on: context).all()
+    /// let allPosts = Post.query(on: context).all()
     /// ```
     ///
     func all() -> [Entity] {

@@ -54,7 +54,7 @@ extension PostCounts: SyncableEntity {
         comments = model.comments
         score = model.score
         upvotes = model.upvotes
-        downvotes = model.upvotes
+        downvotes = model.downvotes
         publishedAt = model.published
         newestCommentTime = model.newestCommentTime
         return self
@@ -70,7 +70,7 @@ extension Models.PostCounts: Storable {
         entity.comments = comments
         entity.score = score
         entity.upvotes = upvotes
-        entity.downvotes = upvotes
+        entity.downvotes = downvotes
         entity.publishedAt = published
         entity.newestCommentTime = newestCommentTime
         return entity

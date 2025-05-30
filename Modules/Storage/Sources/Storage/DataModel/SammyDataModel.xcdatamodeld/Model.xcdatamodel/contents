@@ -26,7 +26,7 @@
     </entity>
     <entity name="CommentCounts" representedClassName="CommentCounts" syncable="YES">
         <attribute name="childCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="commentID" attributeType="String"/>
+        <attribute name="commentID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="publishedAt" attributeType="String"/>
         <attribute name="score" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="upvotes" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>

@@ -1,13 +1,13 @@
 import Foundation
 
 public struct PostAttributes: Codable, Identifiable, Hashable, Sendable {
-    public let id: Int
-    public let name: String
-    public let url: String?
-    public let body: String?
-    public let creatorId: Int
-    public let communityId: Int
-    public let published: String
+    public var id: Int
+    public var name: String
+    public var url: String?
+    public var body: String?
+    public var creatorId: Int
+    public var communityId: Int
+    public var published: String
 
     public var imageURL: URL? {
         guard let url, isImageURL(url) else {

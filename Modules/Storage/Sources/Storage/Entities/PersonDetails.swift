@@ -103,5 +103,77 @@ extension PersonDetails: SyncableEntity {
         \PersonDetails.personID == model.personProfile.person.id
     }
 
-    public func updateEntityFrom(_: Models.PersonDetails) throws -> Self { }
+    public func updateEntityFrom(_ model: Models.PersonDetails) throws -> Self {
+        _ = try personProfile.updateEntityFrom(model.personProfile)
+        _ = try siteAttributes.updateEntityFrom(model.siteAttributes)
+
+        try updateToManyRelationship(
+            models: model.comments,
+            currentEntities: comments,
+            compare: { model, entity in
+                model.commentAttributes.id == entity.commentID
+            },
+            add: { [weak self] comments in
+                self?.addToComments(comments)
+            },
+            remove: { [weak self] comments in
+                self?.removeFromComments(comments)
+            })
+
+        try updateToManyRelationship(
+            models: model.posts,
+            currentEntities: posts,
+            compare: { model, entity in
+                model.postData.id == entity.postID
+            },
+            add: { [weak self] posts in
+                self?.addToPosts(posts)
+            },
+            remove: { [weak self] posts in
+                self?.removeFromPosts(posts)
+            })
+
+        try updateToManyRelationship(
+            models: model.moderates,
+            currentEntities: moderates,
+            compare: { model, entity in
+                model.moderator.id == entity.personID
+            },
+            add: { [weak self] moderates in
+                self?.addToModerates(moderates)
+            },
+            remove: { [weak self] moderates in
+                self?.removeFromModerates(moderates)
+            })
+
+        return self
+    }
+}
+
+// MARK: - Models.PersonDetails + Storable
+
+extension Models.PersonDetails: Storable {
+    public func toEntity(in context: NSManagedObjectContext) throws -> PersonDetails {
+        let entity = PersonDetails(context: context)
+        entity.personID = personProfile.person.id
+        entity.personProfile = try PersonProfile.findOrInsert(model: personProfile, on: context)
+        entity.siteAttributes = try SiteAttributes.findOrInsert(model: siteAttributes, on: context)
+
+        for comment in self.comments {
+            let commentEntity = try Comment.findOrInsert(model: comment, on: context)
+            entity.comments.insert(commentEntity)
+        }
+
+        for post in self.posts {
+            let postEntity = try Post.findOrInsert(model: post, on: context)
+            entity.posts.insert(postEntity)
+        }
+
+        for moderate in self.moderates {
+            let moderatesEntity = try PersonModerates.findOrInsert(model: moderate, on: context)
+            entity.moderates.insert(moderatesEntity)
+        }
+
+        return entity
+    }
 }

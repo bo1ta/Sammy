@@ -1,6 +1,6 @@
-public enum CommentAttributesFactory {
+public enum CommentAttributesFactory: BaseFactory {
     public static func create(
-        id: Int = 1,
+        id: Int? = nil,
         creatorID: Int = 1,
         postID: Int = 1,
         content: String = "Sample comment content",
@@ -15,7 +15,7 @@ public enum CommentAttributesFactory {
         -> CommentAttributes
     {
         CommentAttributes(
-            id: id,
+            id: id ?? randomInt(),
             creatorID: creatorID,
             postID: postID,
             content: content,

@@ -6,8 +6,6 @@ import OSLog
 // MARK: - StorageManager
 
 public final class StorageManager: StorageManagerType, @unchecked Sendable {
-    public static let shared = StorageManager()
-
     private let logger = Logger(subsystem: "com.Sammy.Storage", category: "StorageManager")
     private let coalesceSaveInterval = 0.5
 

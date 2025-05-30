@@ -79,14 +79,12 @@ public struct DataStore<Entity: ManagedEntityType> {
     }
 }
 
+// MARK: - Write methods
+
 extension DataStore where Entity: SyncableEntity {
     public func importModel(_ model: Entity.ReadOnlyModel) async throws {
         try await storageManager.performWrite(.immediate) { context in
-            guard let predicate = Entity.predicateForModel(model) as? Principle.Predicate<Entity> else {
-                return
-            }
-
-            if let existingEntity = Entity.query(on: context).first(where: predicate) {
+            if let existingEntity = Entity.query(on: context).first(where: Entity.predicateForModel(model)) {
                 try existingEntity.updateEntityFrom(model)
             } else {
                 try model.toEntity(in: context)

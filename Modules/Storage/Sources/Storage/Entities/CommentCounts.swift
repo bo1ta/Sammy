@@ -52,6 +52,8 @@ extension CommentCounts: SyncableEntity {
 extension Models.CommentCounts: Storable {
     public func toEntity(in context: NSManagedObjectContext) throws -> CommentCounts {
         let entity = CommentCounts(context: context)
-        return CoreDataPopulator.populateFromModel(self, toEntity: entity, nameMapping: [:])
+        return CoreDataPopulator.populateFromModel(self, toEntity: entity, nameMapping: [
+            "published": "publishedAt",
+        ])
     }
 }
