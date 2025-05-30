@@ -6,7 +6,7 @@ import Testing
 @testable import Storage
 
 @Suite(.serialized)
-struct EntityCreationTests {
+struct ImportEntityTests {
 
     // MARK: - Person
 
