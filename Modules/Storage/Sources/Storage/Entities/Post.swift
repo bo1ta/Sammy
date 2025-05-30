@@ -40,8 +40,8 @@ extension Post: ReadOnlyConvertible {
 extension Models.Post: Storable {
     public func toEntity(in context: NSManagedObjectContext) throws -> Post {
         let entity = Post(context: context)
-        entity.postID = postData.id
-        entity.postAttributes = try PostAttributes.findOrInsert(model: postData, on: context)
+        entity.postID = attributes.id
+        entity.postAttributes = try PostAttributes.findOrInsert(model: attributes, on: context)
         entity.creatorAttributes = try PersonAttributes.findOrInsert(model: creator, on: context)
         entity.postCounts = try PostCounts.findOrInsert(model: postCounts, on: context)
         entity.communityAttributes = try CommunityAttributes.findOrInsert(model: communityAttributes, on: context)
@@ -53,11 +53,11 @@ extension Models.Post: Storable {
 
 extension Post: SyncableEntity {
     public static func predicateForModel(_ model: Models.Post) -> NSPredicate {
-        \Post.postID == model.postData.id
+        \Post.postID == model.attributes.id
     }
 
     public func updateEntityFrom(_ model: Models.Post) throws -> Post {
-        _ = try postAttributes.updateEntityFrom(model.postData)
+        _ = try postAttributes.updateEntityFrom(model.attributes)
         _ = try creatorAttributes.updateEntityFrom(model.creator)
         _ = try postCounts.updateEntityFrom(model.postCounts)
         _ = try communityAttributes.updateEntityFrom(model.communityAttributes)

@@ -6,9 +6,12 @@ struct MyCommunitiesView: View {
     @Binding var searchText: String
 
     var filteredCommunities: [Community] {
-        guard !searchText.isEmpty else { return viewModel.communities }
+        guard !searchText.isEmpty else {
+            return viewModel.communities
+        }
+
         return viewModel.communities.filter {
-            $0.communityData.name.lowercased().contains(searchText.lowercased())
+            $0.attributes.name.lowercased().contains(searchText.lowercased())
         }
     }
 
@@ -34,8 +37,8 @@ struct MyCommunitiesView: View {
             } else {
                 ForEach(filteredCommunities) { community in
                     HStack {
-                        if community.communityData.iconURL != nil {
-                            AsyncImageView(url: community.communityData.iconURL)
+                        if let iconURL = community.attributes.iconURL {
+                            AsyncImageView(url: iconURL)
                         } else {
                             Image(systemName: "photo.circle.fill")
                                 .resizable()
@@ -45,7 +48,7 @@ struct MyCommunitiesView: View {
                         }
 
                         VStack(alignment: .leading, spacing: .paddingExtraSmall) {
-                            Text("c/\(community.communityData.name)")
+                            Text("c/\(community.attributes.name)")
                                 .font(.headline)
                                 .lineLimit(1)
                             HStack(spacing: .paddingExtraSmall) {
@@ -56,7 +59,7 @@ struct MyCommunitiesView: View {
                                     .foregroundStyle(.gray.opacity(0.9))
                                     .lineLimit(1)
                             }
-                            Text(community.communityData.description ?? "No description")
+                            Text(community.attributes.description ?? "No description")
                                 .font(.system(size: .fontSizeBody))
                                 .foregroundColor(.gray)
                                 .lineLimit(1)

@@ -17,7 +17,7 @@ let package = Package(
         .package(name: "Models", path: "../Models"),
         .package(name: "Storage", path: "../Storage"),
         .package(name: "Networking", path: "../Networking"),
-        .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.11"),
+        .package(url: "https://github.com/hmlongco/Factory", exact: "2.5.3"),
     ],
     targets: [
         .target(

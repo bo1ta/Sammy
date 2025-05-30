@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - PersonAttributes
 
-public struct PersonAttributes: Decodable, Equatable, Identifiable, Sendable {
+public struct PersonAttributes: Codable, Equatable, Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let displayName: String?

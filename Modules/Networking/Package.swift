@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "Models", path: "../Models"),
-        .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.11"),
+        .package(url: "https://github.com/hmlongco/Factory", exact: "2.5.3"),
     ],
     targets: [
         .target(

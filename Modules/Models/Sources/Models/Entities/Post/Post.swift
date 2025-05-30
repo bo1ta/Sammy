@@ -2,14 +2,14 @@ import Foundation
 
 // MARK: - Post
 
-public struct Post: Decodable, Sendable {
-    public var postData: PostAttributes
+public struct Post: Codable, Sendable {
+    public var attributes: PostAttributes
     public var creator: PersonAttributes
     public var postCounts: PostCounts
     public var communityAttributes: CommunityAttributes
 
     enum CodingKeys: String, CodingKey {
-        case postData = "post"
+        case attributes = "post"
         case creator
         case postCounts = "counts"
         case communityAttributes = "community"
@@ -21,7 +21,7 @@ public struct Post: Decodable, Sendable {
         postCounts: PostCounts,
         communityAttributes: CommunityAttributes)
     {
-        self.postData = postData
+        self.attributes = postData
         self.creator = creatorData
         self.postCounts = postCounts
         self.communityAttributes = communityAttributes
@@ -32,7 +32,7 @@ public struct Post: Decodable, Sendable {
 
 extension Post: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(postData.id)
+        hasher.combine(attributes.id)
         hasher.combine(creator.id)
     }
 }
@@ -41,12 +41,12 @@ extension Post: Hashable {
 
 extension Post: Equatable {
     public static func ==(_ lhs: Post, rhs: Post) -> Bool {
-        lhs.postData.id == rhs.postData.id
+        lhs.attributes.id == rhs.attributes.id
     }
 }
 
 // MARK: Identifiable
 
 extension Post: Identifiable {
-    public var id: Int { postData.id }
+    public var id: Int { attributes.id }
 }

@@ -67,11 +67,11 @@ public enum PostFactory: BaseFactory {
         -> [Post]
     {
         createList(count: count) { post, _ in
-            post.postData.communityId = community.id
+            post.attributes.communityId = community.id
             post.communityAttributes = community
             if let creator {
                 post.creator = creator
-                post.postData.creatorId = creator.id
+                post.attributes.creatorId = creator.id
             }
         }
     }

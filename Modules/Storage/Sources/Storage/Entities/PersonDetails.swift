@@ -124,7 +124,7 @@ extension PersonDetails: SyncableEntity {
             models: model.posts,
             currentEntities: posts,
             compare: { model, entity in
-                model.postData.id == entity.postID
+                model.attributes.id == entity.postID
             },
             add: { [weak self] posts in
                 self?.addToPosts(posts)

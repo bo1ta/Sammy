@@ -4,13 +4,13 @@ import Networking
 
 // MARK: - CurrentUserManagerProtocol
 
-public protocol CurrentUserManagerProtocol {
+public protocol CurrentUserProviderProtocol {
     func getCurrentState() -> CurrentUserState
     func setUser(_ localUser: LocalUser)
     func clearUser()
 }
 
-extension CurrentUserManagerProtocol {
+extension CurrentUserProviderProtocol {
     var currentUserID: Int? {
         switch getCurrentState() {
         case .authenticated(let localUser):
@@ -32,7 +32,7 @@ extension CurrentUserManagerProtocol {
 
 // MARK: - CurrentUserManager
 
-public class CurrentUserManager: CurrentUserManagerProtocol {
+public class CurrentUserManager: CurrentUserProviderProtocol {
     private static let currentUserKey = "currentUser"
     private static let anonymousUserKey = "anonymousUser"
 

@@ -13,9 +13,9 @@ public protocol UserRepositoryProtocol: Sendable {
 
 public struct UserRepository: UserRepositoryProtocol, @unchecked Sendable {
     @Injected(\.userService) private var service: UserServiceProtocol
-    @Injected(\.currentUserProvider) private var currentUserProvider: CurrentUserManagerProtocol
+    @Injected(\.currentUserProvider) private var currentUserProvider: CurrentUserProviderProtocol
 
-    private let dataStore = DataStore<Person>()
+    private let dataStore = DataStore<Storage.PersonAttributes>()
 
     public func getCurrent() async throws -> Models.PersonAttributes? {
         guard let personID = currentUserProvider.currentPersonID else {

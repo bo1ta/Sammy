@@ -27,7 +27,7 @@ public struct AuthenticationHandler: AuthenticationHandlerProtocol {
     @Injected(\.authService) private var authService
     @Injected(\.siteService) private var siteService
 
-    private let dataStore = DataStore<Person>()
+    private let dataStore = DataStore<Storage.PersonAttributes>()
 
     public func register(
         username: String,
@@ -60,16 +60,14 @@ public struct AuthenticationHandler: AuthenticationHandlerProtocol {
         _ = try await authService.login(usernameOrEmail: usernameOrEmail, password: password, twoFactoryAuthToken: nil)
 
         /// login succeeded, time to fetch the current user
-        let localUserView = try await siteService.getSite().myUser.localUserView
+        let localUser = try await siteService.getSite().myUser.localUser
 
         /// store the local user in user defaults. containts important things like `person_id
-        let localUser = localUserView.localUser
         currentUserProvider.setUser(localUser)
 
         /// save the person in the core data store
-        let personAttributes = localUserView.person
-        try await dataStore.importModel(personAttributes)
+        try await dataStore.importModel(localUser.personAttributes)
 
-        return personAttributes
+        return localUser.personAttributes
     }
 }

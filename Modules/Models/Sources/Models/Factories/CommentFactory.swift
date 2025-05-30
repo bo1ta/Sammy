@@ -69,14 +69,16 @@ public enum CommentFactory {
         var comments = [Comment]()
         let repliesCount = Int.random(in: 1...3)
 
-        for i in 1...repliesCount {
-            let replyId = parentId * 10 + i
+        /// swiftlint:disable:next identifier_name
+        for index in 1...repliesCount {
+            let replyId = parentId * 10 + index
             let path = "\(parentPath).\(replyId)"
 
             let reply = create(
                 commentAttributes: CommentAttributesFactory.create(
                     id: replyId,
-                    content: "Reply at level \(currentLevel), number \(i)", path: path),
+                    content: "Reply at level \(currentLevel), number \(index)",
+                    path: path),
                 countsData: CommentCountsFactory.create(
                     commentID: replyId,
                     childCount: currentLevel == depth ? 0 : Int.random(in: 0...2)))
