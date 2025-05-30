@@ -674,7 +674,7 @@
 			repositoryURL = "https://github.com/hmlongco/Factory";
 			requirement = {
 				kind = exactVersion;
-				version = 2.4.11;
+				version = 2.5.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

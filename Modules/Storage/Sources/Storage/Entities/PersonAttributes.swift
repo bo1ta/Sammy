@@ -1,15 +1,14 @@
 import CoreData
 import Foundation
 import Models
-import Principle
 
-// MARK: - Person
+// MARK: - PersonAttributes
 
-@objc(Person)
-public final class Person: NSManagedObject {
+@objc(PersonAttributes)
+public class PersonAttributes: NSManagedObject {
     @nonobjc
-    public static func fetchRequest() -> NSFetchRequest<Person> {
-        NSFetchRequest<Person>(entityName: "Person")
+    public class func fetchRequest() -> NSFetchRequest<PersonAttributes> {
+        NSFetchRequest<PersonAttributes>(entityName: "PersonAttributes")
     }
 
     @NSManaged public var uniqueID: Int
@@ -28,15 +27,41 @@ public final class Person: NSManagedObject {
     @NSManaged public var botAccount: NSNumber
     @NSManaged public var banExpires: String?
     @NSManaged public var instanceID: Int
+    @NSManaged public var personProfile: PersonProfile?
+    @NSManaged public var comments: NSSet?
+    @NSManaged public var posts: Post?
+    @NSManaged public var localUser: LocalUser?
+    @NSManaged public var personModerates: PersonModerates?
+}
+
+// MARK: Generated accessors for comments
+extension PersonAttributes {
+
+    @objc(addCommentsObject:)
+    @NSManaged
+    public func addToComments(_ value: Comment)
+
+    @objc(removeCommentsObject:)
+    @NSManaged
+    public func removeFromComments(_ value: Comment)
+
+    @objc(addComments:)
+    @NSManaged
+    public func addToComments(_ values: NSSet)
+
+    @objc(removeComments:)
+    @NSManaged
+    public func removeFromComments(_ values: NSSet)
+
 }
 
 // MARK: Identifiable
 
-extension Person: Identifiable { }
+extension PersonAttributes: Identifiable { }
 
 // MARK: ReadOnlyConvertible
 
-extension Person: ReadOnlyConvertible {
+extension PersonAttributes: ReadOnlyConvertible {
     public func toReadOnly() -> Models.PersonAttributes {
         Models.PersonAttributes(
             id: uniqueID,
@@ -60,9 +85,9 @@ extension Person: ReadOnlyConvertible {
 
 // MARK: SyncableEntity
 
-extension Person: SyncableEntity {
+extension PersonAttributes: SyncableEntity {
     public static func predicateForModel(_ model: Models.PersonAttributes) -> NSPredicate {
-        \Person.uniqueID == model.id
+        \PersonAttributes.uniqueID == model.id
     }
 
     public func updateEntityFrom(_ model: Models.PersonAttributes) throws -> Self {
@@ -81,15 +106,14 @@ extension Person: SyncableEntity {
 
 extension Models.PersonAttributes: Storable {
     @discardableResult
-    public func toEntity(in context: NSManagedObjectContext) throws -> Person {
-        let entity = Person(context: context)
+    public func toEntity(in context: NSManagedObjectContext) throws -> PersonAttributes {
+        let entity = PersonAttributes(context: context)
         let modelToEntityMapping: [String: String] = [
             "id": "uniqueID",
             "updated": "dateUpdated",
             "deleted": "isPersonDeleted",
         ]
 
-        CoreDataPopulator.populateFromModel(self, toEntity: entity, nameMapping: modelToEntityMapping)
-        return entity
+        return CoreDataPopulator.populateFromModel(self, toEntity: entity, nameMapping: modelToEntityMapping)
     }
 }

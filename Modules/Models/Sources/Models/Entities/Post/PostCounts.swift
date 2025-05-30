@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PostCounts: Decodable, Sendable, Hashable {
+public struct PostCounts: Codable, Sendable, Hashable {
     public var postID: Int
     public var comments: Int
     public var score: Int

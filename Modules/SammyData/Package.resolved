@@ -1,0 +1,24 @@
+{
+  "originHash" : "a9d8d75c19b4d2758c5265c0eaea8032b6559ee9e18188e0d74d67771b544db4",
+  "pins" : [
+    {
+      "identity" : "factory",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hmlongco/Factory",
+      "state" : {
+        "revision" : "ccc898f21992ebc130bc04cc197460a5ae230bcf",
+        "version" : "2.5.3"
+      }
+    },
+    {
+      "identity" : "principle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://bitbucket.org/iam_apps/principle/src/master/Principle/",
+      "state" : {
+        "revision" : "bd1e0aebbb7214b0ef80d51e3ef8a0247fad760a",
+        "version" : "1.5.0"
+      }
+    }
+  ],
+  "version" : 3
+}

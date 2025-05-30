@@ -1,13 +1,13 @@
-public struct LocalUser: Codable {
-    public let id: Int
-    public let personID: Int
-    public let email: String?
-    public let showNSFW: Bool
-    public let theme: String
-    public let defaultSortType: PersonSortType
-    public let defaultListingType: ListingType
-    public let interfaceLanguage: String
-    public let showAvatars: Bool
+public struct LocalUserAttributes: Codable {
+    public var id: Int
+    public var personID: Int
+    public var email: String?
+    public var showNSFW: Bool
+    public var theme: String
+    public var defaultSortType: PersonSortType
+    public var defaultListingType: ListingType
+    public var interfaceLanguage: String
+    public var showAvatars: Bool
 
     enum CodingKeys: String, CodingKey {
         case id

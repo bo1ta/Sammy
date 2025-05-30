@@ -46,12 +46,7 @@ enum CoreDataPopulator {
     private static func convertValue(_ value: Any, toType targetType: NSAttributeType) -> Any? {
         switch value {
         case let intValue as Int:
-            if
-                targetType == .integer64AttributeType || targetType == .integer32AttributeType || targetType ==
-                .integer16AttributeType
-            {
-                return intValue as NSNumber
-            }
+            return intValue
 
         case let doubleValue as Double:
             if targetType == .doubleAttributeType || targetType == .floatAttributeType {

@@ -10,9 +10,4 @@ extension Container {
         self { LoadingManager() }
             .cached
     }
-
-    var navigationCoordinator: Factory<NavigationCoordinator> {
-        self { NavigationCoordinator() }
-            .singleton
-    }
 }

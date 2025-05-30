@@ -1,6 +1,6 @@
+import FactoryTesting
 import Testing
 @testable import Factory
-import FactoryTesting
 @testable import Models
 @testable import Networking
 @testable import Sammy

@@ -12,7 +12,7 @@ public final class UserStore: @unchecked Sendable {
     @Injected(\.authenticationHandler) private var authenticationHandler
     @Injected(\.currentUserProvider) private var currentUserProvider
 
-    private(set) var currentPerson: PersonAttributes?
+    private(set) var currentPerson: Models.PersonAttributes?
     private(set) var isAnonymous = false
 
     var currentUserState: CurrentUserState {
@@ -52,7 +52,7 @@ public final class UserStore: @unchecked Sendable {
     }
 
     @discardableResult
-    public func loadCurrentUser() async -> PersonAttributes? {
+    public func loadCurrentUser() async -> Models.PersonAttributes? {
         do {
             currentPerson = try await repository.getCurrent()
             return currentPerson

@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - CommunityCountsData
+// MARK: - CommunityCounts
 
-public struct CommunityCountsData: Decodable, Hashable, Identifiable, Sendable {
+public struct CommunityCounts: Decodable, Hashable, Identifiable, Sendable {
     public let communityID: Int
     public let subscribers: Int
     public let posts: Int
@@ -56,8 +56,8 @@ public struct CommunityCountsData: Decodable, Hashable, Identifiable, Sendable {
 
 // MARK: Equatable
 
-extension CommunityCountsData: Equatable {
-    public static func ==(_ lhs: CommunityCountsData, rhs: CommunityCountsData) -> Bool {
+extension CommunityCounts: Equatable {
+    public static func ==(_ lhs: CommunityCounts, rhs: CommunityCounts) -> Bool {
         lhs.communityID == rhs.communityID
     }
 }

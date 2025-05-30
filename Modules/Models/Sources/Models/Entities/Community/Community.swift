@@ -3,35 +3,35 @@ import Foundation
 // MARK: - Community
 
 public struct Community: Decodable, Sendable, Identifiable, Hashable {
-    public let communityData: CommunityData
+    public let attributes: CommunityAttributes
     public let subscribed: String
     public let blocked: Bool
-    public let countsData: CommunityCountsData
+    public let counts: CommunityCounts
     public let bannedFromCommunity: Bool
 
     enum CodingKeys: String, CodingKey {
-        case communityData = "community"
+        case attributes = "community"
         case subscribed
         case blocked
-        case countsData = "counts"
+        case counts
         case bannedFromCommunity = "banned_from_community"
     }
 
     public var id: Int {
-        communityData.id
+        attributes.id
     }
 
     public init(
-        communityData: CommunityData,
+        attributes: CommunityAttributes,
         subscribed: String,
         blocked: Bool,
-        countsData: CommunityCountsData,
+        counts: CommunityCounts,
         bannedFromCommunity: Bool)
     {
-        self.communityData = communityData
+        self.attributes = attributes
         self.subscribed = subscribed
         self.blocked = blocked
-        self.countsData = countsData
+        self.counts = counts
         self.bannedFromCommunity = bannedFromCommunity
     }
 }
@@ -40,6 +40,6 @@ public struct Community: Decodable, Sendable, Identifiable, Hashable {
 
 extension Community: Equatable {
     public static func ==(lhs: Community, rhs: Community) -> Bool {
-        lhs.communityData.id == rhs.communityData.id
+        lhs.attributes.id == rhs.attributes.id
     }
 }

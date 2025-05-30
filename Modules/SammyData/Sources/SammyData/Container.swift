@@ -1,7 +1,7 @@
 import Factory
 
 extension Container {
-    public var currentUserProvider: Factory<CurrentUserManagerProtocol> {
+    public var currentUserProvider: Factory<CurrentUserProviderProtocol> {
         self { CurrentUserManager() }
             .cached
     }

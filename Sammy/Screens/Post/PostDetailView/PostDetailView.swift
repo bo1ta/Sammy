@@ -30,10 +30,10 @@ struct PostDetailView: View {
                             .foregroundStyle(.textPrimary)
                     })
                     VStack(alignment: .leading, spacing: .paddingExtraSmall) {
-                        Text(viewModel.post.postData.name)
+                        Text(viewModel.post.attributes.name)
                             .font(.system(size: .fontSizeBody, weight: .medium))
                             .foregroundStyle(.textPrimary)
-                        Text("c/\(viewModel.post.communityData.name)")
+                        Text("c/\(viewModel.post.attributes.name)")
                             .font(.system(size: .fontSizeCaption, weight: .light))
                             .foregroundStyle(.textSecondary)
                     }
@@ -56,7 +56,7 @@ extension PostDetailView {
         VStack(alignment: .leading) {
             HStack {
                 Button(action: { }, label: {
-                    Text("c/\(viewModel.post.communityData.name)")
+                    Text("c/\(viewModel.post.attributes.name)")
                         .font(.system(size: .fontSizeCaption, weight: .medium))
                         .foregroundStyle(Color.accentColor)
                 })
@@ -71,13 +71,13 @@ extension PostDetailView {
 
                 TinyCircleSeparator()
 
-                Text(DateHelper.relativeTimeFromString(viewModel.post.postData.published))
+                Text(DateHelper.relativeTimeFromString(viewModel.post.attributes.published))
                     .font(.system(size: .fontSizeCaption, weight: .light))
                     .foregroundStyle(.textSecondary)
                 Spacer()
             }
 
-            Text(viewModel.post.postData.name)
+            Text(viewModel.post.attributes.name)
                 .font(.system(size: .fontSizeTitle, weight: .bold, design: .serif))
                 .foregroundStyle(.textPrimary)
         }
@@ -87,13 +87,13 @@ extension PostDetailView {
         VStack(alignment: .leading, spacing: .paddingLarge) {
             titleSection
 
-            if let body = viewModel.post.postData.body {
+            if let body = viewModel.post.attributes.body {
                 Text(body)
                     .font(.system(size: .fontSizeBody))
                     .foregroundStyle(.textPrimary)
             }
 
-            if let imageURL = viewModel.post.postData.imageURL {
+            if let imageURL = viewModel.post.attributes.imageURL {
                 PostImage(imageURL: imageURL)
             }
 

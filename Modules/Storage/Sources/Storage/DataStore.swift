@@ -13,11 +13,25 @@ public struct DataStore<Entity: ManagedEntityType> {
 
     public init() { }
 
-    public func getAll(matching _: Principle.Predicate<Entity>? = nil) async -> [Entity.ReadOnlyType] {
+    public func getAll(matching predicate: Principle.Predicate<Entity>? = nil) async -> [Entity.ReadOnlyType] {
         await storageManager.performRead { context in
-            Entity.query(on: context)
-                .all()
+            var queryBuilder = Entity.query(on: context)
+            if let predicate {
+                queryBuilder = queryBuilder.filter(predicate)
+            }
+
+            return queryBuilder.all()
                 .map { $0.toReadOnly() }
+        }
+    }
+
+    public func count(matching predicate: Principle.Predicate<Entity>? = nil) async -> Int {
+        await storageManager.performRead { context in
+            var queryBuilder = Entity.query(on: context)
+            if let predicate {
+                queryBuilder = queryBuilder.filter(predicate)
+            }
+            return queryBuilder.count()
         }
     }
 
@@ -39,7 +53,7 @@ public struct DataStore<Entity: ManagedEntityType> {
 
     public func contains(where predicate: Principle.Predicate<Entity>) async -> Bool {
         await storageManager.performRead { context in
-            if let entity = Entity.query(on: context).first(where: predicate) {
+            if Entity.query(on: context).first(where: predicate) != nil {
                 return true
             }
             return false
@@ -65,14 +79,12 @@ public struct DataStore<Entity: ManagedEntityType> {
     }
 }
 
+// MARK: - Write methods
+
 extension DataStore where Entity: SyncableEntity {
     public func importModel(_ model: Entity.ReadOnlyModel) async throws {
         try await storageManager.performWrite(.immediate) { context in
-            guard let predicate = Entity.predicateForModel(model) as? Principle.Predicate<Entity> else {
-                return
-            }
-
-            if let existingEntity = Entity.query(on: context).first(where: predicate) {
+            if let existingEntity = Entity.query(on: context).first(where: Entity.predicateForModel(model)) {
                 try existingEntity.updateEntityFrom(model)
             } else {
                 try model.toEntity(in: context)

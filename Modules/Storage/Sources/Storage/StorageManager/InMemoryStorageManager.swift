@@ -8,7 +8,7 @@ public class InMemoryStorageManager: StorageManagerType {
 
     public lazy var writerDerivedStorage: NSManagedObjectContext = {
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        managedObjectContext.parent = persistentContainer.viewContext
+        managedObjectContext.parent = viewStorage
         return managedObjectContext
     }()
 

@@ -26,7 +26,7 @@ class QueryBuilder<Entity: NSManagedObject> {
     ///
     /// Example:
     /// ```
-    /// let allPosts = ManagedPost.query(on: context).all()
+    /// let allPosts = Post.query(on: context).all()
     /// ```
     ///
     func all() -> [Entity] {
@@ -115,6 +115,14 @@ class QueryBuilder<Entity: NSManagedObject> {
     /// - Returns: An optional entity instance
     ///
     func first(where predicate: Principle.Predicate<Entity>) -> Entity? {
+        filter(predicate).first()
+    }
+
+    /// Returns the first result matching the given predicate
+    /// - Parameter predicate: The predicate to filter by
+    /// - Returns: An optional entity instance
+    ///
+    func first(where predicate: NSPredicate) -> Entity? {
         filter(predicate).first()
     }
 }

@@ -16,10 +16,10 @@ struct PostCard: View {
             }
             .padding([.horizontal, .bottom])
 
-            if let imageURL = post.postData.imageURL {
+            if let imageURL = post.attributes.imageURL {
                 PostImage(imageURL: imageURL)
             } else {
-                Text(post.postData.name)
+                Text(post.attributes.name)
                     .padding(.horizontal)
                     .foregroundStyle(.textPrimary)
                     .font(.system(size: .fontSizeBody, weight: .regular))
@@ -42,7 +42,7 @@ extension PostCard {
     ///
     private var communityButton: some View {
         Button(action: { }, label: {
-            Text("c/\(post.communityData.name)")
+            Text("c/\(post.communityAttributes.name)")
                 .font(.system(size: .fontSizeCaption, weight: .medium))
                 .foregroundStyle(Color.purple)
         })
