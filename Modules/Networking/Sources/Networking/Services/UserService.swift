@@ -1,66 +1,70 @@
+import Factory
+import Foundation
+import Models
+
 // MARK: - UserServiceProtocol
 
 public protocol UserServiceProtocol: Sendable {
-    func register(
-        username: String,
-        password: String,
-        showNSFW: Bool,
-        email: String?,
-        captchaUUID: String?,
-        captchaResponse: String?,
-        honeypot: String?,
-        answer: String?) async throws -> RegisterResponse
-
+    func getPersonDetails(queryOptions: [PersonDetailsQueryOption]) async throws -> PersonDetails
+    func getLoginTokens() async throws -> LoginTokensResponse?
 }
 
 // MARK: - UserService
 
 public struct UserService: UserServiceProtocol {
-    private let client: APIProvider
+    @Injected(\.client) private var client: APIClientProvider
 
-    public init(client: APIProvider) {
-        self.client = client
-    }
+    public func getPersonDetails(queryOptions: [PersonDetailsQueryOption]) async throws -> PersonDetails {
+        guard !queryOptions.isEmpty else {
+            throw UserServiceError.invalidQueryOptions
+        }
 
-    public func register(
-        username: String,
-        password: String,
-        showNSFW: Bool = false,
-        email: String? = nil,
-        captchaUUID: String? = nil,
-        captchaResponse: String? = nil,
-        honeypot: String? = nil,
-        answer: String? = nil)
-        async throws -> RegisterResponse
-    {
-        var request = APIRequest(method: .post, route: .user(.register))
-        request.body = [
-            "username": username,
-            "password": password,
-            "password_verify": password,
-            "show_nsfw": showNSFW,
-            "email": email as Any,
-            "captcha_uuid": captchaUUID as Any,
-            "captcha_answer": captchaResponse as Any,
-            "honeypot": honeypot as Any,
-            "answer": answer as Any,
-        ]
+        var request = APIRequest(method: .get, route: .user(.index))
+        request.queryParams = queryOptions.map(\.queryItem)
 
         let data = try await client.dispatch(request)
-        return try RegisterResponse.createFrom(data)
+        return try PersonDetails.createFrom(data)
+    }
+
+    public func getLoginTokens() async throws -> LoginTokensResponse? {
+        let request = APIRequest(method: .get, route: .user(.listLogins))
+        let data = try await client.dispatch(request)
+        return try LoginTokensResponse.createArrayFrom(data).first
     }
 }
 
-// MARK: - RegisterResponse
+// MARK: UserService.UserServiceError
 
-public struct RegisterResponse: Decodable, DecodableModel {
-    let jwt: String
-    let registrationCreated: Bool
-    let verifyEmailSent: Bool
+extension UserService {
+    enum UserServiceError: Error {
+        case invalidQueryOptions
+    }
+}
+
+// MARK: - PersonDetails + DecodableModel
+
+extension PersonDetails: DecodableModel { }
+
+// MARK: - LoginTokensResponse
+
+public struct LoginTokensResponse: DecodableModel {
+    public let userID: Int
+    public let published: String
+    public let ip: String? // swiftlint:disable:this identifier_name
+    public let userAgent: String?
 
     enum CodingKeys: String, CodingKey {
-        case jwt
-        case registrationCreated = "registration_created"
-        case verifyEmailSent = "verify_email_sent"
+        case userID = "user_id"
+        case published
+        case ip // swiftlint:disable:this identifier_name
+        case userAgent = "user_agent"
+    }
+
+    // swiftlint:disable:next identifier_name
+    public init(userID: Int, published: String, ip: String?, userAgent: String?) {
+        self.userID = userID
+        self.published = published
+        self.ip = ip
+        self.userAgent = userAgent
     }
 }

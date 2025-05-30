@@ -6,6 +6,7 @@ enum AppTabs: Int {
     case home
     case communities
     case profile
+    case search
 
     var title: String {
         switch self {
@@ -15,6 +16,8 @@ enum AppTabs: Int {
             "Communities"
         case .profile:
             "Profile"
+        case .search:
+            "Search"
         }
     }
 
@@ -26,6 +29,8 @@ enum AppTabs: Int {
             "person.2"
         case .profile:
             "person.crop.circle"
+        case .search:
+            "magnifyingglass"
         }
     }
 }
@@ -41,14 +46,15 @@ struct AppTabView: View {
                 PostsView()
             }
 
+            Tab(AppTabs.search.title, systemImage: AppTabs.search.systemImageName, value: .search) {
+                SearchView()
+            }
+
             Tab(AppTabs.communities.title, systemImage: AppTabs.communities.systemImageName, value: .communities) {
                 CommunitiesView()
             }
-            Tab(
-                AppTabs.profile.title,
-                systemImage: AppTabs.profile.systemImageName,
-                value: .profile)
-            {
+          
+            Tab(AppTabs.profile.title, systemImage: AppTabs.profile.systemImageName, value: .profile) {
                 ProfileView()
             }
         }

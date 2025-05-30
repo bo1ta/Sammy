@@ -1,3 +1,4 @@
+import Factory
 import Foundation
 import OSLog
 
@@ -6,6 +7,8 @@ public typealias JSONDictionary = [String: Any]
 // MARK: - APIRequest
 
 public struct APIRequest {
+    @Injected(\.tokenProvider) private var tokenProvider
+
     private static let contentType = "application/json"
 
     public var method: HTTPMethod
@@ -39,7 +42,7 @@ public struct APIRequest {
         var headerFields: [String: String] = [
             Constants.HTTPHeaderKey.contentType: APIRequest.contentType,
         ]
-        if let authToken {
+        if let authToken = try? tokenProvider.getAccessToken() {
             headerFields[Constants.HTTPHeaderKey.authorization] = "Bearer \(authToken)"
         }
         request.allHTTPHeaderFields = headerFields
