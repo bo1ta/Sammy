@@ -7,30 +7,32 @@ import Testing
 
 // MARK: - PostDetailViewModelTests
 
-@Suite("PostDetailViewModelTests")
+@Suite(.serialized)
 struct PostDetailViewModelTests {
-    @Test(.container)
     func fetchCommentsForPostSuccess() async throws {
-        let mockComments = CommentBuilder().build()
-        let mockPost = PostBuilder().build()
+        let mockComments = CommentFactory.createList(count: 2)
+        let mockPost = PostFactory.create()
 
-        let mockService = MockCommentService(expectedComments: [mockComments])
+        let mockService = MockCommentService(expectedComments: mockComments)
         Container.shared.commentService.register { mockService }
 
         let viewModel = await PostDetailViewModel(post: mockPost)
         #expect(await viewModel.comments.isEmpty)
 
         await viewModel.fetchCommentsForPost()
-        #expect(await viewModel.comments.first == mockComments)
+        #expect(await viewModel.comments.first == mockComments.first)
         #expect(await viewModel.errorMessage == nil)
     }
 
-    @Test(.container)
     func fetchCommentsForPostFailure() async throws {
-        let mockPost = PostBuilder().build()
+        let mockPost = PostFactory.create()
 
-        let mockService = MockCommentService(shouldFail: true)
-        Container.shared.commentService.register { mockService }
+        Container.shared.commentService.register {
+            MockCommentService(shouldFail: true)
+        }
+        defer {
+            Container.shared.commentService.reset()
+        }
 
         let viewModel = await PostDetailViewModel(post: mockPost)
         #expect(await viewModel.errorMessage == nil)
@@ -41,10 +43,15 @@ struct PostDetailViewModelTests {
 
     @Test
     func handleVoteSuccess() async throws {
-        let mockPost = PostBuilder().build()
+        let mockPost = PostFactory.create()
 
-        let mockService = MockCommentService()
-        Container.shared.commentService.register { mockService }
+        Container.shared.commentService.register {
+            MockCommentService()
+        }
+        defer {
+            Container.shared.commentService.reset()
+        }
+
         let viewModel = await PostDetailViewModel(post: mockPost)
 
         await viewModel.handleVote(.upvote, commentID: 1)
@@ -56,12 +63,16 @@ struct PostDetailViewModelTests {
 
     @Test
     func handleVoteFailure() async throws {
-        let mockPost = PostBuilder().build()
+        let mockPost = PostFactory.create()
 
-        let mockService = MockCommentService(shouldFail: true)
-        Container.shared.commentService.register { mockService }
+        Container.shared.commentService.register {
+            MockCommentService(shouldFail: true)
+        }
+        defer {
+            Container.shared.commentService.reset()
+        }
+
         let viewModel = await PostDetailViewModel(post: mockPost)
-
         await viewModel.handleVote(.upvote, commentID: 1)
 
         let task = try #require(await viewModel.voteTask)

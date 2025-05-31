@@ -53,7 +53,7 @@ struct AppTabView: View {
             Tab(AppTabs.communities.title, systemImage: AppTabs.communities.systemImageName, value: .communities) {
                 CommunitiesView()
             }
-          
+
             Tab(AppTabs.profile.title, systemImage: AppTabs.profile.systemImageName, value: .profile) {
                 ProfileView()
             }

@@ -9,11 +9,14 @@ import Testing
 
 @Suite("PostsViewModel")
 struct PostsViewModelTests {
-    @Test(.container)
     func loadPostsIsSuccessful() async throws {
-        let mockPost = PostBuilder().build()
-        let mockService = MockPostService(expectedPosts: [mockPost])
-        Container.shared.postService.register { mockService }
+        let mockPost = PostFactory.create()
+        Container.shared.postService.register {
+            MockPostService(expectedPosts: [mockPost])
+        }
+        defer {
+            Container.shared.postService.reset()
+        }
 
         let viewModel = await PostsViewModel()
         #expect(await viewModel.posts.isEmpty)
@@ -25,8 +28,12 @@ struct PostsViewModelTests {
 
     @Test
     func loadPostsFails() async throws {
-        let mockService = MockPostService(shouldFail: true)
-        Container.shared.postService.register { mockService }
+        Container.shared.postService.register {
+            MockPostService(shouldFail: true)
+        }
+        defer {
+            Container.shared.postService.reset()
+        }
 
         let viewModel = await PostsViewModel()
         #expect(await viewModel.posts.isEmpty)

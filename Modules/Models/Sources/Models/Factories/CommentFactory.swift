@@ -1,4 +1,4 @@
-public enum CommentFactory {
+public enum CommentFactory: BaseFactory {
     public static func create(
         commentAttributes: CommentAttributes = CommentAttributesFactory.create(),
         creator: PersonAttributes = PersonAttributesFactory.create(),
@@ -47,7 +47,7 @@ public enum CommentFactory {
         (1...count).map { index in
             var comment = create(
                 commentAttributes: CommentAttributesFactory.create(
-                    id: index,
+                    id: randomInt(),
                     content: "Comment number \(index)"),
                 countsData: CommentCountsFactory.create(commentID: index))
             modify?(&comment, index)

@@ -1,18 +1,18 @@
 import Foundation
 
 public struct CommentAttributes: Decodable, Identifiable, Equatable, Sendable {
-    public let id: Int
-    public let creatorID: Int
-    public let postID: Int
-    public let content: String
-    public let removed: Bool
-    public let published: String
-    public let updated: String?
-    public let deleted: Bool
-    public let local: Bool
-    public let path: String
-    public let distinguished: Bool
-    public let languageID: Int
+    public var id: Int
+    public var creatorID: Int
+    public var postID: Int
+    public var content: String
+    public var removed: Bool
+    public var published: String
+    public var updated: String?
+    public var deleted: Bool
+    public var local: Bool
+    public var path: String
+    public var distinguished: Bool
+    public var languageID: Int
 
     enum CodingKeys: String, CodingKey {
         case id

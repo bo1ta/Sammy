@@ -7,13 +7,16 @@ import Testing
 
 // MARK: - CommunityViewModelTests
 
-@Suite("CommunityViewModelTests")
+@Suite(.serialized)
 struct CommunityViewModelTests {
-    @Test(.container)
+    @Test
     func loadCommunitiesSuccess() async throws {
-        let mockCommunity = CommunityBuilder().build()
-        let mockService = MockCommunityService(expectedCommunities: [mockCommunity])
-        Container.shared.communityService.register { mockService }
+        let mockCommunity = CommunityFactory.create()
+
+        Container.shared.communityService.register {
+            MockCommunityService(expectedCommunities: [mockCommunity])
+        }
+        defer { Container.shared.communityService.reset() }
 
         let viewModel = await CommunitiesViewModel()
         #expect(await viewModel.communities.isEmpty)
@@ -23,10 +26,14 @@ struct CommunityViewModelTests {
         #expect(await viewModel.errorMessage == nil)
     }
 
-    @Test(.container)
+    @Test
     func loadCommunitiesFailure() async throws {
-        let mockService = MockCommunityService(shouldFail: true)
-        Container.shared.communityService.register { mockService }
+        Container.shared.communityService.register {
+            MockCommunityService(shouldFail: true)
+        }
+        defer {
+            Container.shared.communityService.reset()
+        }
 
         let viewModel = await CommunitiesViewModel()
         #expect(await viewModel.errorMessage == nil)

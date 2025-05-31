@@ -68,8 +68,6 @@
         <relationship name="community" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Community" inverseName="communityCounts" inverseEntity="Community"/>
     </entity>
     <entity name="LocalUser" representedClassName="LocalUser" syncable="YES">
-        <attribute name="personID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="localUserAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalUserAttributes" inverseName="localUser" inverseEntity="LocalUserAttributes"/>
         <relationship name="personAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributes" inverseName="localUser" inverseEntity="PersonAttributes"/>
     </entity>

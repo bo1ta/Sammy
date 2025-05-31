@@ -1,21 +1,29 @@
 import Factory
 import Foundation
 import Models
-import Networking
 import OSLog
+import SammyData
 
 @Observable
 @MainActor
 final class PostDetailViewModel {
-    @ObservationIgnored
-    @Injected(\.commentService) private var service: CommentServiceProtocol
 
+    // MARK: - Dependencies
+
+    @ObservationIgnored
+    @Injected(\.commentRepository) private var commentRepository: CommentRepositoryProtocol
+
+    private let logger = Logger(subsystem: "com.Sammy", category: "PostDetailViewModel")
+
+    // MARK: - Observed properties
+
+    private(set) var isLoadingComments = false
     private(set) var comments: [Comment] = []
     private(set) var commentTree: [CommentNode] = []
     private(set) var errorMessage: String?
     private(set) var voteTask: Task<Void, Never>?
 
-    private let logger = Logger(subsystem: "com.Sammy", category: "PostDetailViewModel")
+    // MARK: - Init
 
     let post: Post
 
@@ -23,25 +31,11 @@ final class PostDetailViewModel {
         self.post = post
     }
 
-    func fetchAllComments(postId _: Int, batchSize: Int = 50) async throws -> [Comment] {
-        var allComments: [Comment] = []
-        var page = 1
-        var hasMore = true
-
-        while hasMore {
-            let comments = try await service.getAllForPostID(post.id, queryOptions: [.page(page), .limit(batchSize)])
-
-            allComments.append(contentsOf: comments)
-            hasMore = comments.count == batchSize
-            page += 1
-        }
-
-        return allComments
-    }
+    // MARK: - Public methods
 
     func fetchCommentsForPost() async {
         do {
-            comments = try await fetchAllComments(postId: post.id)
+            comments = try await commentRepository.getCommentsForPostID(post.id)
             commentTree = CommentTreeBuilder.buildTree(from: comments)
         } catch {
             logger.error("Error loading cmments. Error: \(error.localizedDescription)")
@@ -54,7 +48,7 @@ final class PostDetailViewModel {
 
         voteTask = Task {
             do {
-                try await service.setVoteForComment(commentID, voteType: voteType)
+                try await commentRepository.setVoteForComment(commentID, voteType: voteType)
             } catch {
                 logger.error("Error voting comment. Error: \(error.localizedDescription)")
                 errorMessage = "Error voting comment."

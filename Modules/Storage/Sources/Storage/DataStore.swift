@@ -8,7 +8,7 @@ public typealias ManagedEntityType = NSManagedObject & ReadOnlyConvertible
 
 // MARK: - DataStore
 
-public struct DataStore<Entity: ManagedEntityType> {
+public struct DataStore<Entity: ManagedEntityType>: @unchecked Sendable {
     @Injected(\.storageManager) private var storageManager: StorageManagerType
 
     public init() { }
@@ -53,6 +53,7 @@ public struct DataStore<Entity: ManagedEntityType> {
 
     public func contains(where predicate: Principle.Predicate<Entity>) async -> Bool {
         await storageManager.performRead { context in
+            // swiftlint:disable:next contains_over_first_not_nil
             if Entity.query(on: context).first(where: predicate) != nil {
                 return true
             }

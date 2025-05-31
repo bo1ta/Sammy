@@ -1,6 +1,6 @@
-public enum CommentCountsFactory {
+public enum CommentCountsFactory: BaseFactory {
     public static func create(
-        commentID: Int = 1,
+        commentID: Int? = nil,
         score: Int = 10,
         upvotes: Int = 12,
         published: String = "2023-01-01T00:00:00Z",
@@ -8,7 +8,7 @@ public enum CommentCountsFactory {
         -> CommentCounts
     {
         CommentCounts(
-            commentID: commentID,
+            commentID: commentID ?? randomInt(),
             score: score,
             upvotes: upvotes,
             published: published,

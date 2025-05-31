@@ -13,8 +13,6 @@ public class LocalUser: NSManagedObject {
         NSFetchRequest<LocalUser>(entityName: "LocalUser")
     }
 
-    @NSManaged public var userID: Int
-    @NSManaged public var personID: Int
     @NSManaged public var localUserAttributes: LocalUserAttributes
     @NSManaged public var personAttributes: PersonAttributes
 }
@@ -35,7 +33,8 @@ extension LocalUser: ReadOnlyConvertible {
 
 extension LocalUser: SyncableEntity {
     public static func predicateForModel(_ model: Models.LocalUser) -> NSPredicate {
-        \LocalUser.userID == model.userAttributes.id && \LocalUser.personID == model.personAttributes.id
+        \LocalUser.localUserAttributes.uniqueID == model.userAttributes.id && \LocalUser.personAttributes.uniqueID == model
+            .personAttributes.id
     }
 
     public func updateEntityFrom(_ model: Models.LocalUser) throws -> Self {

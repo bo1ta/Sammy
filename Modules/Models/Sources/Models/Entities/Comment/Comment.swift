@@ -3,11 +3,11 @@ import Foundation
 // MARK: - Comment
 
 public struct Comment: Decodable, Sendable, Identifiable {
-    public let commentAttributes: CommentAttributes
-    public let creator: PersonAttributes
-    public let postData: PostAttributes
-    public let communityAttributes: CommunityAttributes
-    public let countsData: CommentCounts
+    public var commentAttributes: CommentAttributes
+    public var creator: PersonAttributes
+    public var postData: PostAttributes
+    public var communityAttributes: CommunityAttributes
+    public var countsData: CommentCounts
 
     public var id: Int {
         commentAttributes.id

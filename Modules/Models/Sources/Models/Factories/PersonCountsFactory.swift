@@ -1,12 +1,12 @@
-public enum PersonCountsFactory {
+public enum PersonCountsFactory: BaseFactory {
     public static func create(
-        personID: Int = 1,
+        personID: Int? = nil,
         postCount: Int = 10,
         commentCount: Int = 25)
         -> PersonCounts
     {
         PersonCounts(
-            personID: personID,
+            personID: personID ?? randomInt(),
             postCount: postCount,
             commentCount: commentCount)
     }

@@ -15,6 +15,10 @@ extension Container {
             .cached
     }
 
+    public var commentRepository: Factory<CommentRepositoryProtocol> {
+        self { CommentRepository() }
+    }
+
     public var authenticationHandler: Factory<AuthenticationHandlerProtocol> {
         self { AuthenticationHandler() }
     }

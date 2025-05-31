@@ -22,137 +22,71 @@ struct DataStoreTests {
     }
 
     @Test
+    func getAll() async throws {
+        let store = DataStore<Storage.Community>()
+
+        let communities = CommunityFactory.createList(count: 5)
+        try await store.importModels(communities)
+
+        await #expect(store.getAll().count == 5)
+    }
+
+    @Test
+    func getAllMatchingPredicate() async throws {
+        let store = DataStore<Storage.Comment>()
+        let mockPerson = try #require(try await PersonAttributesFactory.create().persisting())
+
+        let mockComments = CommentFactory.createList(count: 3) { comment, _ in
+            comment.commentAttributes.creatorID = mockPerson.id
+        }
+        try await store.importModels(mockComments)
+
+        /// add 2 more comments, unreleated to the`mockPerson`
+        try await store.importModels(CommentFactory.createList(count: 2))
+
+        await #expect(store.getAll(matching: \.commentAttributes.creatorID == mockPerson.id).count == 3)
+    }
+
+    @Test
     func firstMatchingPredicate() async throws {
-        let person = PersonAttributesFactory.create()
+        let person = try await PersonAttributesFactory.create().persisting()
 
         let store = DataStore<Storage.PersonAttributes>()
-        _ = try await store.importModel(person)
-
-        let localPerson = await store.first(where: \.name == person.name)
+        let localPerson = await store.first(where: \.uniqueID == person.id)
         #expect(localPerson?.id == person.id)
     }
 
     @Test
-    func testImportPersonCounts() async throws {
-        let mockModel = PersonCountsFactory.create()
-
-        let store = DataStore<Storage.PersonCounts>()
-        try await store.importModel(mockModel)
-
-        let localCounts = try #require(await store.first(where: \.personID == mockModel.personID))
-        #expect(localCounts.postCount == mockModel.postCount)
-    }
-
-    @Test
-    func testImportCommentAttributes() async throws {
-        let mockModel = CommentAttributesFactory.create()
-
+    func countMatchingPredicate() async throws {
         let store = DataStore<Storage.CommentAttributes>()
-        try await store.importModel(mockModel)
+        let mockPerson = try await PersonAttributesFactory.create().persisting()
 
-        let localCommentAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
-        #expect(localCommentAttributes == mockModel)
+        let mockComments = CommentAttributesFactory.createList(count: 3) { commentAttributes, _ in
+            commentAttributes.creatorID = mockPerson.id
+        }
+        try await store.importModels(mockComments)
+
+        /// add 2 more comments, unreleated to the`mockPerson`
+        try await store.importModels(CommentAttributesFactory.createList(count: 2))
+
+        await #expect(store.count(matching: \.creatorID == mockPerson.id) == 3)
     }
 
     @Test
-    func testImportCommentCounts() async throws {
-        let mockModel = CommentCountsFactory.create()
-
+    func containsPredicate() async throws {
         let store = DataStore<Storage.CommentCounts>()
-        try await store.importModel(mockModel)
-
-        let localCommentCounts = try #require(await store.first(where: \.commentID == mockModel.commentID))
-        #expect(localCommentCounts.published == mockModel.published)
+        let mockCommentCount = try await CommentCountsFactory.create().persisting()
+        #expect(await store.contains(where: \.commentID == mockCommentCount.commentID))
     }
 
     @Test
-    func testImportComment() async throws {
-        let mockModel = CommentFactory.create()
+    func updateField() async throws {
+        let store = DataStore<Storage.PersonAttributes>()
+        let mockPerson = try await PersonAttributesFactory.create(name: "Johnny Blaze").persisting()
+        let predicate: Principle.Predicate<Storage.PersonAttributes> = \.uniqueID == mockPerson.id
+        #expect(await store.first(where: predicate)?.name == "Johnny Blaze")
 
-        let store = DataStore<Storage.Comment>()
-        try await store.importModel(mockModel)
-
-        let localComment = try #require(await store.first(where: \.commentID == mockModel.commentAttributes.id))
-        #expect(localComment == mockModel)
+        try await store.updateField(matching: predicate, keyPath: \.name, to: "John Doe")
+        #expect(await store.first(where: predicate)?.name == "John Doe")
     }
-
-    @Test
-    func testImportCommunityAttributes() async throws {
-        let mockModel = CommunityAttributesFactory.create()
-
-        let store = DataStore<Storage.CommunityAttributes>()
-        try await store.importModel(mockModel)
-
-        let localCommunityAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
-        #expect(localCommunityAttributes == mockModel)
-    }
-
-    @Test
-    func testImportCommunityCounts() async throws {
-        let mockModel = CommunityCountsFactory.create()
-
-        let store = DataStore<Storage.CommunityCounts>()
-        try await store.importModel(mockModel)
-
-        let localCommunityCounts = try #require(await store.first(where: \.communityID == mockModel.communityID))
-        #expect(localCommunityCounts == mockModel)
-    }
-
-    @Test
-    func testImportCommunity() async throws {
-        let mockModel = CommunityFactory.create()
-
-        let store = DataStore<Storage.Community>()
-        try await store.importModel(mockModel)
-
-        let localCommunity = try #require(await store.first(where: \.communityAttributes.uniqueID == mockModel.attributes.id))
-        #expect(localCommunity == mockModel)
-    }
-
-    @Test
-    func testImportPostAttributes() async throws {
-        let mockModel = PostAttributesFactory.create()
-
-        let store = DataStore<Storage.PostAttributes>()
-        try await store.importModel(mockModel)
-
-        let localPostAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
-        #expect(localPostAttributes == mockModel)
-    }
-
-    @Test
-    func testImportPostCounts() async throws {
-        let mockModel = PostCountsFactory.create()
-
-        let store = DataStore<Storage.PostCounts>()
-        try await store.importModel(mockModel)
-
-        let localPostCounts = try #require(await store.first(where: \.postID == mockModel.postID))
-        #expect(localPostCounts == mockModel)
-    }
-
-    @Test
-    func testImportSiteAttributes() async throws {
-        let mockModel = SiteAttributesFactory.create()
-
-        let store = DataStore<Storage.SiteAttributes>()
-        try await store.importModel(mockModel)
-
-        let localSiteAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
-        #expect(localSiteAttributes.description == mockModel.description)
-    }
-
-    @Test
-    func testImportPost() async throws {
-        let mockModel = PostFactory.create()
-
-        let store = DataStore<Storage.Post>()
-        try await store.importModel(mockModel)
-
-        let localPost = try #require(await store.first(where: \.postAttributes.uniqueID == mockModel.postData.id))
-        #expect(localPost == mockModel)
-    }
-
-    @Test
-
 }

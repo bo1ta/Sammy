@@ -2,7 +2,7 @@ import Foundation
 import Models
 import Networking
 
-// MARK: - CurrentUserManagerProtocol
+// MARK: - CurrentUserProviderProtocol
 
 public protocol CurrentUserProviderProtocol {
     func getCurrentState() -> CurrentUserState

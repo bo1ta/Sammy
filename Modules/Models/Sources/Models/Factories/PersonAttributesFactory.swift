@@ -1,6 +1,6 @@
-public enum PersonAttributesFactory {
+public enum PersonAttributesFactory: BaseFactory {
     public static func create(
-        id: Int = 1,
+        id: Int? = nil,
         name: String = "sample_user",
         displayName: String? = "Sample User",
         avatar: String? = "https://example.com/avatar.jpg",
@@ -19,7 +19,7 @@ public enum PersonAttributesFactory {
         -> PersonAttributes
     {
         PersonAttributes(
-            id: id,
+            id: id ?? randomInt(),
             name: name,
             displayName: displayName,
             avatar: avatar,

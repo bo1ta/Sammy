@@ -28,7 +28,7 @@ struct ImportEntityTests {
         let store = DataStore<Storage.LocalUser>()
         try await store.importModel(mockModel)
 
-        let localUser = try #require(await store.first(where: \.userID == mockModel.personAttributes.id))
+        let localUser = try #require(await store.first(where: \.localUserAttributes.uniqueID == mockModel.userAttributes.id))
         #expect(localUser.userAttributes.id == mockModel.userAttributes.id)
     }
 
@@ -144,7 +144,7 @@ struct ImportEntityTests {
         let store = DataStore<Storage.Post>()
         try await store.importModel(mockModel)
 
-        let localPost = try #require(await store.first(where: \.postID == mockModel.postData.id))
+        let localPost = try #require(await store.first(where: \.postID == mockModel.attributes.id))
         #expect(localPost == mockModel)
     }
 

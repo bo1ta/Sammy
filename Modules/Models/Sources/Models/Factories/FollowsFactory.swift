@@ -1,4 +1,3 @@
-
 public enum FollowsFactory {
     public static func create(
         community: Community = CommunityFactory.create(),

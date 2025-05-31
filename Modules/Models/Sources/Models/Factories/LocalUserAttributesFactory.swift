@@ -43,7 +43,7 @@ public enum LocalUserAttributesFactory: BaseFactory {
         (1...count).map { index in
             var user = create(
                 email: "user\(index)@example.com",
-                interfaceLanguage: index % 2 == 0 ? "en" : "fr")
+                interfaceLanguage: index.isMultiple(of: 2) ? "en" : "fr")
             modify?(&user, index)
             return user
         }

@@ -1,5 +1,8 @@
 import CoreData
+import Factory
 import Foundation
+
+// MARK: - Storable
 
 /// Provides bidirectional conversion between models and Core Data entities
 ///
@@ -20,4 +23,15 @@ public protocol Storable {
     ///
     @discardableResult
     func toEntity(in context: NSManagedObjectContext) throws -> Entity
+}
+
+/// Helper for tests
+///
+extension Storable {
+    func persisting() async throws -> Self {
+        try await Container.shared.storageManager().performWrite(.immediate) { context in
+            try self.toEntity(in: context)
+        }
+        return self
+    }
 }
