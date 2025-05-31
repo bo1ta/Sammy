@@ -18,10 +18,3 @@ struct CommunityButtonStyle: ButtonStyle {
                 alignment: .bottom)
     }
 }
-
-// MARK: - CommunityFilteringTabs
-
-enum CommunityFilteringTabs {
-    case myCommunities
-    case discover
-}

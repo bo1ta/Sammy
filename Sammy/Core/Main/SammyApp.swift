@@ -18,9 +18,7 @@ struct SammyApp: App {
                 }
             }
             .toastView(toast: $appState.toast)
-            .if(appState.isLoading) { view in
-                view.overlay(LoadingOverlayView())
-            }
+            .loadingView(isLoading: appState.isLoading)
             .task {
                 await appState.initialLoad()
             }

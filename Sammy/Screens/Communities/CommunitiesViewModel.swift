@@ -7,16 +7,24 @@ import OSLog
 @Observable
 @MainActor
 final class CommunitiesViewModel {
+
+    // MARK: - Dependencies
+
     @ObservationIgnored
     @Injected(\.communityService) private var service: CommunityServiceProtocol
 
     private let logger = Logger(subsystem: "com.Sammy", category: "CommunitiesViewModel")
+
+    // MARK: - Observed Properties
 
     private(set) var communities: [Community] = []
     private(set) var isLoading = false
     private(set) var errorMessage: String?
 
     var searchText = ""
+    var currentTab = CommunityTabs.myCommunities
+
+    // MARK: - Public methods
 
     func loadCommunities() async {
         isLoading = true

@@ -13,6 +13,9 @@ final class PostDetailViewModel {
     @ObservationIgnored
     @Injected(\.commentRepository) private var commentRepository: CommentRepositoryProtocol
 
+    @ObservationIgnored
+    @Injected(\.loadingManager) private var loadingManager: LoadingManager
+
     private let logger = Logger(subsystem: "com.Sammy", category: "PostDetailViewModel")
 
     // MARK: - Observed properties
@@ -34,9 +37,12 @@ final class PostDetailViewModel {
     // MARK: - Public methods
 
     func fetchCommentsForPost() async {
+        loadingManager.showLoading()
+
         do {
             comments = try await commentRepository.getCommentsForPostID(post.id)
             commentTree = CommentTreeBuilder.buildTree(from: comments)
+            loadingManager.hideLoading()
         } catch {
             logger.error("Error loading cmments. Error: \(error.localizedDescription)")
             errorMessage = "Error loading comments."

@@ -2,45 +2,45 @@ import Models
 import SwiftUI
 
 struct CommunitiesView: View {
-    @State private var selectedTab = CommunityFilteringTabs.myCommunities
     @State private var viewModel = CommunitiesViewModel()
 
     var body: some View {
         VStack {
             SearchBar(text: $viewModel.searchText)
+            filteringTabs
 
-            HStack(spacing: .paddingExtraLarge) {
-                Button("My Communities") {
-                    selectedTab = .myCommunities
-                }
-                .buttonStyle(CommunityButtonStyle(isSelected: selectedTab == .myCommunities))
+            switch viewModel.currentTab {
+            case .myCommunities:
+                MyCommunitiesView(
+                    viewModel: viewModel,
+                    searchText: $viewModel.searchText)
 
-                Button("Discover") {
-                    selectedTab = .discover
-                }
-                .buttonStyle(CommunityButtonStyle(isSelected: selectedTab == .discover))
-
-                Spacer()
+            case .discover:
+                DiscoverView(viewModel: viewModel)
             }
-            .padding(20)
-            .overlay(Divider(), alignment: .bottom)
-
-            VStack {
-                switch selectedTab {
-                case .myCommunities:
-                    MyCommunitiesView(
-                        viewModel: viewModel,
-                        searchText: $viewModel.searchText)
-
-                case .discover:
-                    DiscoverView(viewModel: viewModel)
-                }
-            }
-            Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .task {
             await viewModel.loadCommunities()
         }
+    }
+}
+
+// MARK: - Subviews
+
+extension CommunitiesView {
+    var filteringTabs: some View {
+        HStack(spacing: .paddingExtraLarge) {
+            ForEach(CommunityTabs.allCases) { tab in
+                Button(tab.title) {
+                    viewModel.currentTab = tab
+                }
+                .buttonStyle(CommunityButtonStyle(isSelected: viewModel.currentTab == tab))
+            }
+            Spacer()
+        }
+        .padding(.paddingLarge)
+        .overlay(Divider(), alignment: .bottom)
     }
 }
 
