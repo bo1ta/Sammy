@@ -12,18 +12,18 @@ public final class UserStore: @unchecked Sendable {
     @Injected(\.authenticationHandler) private var authenticationHandler
     @Injected(\.currentUserProvider) private var currentUserProvider
 
-    private(set) var currentPerson: Models.PersonAttributes?
-    private(set) var isAnonymous = false
+    public private(set) var currentPerson: Models.PersonAttributes?
+    public private(set) var isAnonymous = false
 
-    var currentUserState: CurrentUserState {
+    public var currentUserState: CurrentUserState {
         currentUserProvider.getCurrentState()
     }
 
-    var currentUserID: Int? {
+    public var currentUserID: Int? {
         currentUserProvider.currentUserID
     }
 
-    var isLoggedIn: Bool {
+    public var isLoggedIn: Bool {
         if let currentPerson {
             return true
         }

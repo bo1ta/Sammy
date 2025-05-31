@@ -39,6 +39,7 @@ enum AppTabs: Int {
 
 struct AppTabView: View {
     @SceneStorage("currentTab") var currentTab = AppTabs.home
+    var isLoggedIn: Bool
 
     var body: some View {
         TabView(selection: $currentTab) {
@@ -54,8 +55,10 @@ struct AppTabView: View {
                 CommunitiesView()
             }
 
-            Tab(AppTabs.profile.title, systemImage: AppTabs.profile.systemImageName, value: .profile) {
-                ProfileView()
+            if isLoggedIn {
+                Tab(AppTabs.profile.title, systemImage: AppTabs.profile.systemImageName, value: .profile) {
+                    ProfileView()
+                }
             }
         }
     }

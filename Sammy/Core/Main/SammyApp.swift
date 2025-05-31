@@ -9,7 +9,7 @@ struct SammyApp: App {
             Group {
                 switch appState.currentState {
                 case .loggedIn, .anonymous:
-                    AppTabView()
+                    AppTabView(isLoggedIn: appState.isLoggedIn)
                 case .loggedOut:
                     SplashView()
                 case .loading:

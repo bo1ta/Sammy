@@ -27,7 +27,7 @@ extension MyUserInfo {
 
 // MARK: - LocalUser
 
-public struct LocalUser: Codable, Identifiable {
+public struct LocalUser: Codable, Identifiable, Sendable {
     public let userAttributes: LocalUserAttributes
     public let personAttributes: PersonAttributes
 
@@ -47,5 +47,11 @@ public struct LocalUser: Codable, Identifiable {
     public init(userAttributes: LocalUserAttributes, personAttributes: PersonAttributes) {
         self.userAttributes = userAttributes
         self.personAttributes = personAttributes
+    }
+}
+
+extension LocalUser: Equatable {
+    public static func ==(_ lhs: LocalUser, rhs: LocalUser) -> Bool {
+        lhs.personAttributes.id == rhs.personAttributes.id && lhs.userAttributes.id == rhs.userAttributes.id
     }
 }

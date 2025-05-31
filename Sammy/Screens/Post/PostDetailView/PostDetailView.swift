@@ -65,7 +65,7 @@ extension PostDetailView {
 
                 TinyCircleSeparator()
 
-                Text("Posted by u/\(viewModel.post.creator.name)")
+                Text("Posted by \(viewModel.post.creator.userTitle)")
                     .font(.system(size: .fontSizeCaption, weight: .light))
                     .foregroundStyle(.textSecondary)
 

@@ -53,7 +53,7 @@ extension PostCard {
     ///
     private var creatorButton: some View {
         Button(action: { }, label: {
-            Text("Posted by u/\(post.creator.name)")
+            Text("Posted by \(post.creator.userTitle)")
                 .font(.system(size: .fontSizeCaption, weight: .regular))
         })
         .buttonStyle(.plain)

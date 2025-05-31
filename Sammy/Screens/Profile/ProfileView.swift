@@ -13,55 +13,54 @@ struct ProfileView: View {
             menuItems
             appInfoSection
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .task {
+            await viewModel.loadData()
+        }
     }
-
 }
 
 // MARK: - Subviews
 
 extension ProfileView {
 
-    private var appInfoSection: some View {
-        VStack {
-            Text(
-                "Sammy IOS Client v1.00")
-            .foregroundStyle(.gray)
-            .font(.system(size: .fontSizeCaption))
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity)
-
-            Text(
-                "© 2025 Sammy")
-            .foregroundStyle(.gray)
-            .font(.system(size: .fontSizeCaption))
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity)
-            .padding(.top, .paddingMedium)
-        }
-    }
-
     private var menuItems: some View {
-        VStack {
-            ForEach(ProfileMenuItems.allCases) { item in
+        VStack(spacing: 0) {
+            ForEach(Array(ProfileMenuItems.allCases.enumerated()), id: \.element) { index, item in
                 HStack(spacing: .paddingMedium) {
                     Image(systemName: item.systemImageName)
-                        .font(.system(size: 20))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: .iconSizeSmall, height: .iconSizeSmall)
+                        .foregroundStyle(.textPrimary)
+
                     Text(item.title)
-                        .foregroundStyle(Color.textPrimary)
-                        .fontWeight(.medium)
+                        .font(.system(size: .fontSizeBody))
+                        .foregroundStyle(.textPrimary)
+
                 }
-                Divider()
+                .padding(.horizontal, .paddingMedium)
+                .padding(.vertical, .paddingSmall)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    print("Tapped \(item.title)")
+                }
+
+                if index < ProfileMenuItems.allCases.count - 1 {
+                    Divider()
+                        .background(Color.gray.opacity(0.3))
+                }
             }
         }
     }
-
     private var headerSection: some View {
         HStack(spacing: 16) {
             Circle()
                 .fill(Color.gray.opacity(0.3))
                 .frame(width: 55, height: 55)
             VStack(alignment: .leading, spacing: 4) {
-                Text("u/lemmy_user")
+                Text(viewModel.localUser?.personAttributes.userTitle ?? "u/lemmy_user")
                     .font(.system(size: .fontSizeSubheadline, weight: .semibold))
                     .foregroundStyle(.textPrimary)
 
@@ -69,8 +68,6 @@ extension ProfileView {
                     .font(.subheadline)
                     .foregroundColor(.textSecondary)
             }
-
-            Spacer()
         }
         .padding(.horizontal, .paddingJumbo)
     }
@@ -78,13 +75,16 @@ extension ProfileView {
     private var headerActionButtons: some View {
         HStack(spacing: 0) {
             ForEach(ProfileActions.allCases) { action in
+                let cornerRadii: RectangleCornerRadii = action == .edit ? .init(bottomTrailing: .cornerRadiusSmall, topTrailing: .cornerRadiusSmall) : .init(topLeading: .cornerRadiusSmall, bottomLeading: .cornerRadiusSmall)
+
                 Text(action.title)
-                    .foregroundStyle(viewModel.selectedAction == action ? .gray : .black)
+                    .font(.system(size: .fontSizeCaption))
+                    .foregroundStyle(.textPrimary)
                     .frame(maxWidth: .infinity)
                     .padding(.paddingMedium)
                     .background(
                         viewModel.selectedAction == action ? Color
-                            .accentColor : Color.primaryBackground, in: .rect(cornerRadii: .init(topLeading: .cornerRadiusSmall, bottomLeading: .cornerRadiusSmall)))
+                            .accentColor : Color.primaryBackground, in: .rect(cornerRadii: cornerRadii))
                     .onTapGesture {
                         withAnimation {
                             viewModel.selectedAction = action
@@ -125,6 +125,25 @@ extension ProfileView {
                 .frame(height: 1)
                 .foregroundColor(Color.gray.opacity(0.3)),
             alignment: .top)
+    }
+
+    private var appInfoSection: some View {
+        VStack {
+            Text(
+                "Sammy IOS Client v1.00")
+            .foregroundStyle(.gray)
+            .font(.system(size: .fontSizeCaption))
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity)
+
+            Text(
+                "© 2025 Sammy")
+            .foregroundStyle(.gray)
+            .font(.system(size: .fontSizeCaption))
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity)
+            .padding(.top, .paddingMedium)
+        }
     }
 }
 

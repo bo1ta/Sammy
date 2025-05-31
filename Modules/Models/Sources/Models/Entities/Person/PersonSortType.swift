@@ -1,6 +1,6 @@
 import Foundation
 
-public enum PersonSortType: String, Codable {
+public enum PersonSortType: String, Codable, Sendable {
     case active = "Active"
     case new = "New"
     case hot = "Hot"

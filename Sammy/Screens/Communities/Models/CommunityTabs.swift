@@ -15,4 +15,3 @@ enum CommunityTabs: Int, CaseIterable, Identifiable {
         }
     }
 }
-

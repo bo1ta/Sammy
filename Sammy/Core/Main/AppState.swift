@@ -7,6 +7,17 @@ import SammyData
 @MainActor
 final class AppState {
 
+    // MARK: Dependencies
+
+    @ObservationIgnored
+    @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
+
+    @ObservationIgnored
+    @Injected(\.userStore) private var userStore: UserStore
+
+    @ObservationIgnored
+    @Injected(\.loadingManager) private var loadingManager: LoadingManager
+
     // MARK: State
 
     enum State {
@@ -19,16 +30,9 @@ final class AppState {
     private(set) var currentState = State.loggedOut
     private(set) var cancellables = Set<AnyCancellable>()
 
-    // MARK: Dependencies
-
-    @ObservationIgnored
-    @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
-
-    @ObservationIgnored
-    @Injected(\.userStore) private var userStore: UserStore
-
-    @ObservationIgnored
-    @Injected(\.loadingManager) private var loadingManager: LoadingManager
+    var isLoggedIn: Bool {
+        userStore.isLoggedIn
+    }
 
     // MARK: Observed properties
 

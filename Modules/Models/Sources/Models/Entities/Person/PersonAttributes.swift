@@ -20,6 +20,10 @@ public struct PersonAttributes: Codable, Equatable, Identifiable, Sendable {
     public let banExpires: String?
     public let instanceID: Int
 
+    public var userTitle: String {
+        "u/\(name)"
+    }
+
     enum CodingKeys: String, CodingKey {
         case id
         case name
