@@ -38,11 +38,11 @@ final class PostDetailViewModel {
 
     func fetchCommentsForPost() async {
         loadingManager.showLoading()
+        defer { loadingManager.hideLoading() }
 
         do {
             comments = try await commentRepository.getCommentsForPostID(post.id)
             commentTree = CommentTreeBuilder.buildTree(from: comments)
-            loadingManager.hideLoading()
         } catch {
             logger.error("Error loading cmments. Error: \(error.localizedDescription)")
             errorMessage = "Error loading comments."
