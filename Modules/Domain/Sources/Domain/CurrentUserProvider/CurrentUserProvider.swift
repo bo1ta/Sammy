@@ -1,38 +1,8 @@
 import Foundation
 import Models
-import Networking
+import protocol Networking.DecodableModel
 
-// MARK: - CurrentUserProviderProtocol
-
-public protocol CurrentUserProviderProtocol {
-    func getCurrentState() -> CurrentUserState
-    func setUser(_ localUser: LocalUser)
-    func clearUser()
-}
-
-extension CurrentUserProviderProtocol {
-    var currentUserID: Int? {
-        switch getCurrentState() {
-        case .authenticated(let localUser):
-            localUser.id
-        case .unauthenticated, .anonymous:
-            nil
-        }
-    }
-
-    var currentPersonID: Int? {
-        switch getCurrentState() {
-        case .authenticated(let localUser):
-            localUser.personID
-        case .unauthenticated, .anonymous:
-            nil
-        }
-    }
-}
-
-// MARK: - CurrentUserManager
-
-public class CurrentUserManager: CurrentUserProviderProtocol {
+public class CurrentUserProvider: CurrentUserProviderProtocol {
     private static let currentUserKey = "currentUser"
     private static let anonymousUserKey = "anonymousUser"
 
@@ -89,15 +59,5 @@ public class CurrentUserManager: CurrentUserProviderProtocol {
         return localUser
     }
 }
-
-// MARK: - CurrentUserState
-
-public enum CurrentUserState {
-    case authenticated(LocalUser)
-    case anonymous
-    case unauthenticated
-}
-
-// MARK: - LocalUser + DecodableModel
 
 extension LocalUser: DecodableModel { }

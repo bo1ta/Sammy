@@ -12,8 +12,6 @@ public protocol DecodableModel: Decodable { }
 extension DecodableModel {
     public static func createFrom(_ data: Data) throws -> Self {
         do {
-            let string = String(data: data, encoding: .utf8) ?? "invalid_response"
-            NSLog(string)
             return try JSONHelper.decoder.decode(Self.self, from: data)
         } catch let error as DecodingError {
             NSLog(error.prettyDescription)
@@ -23,8 +21,6 @@ extension DecodableModel {
 
     public static func createArrayFrom(_ data: Data) throws -> [Self] {
         do {
-            let string = String(data: data, encoding: .utf8) ?? "invalid_response"
-            NSLog(string)
             return try JSONHelper.decoder.decode([Self].self, from: data)
         } catch let error as DecodingError {
             NSLog(error.prettyDescription)

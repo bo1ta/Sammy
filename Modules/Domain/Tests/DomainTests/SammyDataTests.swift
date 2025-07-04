@@ -1,5 +1,5 @@
 import Testing
-@testable import SammyData
+@testable import Domain
 
 @Test
 func example() async throws {

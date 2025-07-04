@@ -4,14 +4,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "SammyData",
+    name: "Domain",
     platforms: [
         .iOS(.v17),
     ],
     products: [
         .library(
-            name: "SammyData",
-            targets: ["SammyData"]),
+            name: "Domain",
+            targets: ["Domain"]),
     ],
     dependencies: [
         .package(name: "Models", path: "../Models"),
@@ -21,10 +21,10 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "SammyData", dependencies: [
+            name: "Domain", dependencies: [
                 "Storage", "Models", "Networking", "Factory",
             ]),
         .testTarget(
-            name: "SammyDataTests",
-            dependencies: ["SammyData"]),
+            name: "DomainTests",
+            dependencies: ["Domain"]),
     ])

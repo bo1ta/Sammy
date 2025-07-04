@@ -1,5 +1,5 @@
 import Factory
-import SammyData
+import Domain
 import SwiftUI
 
 // MARK: - SplashDestinations

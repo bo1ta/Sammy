@@ -1,6 +1,6 @@
 import SwiftUI
 import Factory
-import SammyData
+import Domain
 import Models
 import OSLog
 

@@ -2,7 +2,7 @@ import Factory
 
 extension Container {
     public var currentUserProvider: Factory<CurrentUserProviderProtocol> {
-        self { CurrentUserManager() }
+        self { CurrentUserProvider() }
             .cached
     }
 
@@ -15,8 +15,8 @@ extension Container {
             .cached
     }
 
-    public var commentRepository: Factory<CommentRepositoryProtocol> {
-        self { CommentRepository() }
+    public var commentProvider: Factory<CommentDataProviderProtocol> {
+        self { CommentDataProvider() }
     }
 
     public var authenticationHandler: Factory<AuthenticationHandlerProtocol> {

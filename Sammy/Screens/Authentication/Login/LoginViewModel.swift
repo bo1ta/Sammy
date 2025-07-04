@@ -1,6 +1,6 @@
 import Factory
 import Foundation
-import SammyData
+import Domain
 
 @Observable
 @MainActor

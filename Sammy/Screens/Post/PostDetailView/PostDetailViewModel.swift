@@ -2,7 +2,7 @@ import Factory
 import Foundation
 import Models
 import OSLog
-import SammyData
+import Domain
 
 @Observable
 @MainActor
@@ -11,7 +11,7 @@ final class PostDetailViewModel {
     // MARK: - Dependencies
 
     @ObservationIgnored
-    @Injected(\.commentRepository) private var commentRepository: CommentRepositoryProtocol
+    @Injected(\.commentProvider) private var commentProvider: CommentDataProviderProtocol
 
     @ObservationIgnored
     @Injected(\.loadingManager) private var loadingManager: LoadingManager
@@ -41,7 +41,7 @@ final class PostDetailViewModel {
         defer { loadingManager.hideLoading() }
 
         do {
-            comments = try await commentRepository.getCommentsForPostID(post.id)
+            comments = try await commentProvider.getCommentsForPostID(post.id)
             commentTree = CommentTreeBuilder.buildTree(from: comments)
         } catch {
             logger.error("Error loading cmments. Error: \(error.localizedDescription)")
@@ -54,7 +54,7 @@ final class PostDetailViewModel {
 
         voteTask = Task {
             do {
-                try await commentRepository.setVoteForComment(commentID, voteType: voteType)
+                try await commentProvider.setVoteForComment(commentID, voteType: voteType)
             } catch {
                 logger.error("Error voting comment. Error: \(error.localizedDescription)")
                 errorMessage = "Error voting comment."

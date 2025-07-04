@@ -7,14 +7,14 @@ public typealias Comment = Models.Comment
 
 // MARK: - CommentRepositoryProtocol
 
-public protocol CommentRepositoryProtocol: Sendable {
+public protocol CommentDataProviderProtocol: Sendable {
     func getCommentsForPostID(_ postID: Int) async throws -> [Comment]
     func setVoteForComment(_ commentID: Comment.ID, voteType: VoteType) async throws
 }
 
 // MARK: - CommentRepository
 
-public struct CommentRepository: CommentRepositoryProtocol {
+public struct CommentDataProvider: CommentDataProviderProtocol {
     @Injected(\.commentService) private var service: CommentServiceProtocol
     private let dataStore = DataStore<Storage.Comment>()
 
