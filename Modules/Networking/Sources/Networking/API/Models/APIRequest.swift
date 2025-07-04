@@ -11,6 +11,15 @@ public struct APIRequest {
 
     private static let contentType = "application/json"
 
+    private static var userAgent: String {
+        let appName = Bundle.main.bundleIdentifier ?? "unknown"
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let platform = ProcessInfo.processInfo.operatingSystemVersionString
+        let contactURL = "[https://github.com/bo1ta/Sammy]"
+
+        return "\(appName)/\(appVersion) (\(platform); \(contactURL))"
+    }
+
     public var method: HTTPMethod
     public var route: Route
     public var queryParams: [URLQueryItem]?
@@ -39,14 +48,7 @@ public struct APIRequest {
             request.httpBody = data
         }
 
-        var headerFields: [String: String] = [
-            Constants.HTTPHeaderKey.contentType: APIRequest.contentType,
-        ]
-        if let authToken = try? tokenProvider.getAccessToken() {
-            headerFields[Constants.HTTPHeaderKey.authorization] = "Bearer \(authToken)"
-        }
-        request.allHTTPHeaderFields = headerFields
-
+        request.allHTTPHeaderFields = makeHeaderFields()
         return request
     }
 
@@ -56,6 +58,19 @@ public struct APIRequest {
         } catch {
             throw APIRequestError.invalidBody(jsonDictionary, error)
         }
+    }
+
+    private func makeHeaderFields() -> [String: String] {
+        var headerFields: [String: String] = [
+            Constants.HTTPHeaderKey.contentType: APIRequest.contentType,
+            Constants.HTTPHeaderKey.userAgent: APIRequest.userAgent
+        ]
+
+        if let authToken = try? tokenProvider.getAccessToken() {
+            headerFields[Constants.HTTPHeaderKey.authorization] = "Bearer \(authToken)"
+        }
+
+        return headerFields
     }
 }
 

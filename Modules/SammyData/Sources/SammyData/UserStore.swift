@@ -11,6 +11,7 @@ public final class UserStore: @unchecked Sendable {
     @Injected(\.userRepository) private var repository
     @Injected(\.authenticationHandler) private var authenticationHandler
     @Injected(\.currentUserProvider) private var currentUserProvider
+    @Injected(\.tokenProvider) private var tokenProvider
 
     public private(set) var currentPerson: Models.PersonAttributes?
     public private(set) var isAnonymous = false
@@ -70,8 +71,17 @@ public final class UserStore: @unchecked Sendable {
     }
 
     public func performAnonymousLogin() {
+        /// clear token if one exists
+        try? tokenProvider.clearToken()
+
         isAnonymous = true
         eventSubject.send(.didAnonymousLogin)
+    }
+
+    public func logoutUser() {
+        currentUserProvider.clearUser()
+        try? tokenProvider.clearToken()
+        eventSubject.send(.didLogout)
     }
 }
 

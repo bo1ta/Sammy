@@ -44,7 +44,7 @@ extension ProfileView {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    print("Tapped \(item.title)")
+                    viewModel.handleMenuItem(item)
                 }
 
                 if index < ProfileMenuItems.allCases.count - 1 {

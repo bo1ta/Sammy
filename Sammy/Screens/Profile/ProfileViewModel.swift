@@ -44,4 +44,21 @@ class ProfileViewModel {
             toastManager.showError(MessageConstants.genericErrorMessage)
         }
     }
+
+    func handleMenuItem(_ menuItem: ProfileMenuItems) {
+        switch menuItem {
+        case .myAccount:
+            break
+        case .saved:
+            break
+        case .history:
+            break
+        case .settings:
+            break
+        case .helpAndSupport:
+            break
+        case .logOut:
+            userStore.logoutUser()
+        }
+    }
 }
