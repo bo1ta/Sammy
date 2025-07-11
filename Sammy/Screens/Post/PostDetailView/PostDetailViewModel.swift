@@ -1,22 +1,11 @@
-import Factory
+import Domain
 import Foundation
 import Models
 import OSLog
-import Domain
 
 @Observable
 @MainActor
 final class PostDetailViewModel {
-
-    // MARK: - Dependencies
-
-    @ObservationIgnored
-    @Injected(\.commentProvider) private var commentProvider: CommentDataProviderProtocol
-
-    @ObservationIgnored
-    @Injected(\.loadingManager) private var loadingManager: LoadingManager
-
-    private let logger = Logger(subsystem: "com.Sammy", category: "PostDetailViewModel")
 
     // MARK: - Observed properties
 
@@ -29,16 +18,19 @@ final class PostDetailViewModel {
     // MARK: - Init
 
     let post: Post
+    private let logger = Logger(subsystem: "com.Sammy", category: "PostDetailViewModel")
+    private let commentProvider: CommentDataProviderProtocol
 
-    init(post: Post) {
+    init(post: Post, commentProvider: CommentDataProviderProtocol = CommentDataProvider()) {
         self.post = post
+        self.commentProvider = commentProvider
     }
 
     // MARK: - Public methods
 
     func fetchCommentsForPost() async {
-        loadingManager.showLoading()
-        defer { loadingManager.hideLoading() }
+        SammyWrapper.showLoading()
+        defer { SammyWrapper.hideLoading() }
 
         do {
             comments = try await commentProvider.getCommentsForPostID(post.id)

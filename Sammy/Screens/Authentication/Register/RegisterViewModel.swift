@@ -1,4 +1,3 @@
-import Factory
 import Foundation
 import Models
 import Networking
@@ -7,17 +6,11 @@ import UIKit
 @Observable
 @MainActor
 final class RegisterViewModel {
+    private let service: AuthServiceProtocol
 
-    // MARK: - Dependencies
-
-    @ObservationIgnored
-    @Injected(\.authService) private var service: AuthServiceProtocol
-
-    @ObservationIgnored
-    @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
-
-    @ObservationIgnored
-    @Injected(\.loadingManager) private var loadingManager: LoadingManager
+    init(service: AuthServiceProtocol = AuthService()) {
+        self.service = service
+    }
 
     // MARK: - Observed properties
 
@@ -55,13 +48,13 @@ final class RegisterViewModel {
 
     func login() {
         guard isFormValid, let captcha else {
-            toastManager.showWarning("Inputs are not valid")
+            SammyWrapper.showWarning("Inputs are not valid")
             return
         }
 
         Task {
-            loadingManager.showLoading()
-            defer { loadingManager.hideLoading() }
+            SammyWrapper.showLoading()
+            defer { SammyWrapper.hideLoading() }
 
             do {
                 _ = try await service.register(
@@ -88,13 +81,13 @@ final class RegisterViewModel {
     // MARK: - Private helpers
 
     private func showErrorToast(message: String) {
-        toastManager.showError(message)
+        SammyWrapper.showError(message)
     }
 
     private func showSuccessToast() {
         let toast = Toast(
             style: .success,
             message: "Register completed! Activate your account by clicking the link in your email, then log-in.")
-        toastManager.show(toast, autoDismissAfter: 2.0)
+        SammyWrapper.shared.show(toast, autoDismissAfter: 2.0)
     }
 }

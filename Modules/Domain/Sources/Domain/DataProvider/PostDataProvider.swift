@@ -1,35 +1,56 @@
 import Models
 import Networking
-import Storage
-import Factory
 import os
+import Storage
+
+// MARK: - DataProvider
+
+protocol DataProvider {
+    var readOnlyStore: ReadOnlyStore { get }
+    var writeOnlyStore: WriteOnlyStore { get }
+}
+
+extension DataProvider {
+    var readOnlyStore: ReadOnlyStore {
+        CoreDataStore.readOnlyStore()
+    }
+
+    var writeOnlyStore: WriteOnlyStore {
+        CoreDataStore.writeOnlyStore()
+    }
+}
+
+// MARK: - PostDataProviderProtocol
 
 public protocol PostDataProviderProtocol: Sendable {
     func getByID(_ id: Post.ID) async throws -> Post
     func fetchPosts() async throws -> [Post]
 }
 
-public typealias Post = Models.Post
+// MARK: - PostDataProvider
 
-public struct PostDataProvider: PostDataProviderProtocol, @unchecked Sendable {
-    @Injected(\.postService) private var service: PostServiceProtocol
+public struct PostDataProvider: PostDataProviderProtocol, DataProvider, @unchecked Sendable {
+    private let service: PostServiceProtocol
 
-    private let dataStore = DataStore<Storage.Post>()
+    init(service: PostServiceProtocol = PostService()) {
+        self.service = service
+    }
+
     private let logger = Logger()
 
     public func fetchPosts() async throws -> [Post] {
         do {
-            if LastTimeUpdatedChecker.isDataOld(forType: Storage.Post.self) {
+            if LastTimeUpdatedChecker.isDataOld(forType: PostEntity.self) {
                 let posts = try await service.fetchPosts()
-                try await dataStore.importModels(posts)
+                try await writeOnlyStore.synchronize(posts, ofType: PostEntity.self)
                 return posts
             } else {
-                return await dataStore.getAll()
+                return await readOnlyStore.allPosts()
             }
         } catch let error as APIClientError {
             logger.error("Error fetching posts: \(error). Fallback to local datastore")
 
-            let posts = await dataStore.getAll()
+            let posts = await readOnlyStore.allPosts()
 
             /// no reason to return an empty array.
             /// re-throw the api error in case we wanna show some alert
@@ -43,12 +64,12 @@ public struct PostDataProvider: PostDataProviderProtocol, @unchecked Sendable {
 
     public func getByID(_ id: Post.ID) async throws -> Post {
         do {
-            if LastTimeUpdatedChecker.isDataOld(forType: Storage.Post.self, withID: id) {
+            if LastTimeUpdatedChecker.isDataOld(forType: PostEntity.self, withID: id) {
                 let post = try await service.getByID(id)
-                try await dataStore.importModel(post)
+                try await writeOnlyStore.synchronize(post, ofType: PostEntity.self)
                 return post
             } else {
-                let post = await dataStore.first(where: \.postID == id)
+                let post = await readOnlyStore.postByID(id)
                 guard let post else {
                     throw DomainError.unexpectedNil
                 }
@@ -57,7 +78,7 @@ public struct PostDataProvider: PostDataProviderProtocol, @unchecked Sendable {
         } catch let error as APIClientError {
             logger.error("Error fetching post: \(error). Fallback to local datastore")
 
-            let post = await dataStore.first(where: \.postID == id)
+            let post = await readOnlyStore.postByID(id)
 
             /// no reason to return an empty array.
             /// re-throw the api error in case we wanna show some alert
@@ -69,6 +90,8 @@ public struct PostDataProvider: PostDataProviderProtocol, @unchecked Sendable {
         }
     }
 }
+
+// MARK: - DomainError
 
 public enum DomainError: Error {
     case unexpectedNil

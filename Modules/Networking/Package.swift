@@ -11,16 +11,12 @@ let package = Package(
             name: "Networking",
             targets: ["Networking"]),
     ],
-    dependencies: [
-        .package(name: "Models", path: "../Models"),
-        .package(url: "https://github.com/hmlongco/Factory", exact: "2.5.3"),
-    ],
+    dependencies: [.package(name: "Models", path: "../Models")],
     targets: [
         .target(
             name: "Networking",
             dependencies: [
                 .product(name: "Models", package: "Models"),
-                "Factory",
             ]),
         .testTarget(
             name: "NetworkingTests",

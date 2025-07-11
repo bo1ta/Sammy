@@ -50,6 +50,8 @@ public struct LocalUser: Codable, Identifiable, Sendable {
     }
 }
 
+// MARK: Equatable
+
 extension LocalUser: Equatable {
     public static func ==(_ lhs: LocalUser, rhs: LocalUser) -> Bool {
         lhs.personAttributes.id == rhs.personAttributes.id && lhs.userAttributes.id == rhs.userAttributes.id

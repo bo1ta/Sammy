@@ -1,4 +1,3 @@
-import Factory
 import Foundation
 import Models
 
@@ -12,7 +11,11 @@ public protocol UserServiceProtocol: Sendable {
 // MARK: - UserService
 
 public struct UserService: UserServiceProtocol {
-    @Injected(\.client) private var client: APIClientProvider
+    private let client: APIClientProvider
+
+    public init(client: APIClientProvider = APIClient()) {
+        self.client = client
+    }
 
     public func getPersonDetails(queryOptions: [PersonDetailsQueryOption]) async throws -> PersonDetails {
         guard !queryOptions.isEmpty else {

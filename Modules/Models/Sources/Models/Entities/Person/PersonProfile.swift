@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PersonProfile: Decodable {
+public struct PersonProfile: Decodable, Sendable {
     public let person: PersonAttributes
     public let personCounts: PersonCounts
     public let isAdmin: Bool

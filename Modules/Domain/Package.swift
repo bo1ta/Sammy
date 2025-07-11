@@ -17,12 +17,11 @@ let package = Package(
         .package(name: "Models", path: "../Models"),
         .package(name: "Storage", path: "../Storage"),
         .package(name: "Networking", path: "../Networking"),
-        .package(url: "https://github.com/hmlongco/Factory", exact: "2.5.3"),
     ],
     targets: [
         .target(
             name: "Domain", dependencies: [
-                "Storage", "Models", "Networking", "Factory",
+                "Storage", "Models", "Networking",
             ]),
         .testTarget(
             name: "DomainTests",

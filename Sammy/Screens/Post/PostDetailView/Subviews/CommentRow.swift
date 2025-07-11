@@ -52,7 +52,10 @@ struct CommentRow: View {
                 downvoteButton
             }
         }
-        .contentShape(Rectangle())
+        .frame(maxWidth: .infinity)
+        .padding(.paddingMedium)
+        .background(Color.white, in: RoundedRectangle(cornerRadius: .cornerRadiusMedium))
+        .shadow(radius: 0.75)
         .onTapGesture {
             if !node.children.isEmpty {
                 isCollapsed.toggle()

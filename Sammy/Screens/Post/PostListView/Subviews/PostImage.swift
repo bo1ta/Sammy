@@ -1,3 +1,4 @@
+import Networking
 import SwiftUI
 
 struct PostImage: View {
@@ -10,32 +11,16 @@ struct PostImage: View {
     }
 
     var body: some View {
-        AsyncImage(url: imageURL) { imagePhase in
-            switch imagePhase {
-            case .empty:
-                emptyImage
-
-            case .success(let image):
-                image.resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: height)
-
-            case .failure(let error):
-                emptyImage
-                    .onAppear {
-                        print(error.localizedDescription)
-                    }
-
-            @unknown default:
-                fatalError("Unknown default")
-            }
-        }
-    }
-
-    private var emptyImage: some View {
-        Color.white
-            .frame(maxWidth: .infinity)
-            .frame(height: height)
+        CustomAsyncImage(
+            url: imageURL,
+            content: { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 200, height: 200)
+            },
+            placeholder: {
+                ProgressView()
+            })
     }
 }

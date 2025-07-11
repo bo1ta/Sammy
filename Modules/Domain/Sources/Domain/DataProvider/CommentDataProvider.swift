@@ -1,35 +1,37 @@
-import Factory
 import Models
 import Networking
 import Storage
 
 public typealias Comment = Models.Comment
 
-// MARK: - CommentRepositoryProtocol
+// MARK: - CommentDataProviderProtocol
 
 public protocol CommentDataProviderProtocol: Sendable {
     func getCommentsForPostID(_ postID: Int) async throws -> [Comment]
     func setVoteForComment(_ commentID: Comment.ID, voteType: VoteType) async throws
 }
 
-// MARK: - CommentRepository
+// MARK: - CommentDataProvider
 
-public struct CommentDataProvider: CommentDataProviderProtocol {
-    @Injected(\.commentService) private var service: CommentServiceProtocol
-    private let dataStore = DataStore<Storage.Comment>()
+public struct CommentDataProvider: CommentDataProviderProtocol, DataProvider {
+    private var service: CommentServiceProtocol
+
+    public init(service: CommentServiceProtocol = CommentService()) {
+        self.service = service
+    }
 
     public func setVoteForComment(_ commentID: Comment.ID, voteType: VoteType) async throws {
         try await service.setVoteForComment(commentID, voteType: voteType)
     }
 
     public func getCommentsForPostID(_ postID: Int) async throws -> [Comment] {
-        guard LastTimeUpdatedChecker.checkIfCommentsOldForPostID(postID) else {
-            return await dataStore.getAll(matching: \.postAttributes.uniqueID == postID)
+        guard LastTimeUpdatedChecker.isDataOld(forType: CommentEntity.self, withID: postID) else {
+            return await readOnlyStore.commentsForPostID(postID)
         }
 
         let comments = try await fetchAllComments(postID: postID)
-        try await dataStore.importModels(comments)
-        LastTimeUpdatedChecker.storeLastUpdateDateForCommentsOfPostID(postID)
+        try await writeOnlyStore.synchronize(comments, ofType: CommentEntity.self)
+        LastTimeUpdatedChecker.storeLastUpdateDate(forType: CommentEntity.self, withID: postID)
 
         return comments
     }

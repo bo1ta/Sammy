@@ -2,9 +2,13 @@ import Foundation
 import Models
 import protocol Networking.DecodableModel
 
+// MARK: - CurrentUserProvider
+
 public class CurrentUserProvider: CurrentUserProviderProtocol {
     private static let currentUserKey = "currentUser"
     private static let anonymousUserKey = "anonymousUser"
+
+    public nonisolated(unsafe) static let instance = CurrentUserProvider()
 
     private var cachedState: CurrentUserState?
 
@@ -59,5 +63,7 @@ public class CurrentUserProvider: CurrentUserProviderProtocol {
         return localUser
     }
 }
+
+// MARK: - LocalUser + DecodableModel
 
 extension LocalUser: DecodableModel { }

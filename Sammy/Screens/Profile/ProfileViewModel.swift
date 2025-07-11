@@ -1,28 +1,19 @@
-import SwiftUI
-import Factory
 import Domain
 import Models
 import OSLog
+import SwiftUI
 
 @MainActor
 @Observable
 class ProfileViewModel {
-
-    // MARK: - Dependencies
-
-    @ObservationIgnored
-    @Injected(\.loadingManager) private var loadingManager: LoadingManager
-
-    @ObservationIgnored
-    @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
-
-    @ObservationIgnored
-    @Injected(\.userRepository) private var userRepository: UserRepositoryProtocol
-
-    @ObservationIgnored
-    @Injected(\.userStore) private var userStore: UserStore
-
     private let logger = Logger(subsystem: "com.Sammy", category: "ProfileViewModel")
+    private let userDataProvider: UserDataProvider
+    private let userStore: UserStore
+
+    init(userRepository: UserDataProvider = UserDataProvider(), userStore: UserStore = UserStore.shared) {
+        self.userDataProvider = userRepository
+        self.userStore = userStore
+    }
 
     // MARK: - Observed Properties
 
@@ -34,14 +25,14 @@ class ProfileViewModel {
     // MARK: - Public methods
 
     func loadData() async {
-        loadingManager.showLoading()
-        defer { loadingManager.hideLoading() }
+        SammyWrapper.showLoading()
+        defer { SammyWrapper.hideLoading() }
 
         do {
-            localUser = try await userRepository.getLocalUser()
+            localUser = try await userDataProvider.getLocalUser()
         } catch {
             logger.error("Error loading local user data. Error: \(error)")
-            toastManager.showError(MessageConstants.genericErrorMessage)
+            SammyWrapper.showError(MessageConstants.genericErrorMessage)
         }
     }
 

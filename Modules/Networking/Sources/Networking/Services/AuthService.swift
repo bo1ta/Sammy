@@ -1,4 +1,3 @@
-import Factory
 import Models
 
 // MARK: - AuthServiceProtocol
@@ -25,8 +24,13 @@ public protocol AuthServiceProtocol: Sendable {
 // MARK: - AuthService
 
 public struct AuthService: AuthServiceProtocol {
-    @Injected(\.client) private var client: APIClientProvider
-    @Injected(\.tokenProvider) private var tokenProvider: TokenProviderType
+    private let client: APIClientProvider
+    private let tokenProvider: TokenProviderType
+
+    public init(client: APIClientProvider = APIClient(), tokenProvider: TokenProviderType = TokenProvider.instance) {
+        self.client = client
+        self.tokenProvider = tokenProvider
+    }
 
     public func register(
         username: String,

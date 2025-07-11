@@ -1,4 +1,3 @@
-import Factory
 import Domain
 import SwiftUI
 
@@ -37,8 +36,6 @@ final class AuthNavigator: Navigator {
 // MARK: - SplashView
 
 struct SplashView: View {
-    @Injected(\.userStore) private var userStore: UserStore
-
     @State private var navigator = AuthNavigator()
 
     var body: some View {
@@ -61,7 +58,7 @@ struct SplashView: View {
                 .buttonStyle(PrimaryButtonStyle())
 
                 Button("Browse Communities") {
-                    userStore.performAnonymousLogin()
+                    UserStore.shared.performAnonymousLogin()
                 }
                 .buttonStyle(PrimaryButtonStyle())
 

@@ -1,22 +1,11 @@
 import Combine
-import Factory
-import Foundation
 import Domain
+import Foundation
 
 @Observable
 @MainActor
 final class AppState {
-
-    // MARK: Dependencies
-
-    @ObservationIgnored
-    @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
-
-    @ObservationIgnored
-    @Injected(\.userStore) private var userStore: UserStore
-
-    @ObservationIgnored
-    @Injected(\.loadingManager) private var loadingManager: LoadingManager
+    private let userStore: UserStore
 
     // MARK: State
 
@@ -42,18 +31,19 @@ final class AppState {
 
     // MARK: Setup
 
-    init() {
+    init(userStore: UserStore = UserStore.shared) {
+        self.userStore = userStore
         setupObservers()
     }
 
     private func setupObservers() {
-        toastManager.toastPublisher
+        SammyWrapper.shared.toastPublisher
             .sink { [weak self] toast in
                 self?.toast = toast
             }
             .store(in: &cancellables)
 
-        loadingManager.loadingPublisher
+        SammyWrapper.shared.loadingPublisher
             .sink { [weak self] isLoading in
                 self?.isLoading = isLoading
             }
