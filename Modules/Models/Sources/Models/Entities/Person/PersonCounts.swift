@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PersonCounts: Decodable {
+public struct PersonCounts: Decodable, Sendable {
     public let personID: Int
     public let postCount: Int
     public let commentCount: Int

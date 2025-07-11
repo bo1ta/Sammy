@@ -14,6 +14,8 @@ public protocol TokenProviderType: Sendable {
 
 public final class TokenProvider: TokenProviderType {
 
+    public static let instance = TokenProvider()
+
     // MARK: Private
 
     private static let tokenKey = "accessToken"

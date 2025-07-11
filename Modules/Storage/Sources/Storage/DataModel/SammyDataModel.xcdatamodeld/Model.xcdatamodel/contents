@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24D70" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="Comment" representedClassName="Comment" syncable="YES">
-        <attribute name="commentID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="commentAttributes" maxCount="1" deletionRule="Nullify" destinationEntity="CommentAttributes" inverseName="comment" inverseEntity="CommentAttributes"/>
-        <relationship name="commentCounts" maxCount="1" deletionRule="Nullify" destinationEntity="CommentCounts" inverseName="comment" inverseEntity="CommentCounts"/>
-        <relationship name="communityAttributes" maxCount="1" deletionRule="Nullify" destinationEntity="CommunityAttributes" inverseName="comments" inverseEntity="CommunityAttributes"/>
-        <relationship name="creatorAttributes" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributes" inverseName="comments" inverseEntity="PersonAttributes"/>
-        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetails" inverseName="comments" inverseEntity="PersonDetails"/>
-        <relationship name="postAttributes" maxCount="1" deletionRule="Nullify" destinationEntity="PostAttributes" inverseName="comments" inverseEntity="PostAttributes"/>
-    </entity>
-    <entity name="CommentAttributes" representedClassName="CommentAttributes" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24233.11" systemVersion="25A5306g" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CommentAttributesEntity" representedClassName="CommentAttributesEntity" syncable="YES">
         <attribute name="commentPath" attributeType="String"/>
         <attribute name="content" attributeType="String"/>
         <attribute name="creatorID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -22,25 +13,26 @@
         <attribute name="publishedAt" attributeType="String"/>
         <attribute name="uniqueID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="String"/>
-        <relationship name="comment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comment" inverseName="commentAttributes" inverseEntity="Comment"/>
+        <relationship name="comment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommentEntity" inverseName="commentAttributes" inverseEntity="CommentEntity"/>
     </entity>
-    <entity name="CommentCounts" representedClassName="CommentCounts" syncable="YES">
+    <entity name="CommentCountsEntity" representedClassName="CommentCountsEntity" syncable="YES">
         <attribute name="childCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="commentID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="publishedAt" attributeType="String"/>
         <attribute name="score" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="upvotes" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="comment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Comment" inverseName="commentCounts" inverseEntity="Comment"/>
+        <relationship name="comment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommentEntity" inverseName="commentCounts" inverseEntity="CommentEntity"/>
     </entity>
-    <entity name="Community" representedClassName="Community" syncable="YES">
-        <attribute name="bannedFromCommunity" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="blocked" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="subscribed" attributeType="String"/>
-        <relationship name="communityAttributes" maxCount="1" deletionRule="Cascade" destinationEntity="CommunityAttributes" inverseName="community" inverseEntity="CommunityAttributes"/>
-        <relationship name="communityCounts" maxCount="1" deletionRule="Cascade" destinationEntity="CommunityCounts" inverseName="community" inverseEntity="CommunityCounts"/>
-        <relationship name="personModerates" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PersonModerates" inverseName="communities" inverseEntity="PersonModerates"/>
+    <entity name="CommentEntity" representedClassName="CommentEntity" syncable="YES">
+        <attribute name="commentID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="commentAttributes" maxCount="1" deletionRule="Nullify" destinationEntity="CommentAttributesEntity" inverseName="comment" inverseEntity="CommentAttributesEntity"/>
+        <relationship name="commentCounts" maxCount="1" deletionRule="Nullify" destinationEntity="CommentCountsEntity" inverseName="comment" inverseEntity="CommentCountsEntity"/>
+        <relationship name="communityAttributes" maxCount="1" deletionRule="Nullify" destinationEntity="CommunityAttributesEntity" inverseName="comments" inverseEntity="CommunityAttributesEntity"/>
+        <relationship name="creatorAttributes" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributesEntity" inverseName="comments" inverseEntity="PersonAttributesEntity"/>
+        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetailsEntity" inverseName="comments" inverseEntity="PersonDetailsEntity"/>
+        <relationship name="postAttributes" maxCount="1" deletionRule="Nullify" destinationEntity="PostAttributesEntity" inverseName="comments" inverseEntity="PostAttributesEntity"/>
     </entity>
-    <entity name="CommunityAttributes" representedClassName="CommunityAttributes" syncable="YES">
+    <entity name="CommunityAttributesEntity" representedClassName="CommunityAttributesEntity" syncable="YES">
         <attribute name="banner" optional="YES" attributeType="String"/>
         <attribute name="communityDescription" optional="YES" attributeType="String"/>
         <attribute name="icon" optional="YES" attributeType="String"/>
@@ -50,11 +42,11 @@
         <attribute name="uniqueID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="String"/>
         <attribute name="visibility" attributeType="String"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="communityAttributes" inverseEntity="Comment"/>
-        <relationship name="community" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Community" inverseName="communityAttributes" inverseEntity="Community"/>
-        <relationship name="posts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="communityAttributes" inverseEntity="Post"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentEntity" inverseName="communityAttributes" inverseEntity="CommentEntity"/>
+        <relationship name="community" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommunityEntity" inverseName="communityAttributes" inverseEntity="CommunityEntity"/>
+        <relationship name="posts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostEntity" inverseName="communityAttributes" inverseEntity="PostEntity"/>
     </entity>
-    <entity name="CommunityCounts" representedClassName="CommunityCounts" syncable="YES">
+    <entity name="CommunityCountsEntity" representedClassName="CommunityCountsEntity" syncable="YES">
         <attribute name="comments" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="communityID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="posts" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -65,13 +57,17 @@
         <attribute name="usersActiveHalfYear" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="usersActiveMonth" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="usersActiveWeek" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="community" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Community" inverseName="communityCounts" inverseEntity="Community"/>
+        <relationship name="community" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommunityEntity" inverseName="communityCounts" inverseEntity="CommunityEntity"/>
     </entity>
-    <entity name="LocalUser" representedClassName="LocalUser" syncable="YES">
-        <relationship name="localUserAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalUserAttributes" inverseName="localUser" inverseEntity="LocalUserAttributes"/>
-        <relationship name="personAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributes" inverseName="localUser" inverseEntity="PersonAttributes"/>
+    <entity name="CommunityEntity" representedClassName="CommunityEntity" syncable="YES">
+        <attribute name="bannedFromCommunity" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="blocked" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="subscribed" attributeType="String"/>
+        <relationship name="communityAttributes" maxCount="1" deletionRule="Cascade" destinationEntity="CommunityAttributesEntity" inverseName="community" inverseEntity="CommunityAttributesEntity"/>
+        <relationship name="communityCounts" maxCount="1" deletionRule="Cascade" destinationEntity="CommunityCountsEntity" inverseName="community" inverseEntity="CommunityCountsEntity"/>
+        <relationship name="personModerates" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PersonModeratesEntity" inverseName="communities" inverseEntity="PersonModeratesEntity"/>
     </entity>
-    <entity name="LocalUserAttributes" representedClassName="LocalUserAttributes" syncable="YES">
+    <entity name="LocalUserAttributesEntity" representedClassName="LocalUserAttributesEntity" syncable="YES">
         <attribute name="defaultListingType" attributeType="String"/>
         <attribute name="defaultSortType" attributeType="String"/>
         <attribute name="email" attributeType="String"/>
@@ -81,9 +77,13 @@
         <attribute name="showNSFW" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="theme" attributeType="String"/>
         <attribute name="uniqueID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="localUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalUser" inverseName="localUserAttributes" inverseEntity="LocalUser"/>
+        <relationship name="localUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalUserEntity" inverseName="localUserAttributes" inverseEntity="LocalUserEntity"/>
     </entity>
-    <entity name="PersonAttributes" representedClassName="PersonAttributes" syncable="YES">
+    <entity name="LocalUserEntity" representedClassName="LocalUserEntity" syncable="YES">
+        <relationship name="localUserAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalUserAttributesEntity" inverseName="localUser" inverseEntity="LocalUserAttributesEntity"/>
+        <relationship name="personAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributesEntity" inverseName="localUser" inverseEntity="PersonAttributesEntity"/>
+    </entity>
+    <entity name="PersonAttributesEntity" representedClassName="PersonAttributesEntity" syncable="YES">
         <attribute name="actorID" attributeType="String"/>
         <attribute name="avatar" optional="YES" attributeType="String"/>
         <attribute name="banExpires" optional="YES" attributeType="String"/>
@@ -100,47 +100,39 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="published" attributeType="String"/>
         <attribute name="uniqueID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="creatorAttributes" inverseEntity="Comment"/>
-        <relationship name="localUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalUser" inverseName="personAttributes" inverseEntity="LocalUser"/>
-        <relationship name="personModerates" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonModerates" inverseName="moderator" inverseEntity="PersonModerates"/>
-        <relationship name="personProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonProfile" inverseName="personAttributes" inverseEntity="PersonProfile"/>
-        <relationship name="posts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="creatorAttributes" inverseEntity="Post"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentEntity" inverseName="creatorAttributes" inverseEntity="CommentEntity"/>
+        <relationship name="localUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalUserEntity" inverseName="personAttributes" inverseEntity="LocalUserEntity"/>
+        <relationship name="personModerates" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonModeratesEntity" inverseName="moderator" inverseEntity="PersonModeratesEntity"/>
+        <relationship name="personProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonProfileEntity" inverseName="personAttributes" inverseEntity="PersonProfileEntity"/>
+        <relationship name="posts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostEntity" inverseName="creatorAttributes" inverseEntity="PostEntity"/>
     </entity>
-    <entity name="PersonCounts" representedClassName="PersonCounts" syncable="YES">
+    <entity name="PersonCountsEntity" representedClassName="PersonCountsEntity" syncable="YES">
         <attribute name="commentCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="personID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="postCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="personProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonProfile" inverseName="personCounts" inverseEntity="PersonProfile"/>
+        <relationship name="personProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonProfileEntity" inverseName="personCounts" inverseEntity="PersonProfileEntity"/>
     </entity>
-    <entity name="PersonDetails" representedClassName="PersonDetails" syncable="YES">
+    <entity name="PersonDetailsEntity" representedClassName="PersonDetailsEntity" syncable="YES">
         <attribute name="personID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Comment" inverseName="personDetails" inverseEntity="Comment"/>
-        <relationship name="moderates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PersonModerates" inverseName="personDetails" inverseEntity="PersonModerates"/>
-        <relationship name="personProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonProfile" inverseName="personDetails" inverseEntity="PersonProfile"/>
-        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Post" inverseName="personDetails" inverseEntity="Post"/>
-        <relationship name="siteAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SiteAttributes" inverseName="personDetails" inverseEntity="SiteAttributes"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CommentEntity" inverseName="personDetails" inverseEntity="CommentEntity"/>
+        <relationship name="moderates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PersonModeratesEntity" inverseName="personDetails" inverseEntity="PersonModeratesEntity"/>
+        <relationship name="personProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonProfileEntity" inverseName="personDetails" inverseEntity="PersonProfileEntity"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PostEntity" inverseName="personDetails" inverseEntity="PostEntity"/>
+        <relationship name="siteAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SiteAttributesEntity" inverseName="personDetails" inverseEntity="SiteAttributesEntity"/>
     </entity>
-    <entity name="PersonModerates" representedClassName="PersonModerates" syncable="YES">
+    <entity name="PersonModeratesEntity" representedClassName="PersonModeratesEntity" syncable="YES">
         <attribute name="personID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="communities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Community" inverseName="personModerates" inverseEntity="Community"/>
-        <relationship name="moderator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributes" inverseName="personModerates" inverseEntity="PersonAttributes"/>
-        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetails" inverseName="moderates" inverseEntity="PersonDetails"/>
+        <relationship name="communities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommunityEntity" inverseName="personModerates" inverseEntity="CommunityEntity"/>
+        <relationship name="moderator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributesEntity" inverseName="personModerates" inverseEntity="PersonAttributesEntity"/>
+        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetailsEntity" inverseName="moderates" inverseEntity="PersonDetailsEntity"/>
     </entity>
-    <entity name="PersonProfile" representedClassName="PersonProfile" syncable="YES">
+    <entity name="PersonProfileEntity" representedClassName="PersonProfileEntity" syncable="YES">
         <attribute name="isAdmin" attributeType="Boolean" usesScalarValueType="YES"/>
-        <relationship name="personAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributes" inverseName="personProfile" inverseEntity="PersonAttributes"/>
-        <relationship name="personCounts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonCounts" inverseName="personProfile" inverseEntity="PersonCounts"/>
-        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetails" inverseName="personProfile" inverseEntity="PersonDetails"/>
+        <relationship name="personAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributesEntity" inverseName="personProfile" inverseEntity="PersonAttributesEntity"/>
+        <relationship name="personCounts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonCountsEntity" inverseName="personProfile" inverseEntity="PersonCountsEntity"/>
+        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetailsEntity" inverseName="personProfile" inverseEntity="PersonDetailsEntity"/>
     </entity>
-    <entity name="Post" representedClassName="Post" syncable="YES">
-        <attribute name="postID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="communityAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommunityAttributes" inverseName="posts" inverseEntity="CommunityAttributes"/>
-        <relationship name="creatorAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributes" inverseName="posts" inverseEntity="PersonAttributes"/>
-        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetails" inverseName="posts" inverseEntity="PersonDetails"/>
-        <relationship name="postAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostAttributes" inverseName="post" inverseEntity="PostAttributes"/>
-        <relationship name="postCounts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostCounts" inverseName="post" inverseEntity="PostCounts"/>
-    </entity>
-    <entity name="PostAttributes" representedClassName="PostAttributes" syncable="YES">
+    <entity name="PostAttributesEntity" representedClassName="PostAttributesEntity" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String"/>
         <attribute name="communityID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="creatorID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -148,10 +140,10 @@
         <attribute name="publishedAt" attributeType="String"/>
         <attribute name="uniqueID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="url" optional="YES" attributeType="String"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="postAttributes" inverseEntity="Comment"/>
-        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="postAttributes" inverseEntity="Post"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentEntity" inverseName="postAttributes" inverseEntity="CommentEntity"/>
+        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostEntity" inverseName="postAttributes" inverseEntity="PostEntity"/>
     </entity>
-    <entity name="PostCounts" representedClassName="PostCounts" syncable="YES">
+    <entity name="PostCountsEntity" representedClassName="PostCountsEntity" syncable="YES">
         <attribute name="comments" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="downvotes" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="newestCommentTime" attributeType="String"/>
@@ -159,9 +151,16 @@
         <attribute name="publishedAt" attributeType="String"/>
         <attribute name="score" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="upvotes" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="postCounts" inverseEntity="Post"/>
+        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostEntity" inverseName="postCounts" inverseEntity="PostEntity"/>
     </entity>
-    <entity name="SiteAttributes" representedClassName="SiteAttributes" syncable="YES">
+    <entity name="PostEntity" representedClassName="PostEntity" syncable="YES">
+        <relationship name="communityAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommunityAttributesEntity" inverseName="posts" inverseEntity="CommunityAttributesEntity"/>
+        <relationship name="creatorAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributesEntity" inverseName="posts" inverseEntity="PersonAttributesEntity"/>
+        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetailsEntity" inverseName="posts" inverseEntity="PersonDetailsEntity"/>
+        <relationship name="postAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostAttributesEntity" inverseName="post" inverseEntity="PostAttributesEntity"/>
+        <relationship name="postCounts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostCountsEntity" inverseName="post" inverseEntity="PostCountsEntity"/>
+    </entity>
+    <entity name="SiteAttributesEntity" representedClassName="SiteAttributesEntity" syncable="YES">
         <attribute name="actorID" attributeType="String"/>
         <attribute name="banner" optional="YES" attributeType="String"/>
         <attribute name="contentWarning" optional="YES" attributeType="String"/>
@@ -176,6 +175,6 @@
         <attribute name="siteDescription" optional="YES" attributeType="String"/>
         <attribute name="uniqueID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="String"/>
-        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetails" inverseName="siteAttributes" inverseEntity="PersonDetails"/>
+        <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetailsEntity" inverseName="siteAttributes" inverseEntity="PersonDetailsEntity"/>
     </entity>
 </model>

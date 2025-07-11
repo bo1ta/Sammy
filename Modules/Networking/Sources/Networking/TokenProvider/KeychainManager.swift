@@ -4,7 +4,7 @@ import Security
 public struct KeychainManager: Sendable {
     private let service: String
 
-    public init(service: String = "com.Sammy.Networking.Keychain") {
+    public init(service: String) {
         self.service = service
     }
 

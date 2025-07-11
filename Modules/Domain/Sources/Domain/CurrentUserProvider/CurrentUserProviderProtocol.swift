@@ -1,6 +1,8 @@
 import Foundation
 import Models
 
+// MARK: - CurrentUserProviderProtocol
+
 public protocol CurrentUserProviderProtocol {
     func getCurrentState() -> CurrentUserState
     func setUser(_ localUser: LocalUser)

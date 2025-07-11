@@ -1,16 +1,20 @@
 import SwiftUI
-import SwiftyGif
 
-struct AnimatedGIFView: UIViewRepresentable {
-    var url: URL
+struct GIFImage: UIViewRepresentable {
+    var name: String
+
+    init(_ name: String) {
+        self.name = name
+    }
 
     func makeUIView(context _: Context) -> UIImageView {
-        let imageView = UIImageView(gifURL: self.url)
+        let imageView = UIImageView()
+        imageView.loadGif(name: name)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }
 
     func updateUIView(_ uiView: UIImageView, context _: Context) {
-        uiView.setGifFromURL(self.url)
+        uiView.loadGif(name: name)
     }
 }

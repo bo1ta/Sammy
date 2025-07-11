@@ -1,6 +1,8 @@
 import Models
 import SwiftUI
 
+// MARK: - CommunitiesView
+
 struct CommunitiesView: View {
     @State private var viewModel = CommunitiesViewModel()
 

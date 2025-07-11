@@ -1,4 +1,3 @@
-import Factory
 import Models
 import Networking
 import Storage
@@ -22,12 +21,22 @@ public protocol AuthenticationHandlerProtocol {
 // MARK: - AuthenticationHandler
 
 public struct AuthenticationHandler: AuthenticationHandlerProtocol {
-    @Injected(\.currentUserProvider) private var currentUserProvider
-    @Injected(\.userService) private var userService
-    @Injected(\.authService) private var authService
-    @Injected(\.siteService) private var siteService
+    private let currentUserProvider: CurrentUserProviderProtocol
+    private let userService: UserServiceProtocol
+    private let authService: AuthServiceProtocol
+    private let siteService: SiteServiceProtocol
 
-    private let dataStore = DataStore<Storage.PersonAttributes>()
+    public init(
+        currentUserProvider: CurrentUserProviderProtocol = CurrentUserProvider.instance,
+        userService: UserServiceProtocol = UserService(),
+        authService: AuthServiceProtocol = AuthService(),
+        siteService: SiteServiceProtocol = SiteService())
+    {
+        self.currentUserProvider = currentUserProvider
+        self.userService = userService
+        self.authService = authService
+        self.siteService = siteService
+    }
 
     public func register(
         username: String,
@@ -65,8 +74,7 @@ public struct AuthenticationHandler: AuthenticationHandlerProtocol {
         /// store the local user in user defaults. containts important things like `person_id
         currentUserProvider.setUser(localUser)
 
-        /// save the person in the core data store
-        try await dataStore.importModel(localUser.personAttributes)
+        try await CoreDataStore.writeOnlyStore().synchronize(localUser.personAttributes, ofType: PersonAttributesEntity.self)
 
         return localUser.personAttributes
     }

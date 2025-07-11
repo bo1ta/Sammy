@@ -1,40 +1,32 @@
-import Factory
-import Foundation
 import Domain
+import Foundation
 
 @Observable
 @MainActor
 final class LoginViewModel {
+    private let authenticationHandler: AuthenticationHandlerProtocol
+    private let userStore: UserStore
 
-    // MARK: Dependencies
-
-    @ObservationIgnored
-    @Injected(\.authenticationHandler) private var authenticationHandler: AuthenticationHandlerProtocol
-
-    @ObservationIgnored
-    @Injected(\.userStore) private var userStore: UserStore
-
-    @ObservationIgnored
-    @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
-
-    @ObservationIgnored
-    @Injected(\.loadingManager) private var loadingManager: LoadingManager
-
-    // MARK: Observed properties
+    init(
+        authenticationHandler: AuthenticationHandlerProtocol = AuthenticationHandler(),
+        userStore: UserStore = UserStore.shared)
+    {
+        self.authenticationHandler = authenticationHandler
+        self.userStore = userStore
+    }
 
     var usernameOrEmail = ""
     var password = ""
 
-    // MARK: Public methods
-
     func login() {
         guard !usernameOrEmail.isEmpty, !password.isEmpty else {
+            SammyWrapper.showInfo("You must fill in both fields")
             return
         }
 
         Task {
-            loadingManager.showLoading()
-            defer { loadingManager.hideLoading() }
+            SammyWrapper.showLoading()
+            defer { SammyWrapper.hideLoading() }
 
             do {
                 _ = try await authenticationHandler.login(
@@ -43,7 +35,7 @@ final class LoginViewModel {
                     twoFactoryAuthToken: nil)
                 await userStore.peformPostLogin()
             } catch {
-                toastManager.showError(error.localizedDescription)
+                SammyWrapper.showError(error.localizedDescription)
             }
         }
     }

@@ -1,4 +1,3 @@
-import Factory
 import Foundation
 import Models
 import Networking
@@ -9,8 +8,11 @@ import OSLog
 @Observable
 @MainActor
 final class PostsViewModel {
-    @ObservationIgnored
-    @Injected(\.postService) private var service: PostServiceProtocol
+    private let service: PostServiceProtocol
+
+    init(service: PostServiceProtocol = PostService()) {
+        self.service = service
+    }
 
     private let logger = Logger(subsystem: "com.Sammy", category: "PostsViewModel")
 

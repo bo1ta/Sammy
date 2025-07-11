@@ -3,7 +3,7 @@
 ///
 public protocol ReadOnlyConvertible {
     /// The associated read-only model type
-    associatedtype ReadOnlyType
+    associatedtype ReadOnlyType: Sendable
 
     /// Converts the managed object to its read-only representation
     func toReadOnly() -> ReadOnlyType

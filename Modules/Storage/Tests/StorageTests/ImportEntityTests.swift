@@ -1,4 +1,3 @@
-import Factory
 import Principle
 import Testing
 
@@ -6,157 +5,168 @@ import Testing
 @testable import Storage
 
 @Suite(.serialized)
-struct ImportEntityTests {
+class ImportEntityTests {
+
+    private let readOnlyStore: ReadOnlyStore
+    private let writeOnlyStore: WriteOnlyStore
+
+    init() {
+        CoreDataStore.setOverride(InMemoryCoreDataStore())
+        readOnlyStore = CoreDataStore.readOnlyStore()
+        writeOnlyStore = CoreDataStore.writeOnlyStore()
+    }
+
+    deinit {
+        CoreDataStore.setOverride(nil)
+    }
 
     // MARK: - Person
 
     @Test
     func importPersonCounts() async throws {
         let mockModel = PersonCountsFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: PersonCountsEntity.self)
 
-        let store = DataStore<Storage.PersonCounts>()
-        try await store.importModel(mockModel)
-
-        let localCounts = try #require(await store.first(where: \.personID == mockModel.personID))
+        let localCounts = try #require(await readOnlyStore.firstObject(
+            ofType: PersonCountsEntity.self,
+            predicate: \.personID == mockModel.personID))
         #expect(localCounts.postCount == mockModel.postCount)
     }
 
     @Test
     func importLocalUser() async throws {
         let mockModel = LocalUserFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: LocalUserEntity.self)
 
-        let store = DataStore<Storage.LocalUser>()
-        try await store.importModel(mockModel)
-
-        let localUser = try #require(await store.first(where: \.localUserAttributes.uniqueID == mockModel.userAttributes.id))
+        let localUser = try #require(await readOnlyStore.firstObject(
+            ofType: LocalUserEntity.self,
+            predicate: \.localUserAttributes.uniqueID == mockModel.userAttributes.id))
         #expect(localUser.userAttributes.id == mockModel.userAttributes.id)
     }
 
+    ///
     @Test
     func importLocalUserAttributes() async throws {
         let mockModel = LocalUserAttributesFactory.create()
 
-        let store = DataStore<Storage.LocalUserAttributes>()
-        try await store.importModel(mockModel)
+        try await writeOnlyStore.synchronize(mockModel, ofType: LocalUserAttributesEntity.self)
 
-        let localUser = try #require(await store.first(where: \.uniqueID == mockModel.id))
+        let localUser = try #require(await readOnlyStore.firstObject(
+            ofType: LocalUserAttributesEntity.self,
+            predicate: \.uniqueID == mockModel.id))
         #expect(localUser.defaultSortType == mockModel.defaultSortType)
     }
-
-    // MARK: - Comments
 
     @Test
     func importCommentAttributes() async throws {
         let mockModel = CommentAttributesFactory.create()
 
-        let store = DataStore<Storage.CommentAttributes>()
-        try await store.importModel(mockModel)
+        try await writeOnlyStore.synchronize(mockModel, ofType: CommentAttributesEntity.self)
 
-        let localCommentAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
+        let localCommentAttributes = try #require(await readOnlyStore.firstObject(
+            ofType: CommentAttributesEntity.self,
+            predicate: \.uniqueID == mockModel.id))
         #expect(localCommentAttributes == mockModel)
     }
 
     @Test
     func importCommentCounts() async throws {
         let mockModel = CommentCountsFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: CommentCountsEntity.self)
 
-        let store = DataStore<Storage.CommentCounts>()
-        try await store.importModel(mockModel)
-
-        let localCommentCounts = try #require(await store.first(where: \.commentID == mockModel.commentID))
+        let localCommentCounts = try #require(await readOnlyStore.firstObject(
+            ofType: CommentCountsEntity.self,
+            predicate: \.commentID == mockModel.commentID))
         #expect(localCommentCounts.published == mockModel.published)
     }
 
     @Test
     func importComment() async throws {
         let mockModel = CommentFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: CommentEntity.self)
 
-        let store = DataStore<Storage.Comment>()
-        try await store.importModel(mockModel)
-
-        let localComment = try #require(await store.first(where: \.commentID == mockModel.commentAttributes.id))
+        let localComment = try #require(await readOnlyStore.firstObject(
+            ofType: CommentEntity.self,
+            predicate: \.commentID == mockModel.commentAttributes.id))
         #expect(localComment == mockModel)
     }
-
-    // MARK: - Community
 
     @Test
     func importCommunityAttributes() async throws {
         let mockModel = CommunityAttributesFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: CommunityAttributesEntity.self)
 
-        let store = DataStore<Storage.CommunityAttributes>()
-        try await store.importModel(mockModel)
-
-        let localCommunityAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
+        let localCommunityAttributes = try #require(await readOnlyStore.firstObject(
+            ofType: CommunityAttributesEntity.self,
+            predicate: \.uniqueID == mockModel.id))
         #expect(localCommunityAttributes == mockModel)
     }
 
     @Test
     func importCommunityCounts() async throws {
         let mockModel = CommunityCountsFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: CommunityCountsEntity.self)
 
-        let store = DataStore<Storage.CommunityCounts>()
-        try await store.importModel(mockModel)
-
-        let localCommunityCounts = try #require(await store.first(where: \.communityID == mockModel.communityID))
+        let localCommunityCounts = try #require(await readOnlyStore.firstObject(
+            ofType: CommunityCountsEntity.self,
+            predicate: \.communityID == mockModel.communityID))
         #expect(localCommunityCounts == mockModel)
     }
 
     @Test
     func importCommunity() async throws {
         let mockModel = CommunityFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: CommunityEntity.self)
 
-        let store = DataStore<Storage.Community>()
-        try await store.importModel(mockModel)
-
-        let localCommunity = try #require(await store.first(where: \.communityAttributes.uniqueID == mockModel.attributes.id))
+        let localCommunity = try #require(await readOnlyStore.firstObject(
+            ofType: CommunityEntity.self,
+            predicate: \.communityAttributes.uniqueID == mockModel.attributes.id))
         #expect(localCommunity == mockModel)
     }
-
-    // MARK: - Posts
 
     @Test
     func importPostAttributes() async throws {
         let mockModel = PostAttributesFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: PostAttributesEntity.self)
 
-        let store = DataStore<Storage.PostAttributes>()
-        try await store.importModel(mockModel)
-
-        let localPostAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
+        let localPostAttributes = try #require(await readOnlyStore.firstObject(
+            ofType: PostAttributesEntity.self,
+            predicate: \.uniqueID == mockModel.id))
         #expect(localPostAttributes == mockModel)
     }
 
+    ///
     @Test
     func importPostCounts() async throws {
         let mockModel = PostCountsFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: PostCountsEntity.self)
 
-        let store = DataStore<Storage.PostCounts>()
-        try await store.importModel(mockModel)
-
-        let localPostCounts = try #require(await store.first(where: \.postID == mockModel.postID))
+        let localPostCounts = try #require(await readOnlyStore.firstObject(
+            ofType: PostCountsEntity.self,
+            predicate: \.postID == mockModel.postID))
         #expect(localPostCounts == mockModel)
     }
 
+    ///
     @Test
     func importPost() async throws {
         let mockModel = PostFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: PostEntity.self)
 
-        let store = DataStore<Storage.Post>()
-        try await store.importModel(mockModel)
-
-        let localPost = try #require(await store.first(where: \.postID == mockModel.attributes.id))
+        let localPost = try #require(await readOnlyStore.firstObject(
+            ofType: PostEntity.self,
+            predicate: \.postAttributes.uniqueID == mockModel.attributes.id))
         #expect(localPost == mockModel)
     }
 
     @Test
     func importSiteAttributes() async throws {
         let mockModel = SiteAttributesFactory.create()
+        try await writeOnlyStore.synchronize(mockModel, ofType: SiteAttributesEntity.self)
 
-        let store = DataStore<Storage.SiteAttributes>()
-        try await store.importModel(mockModel)
-
-        let localSiteAttributes = try #require(await store.first(where: \.uniqueID == mockModel.id))
+        let localSiteAttributes = try #require(await readOnlyStore.firstObject(
+            ofType: SiteAttributesEntity.self,
+            predicate: \.uniqueID == mockModel.id))
         #expect(localSiteAttributes.description == mockModel.description)
     }
-
 }

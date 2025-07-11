@@ -17,6 +17,7 @@ struct ThreadComments: View {
             LazyVStack(alignment: .leading) {
                 ForEach(commentTree) { comment in
                     ThreadedCommentNode(node: comment)
+                        .padding(.vertical, .paddingMedium)
                 }
             }
         }

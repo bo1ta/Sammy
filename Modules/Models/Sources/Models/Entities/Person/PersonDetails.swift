@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - PersonDetails
 
-public struct PersonDetails: Decodable {
+public struct PersonDetails: Decodable, Sendable {
     public let personProfile: PersonProfile
     public let siteAttributes: SiteAttributes
     public let comments: [Comment]
@@ -35,7 +35,7 @@ public struct PersonDetails: Decodable {
 // MARK: PersonDetails.Moderates
 
 extension PersonDetails {
-    public struct Moderates: Decodable {
+    public struct Moderates: Decodable, Sendable {
         public let communities: [Community]
         public let moderator: PersonAttributes
 

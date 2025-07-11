@@ -13,7 +13,6 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://bitbucket.org/iam_apps/principle/src/master/Principle/", .upToNextMajor(from: "1.5.0")),
-        .package(url: "https://github.com/hmlongco/Factory", exact: "2.5.3"),
         .package(name: "Models", path: "../Models"),
     ],
     targets: [
@@ -21,13 +20,11 @@ let package = Package(
             name: "Storage",
             dependencies: [
                 "Principle",
-                "Factory",
                 .product(name: "Models", package: "Models"),
             ]),
         .testTarget(
             name: "StorageTests",
             dependencies: [
                 "Storage",
-                .product(name: "Factory", package: "Factory"),
             ]),
     ])

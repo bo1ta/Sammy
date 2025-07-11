@@ -10,6 +10,7 @@ enum CoreDataPopulator {
     /// Populate entity by mirroring model's properties.
     /// `Note`: This does not populate relationships.
     ///
+    @discardableResult
     static func populateFromModel<Entity: NSManagedObject>(
         _ model: some Decodable,
         toEntity entity: Entity,

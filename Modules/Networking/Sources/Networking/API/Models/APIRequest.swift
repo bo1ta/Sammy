@@ -1,4 +1,3 @@
-import Factory
 import Foundation
 import OSLog
 
@@ -7,11 +6,13 @@ public typealias JSONDictionary = [String: Any]
 // MARK: - APIRequest
 
 public struct APIRequest {
-    @Injected(\.tokenProvider) private var tokenProvider
+    private var tokenProvider: TokenProvider {
+        TokenProvider.instance
+    }
 
     private static let contentType = "application/json"
 
-    private static var userAgent: String {
+    public static var userAgent: String {
         let appName = Bundle.main.bundleIdentifier ?? "unknown"
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
         let platform = ProcessInfo.processInfo.operatingSystemVersionString
@@ -63,7 +64,7 @@ public struct APIRequest {
     private func makeHeaderFields() -> [String: String] {
         var headerFields: [String: String] = [
             Constants.HTTPHeaderKey.contentType: APIRequest.contentType,
-            Constants.HTTPHeaderKey.userAgent: APIRequest.userAgent
+            Constants.HTTPHeaderKey.userAgent: APIRequest.userAgent,
         ]
 
         if let authToken = try? tokenProvider.getAccessToken() {

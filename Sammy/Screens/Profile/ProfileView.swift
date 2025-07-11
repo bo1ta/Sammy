@@ -37,7 +37,6 @@ extension ProfileView {
                     Text(item.title)
                         .font(.system(size: .fontSizeBody))
                         .foregroundStyle(.textPrimary)
-
                 }
                 .padding(.horizontal, .paddingMedium)
                 .padding(.vertical, .paddingSmall)
@@ -54,6 +53,7 @@ extension ProfileView {
             }
         }
     }
+
     private var headerSection: some View {
         HStack(spacing: 16) {
             Circle()
@@ -75,7 +75,11 @@ extension ProfileView {
     private var headerActionButtons: some View {
         HStack(spacing: 0) {
             ForEach(ProfileActions.allCases) { action in
-                let cornerRadii: RectangleCornerRadii = action == .edit ? .init(bottomTrailing: .cornerRadiusSmall, topTrailing: .cornerRadiusSmall) : .init(topLeading: .cornerRadiusSmall, bottomLeading: .cornerRadiusSmall)
+                let cornerRadii: RectangleCornerRadii = action == .edit
+                    ? .init(
+                        bottomTrailing: .cornerRadiusSmall,
+                        topTrailing: .cornerRadiusSmall)
+                    : .init(topLeading: .cornerRadiusSmall, bottomLeading: .cornerRadiusSmall)
 
                 Text(action.title)
                     .font(.system(size: .fontSizeCaption))
@@ -83,14 +87,15 @@ extension ProfileView {
                     .frame(maxWidth: .infinity)
                     .padding(.paddingMedium)
                     .background(
-                        viewModel.selectedAction == action ? Color
-                            .accentColor : Color.primaryBackground, in: .rect(cornerRadii: cornerRadii))
-                    .onTapGesture {
-                        withAnimation {
-                            viewModel.selectedAction = action
+                        viewModel.selectedAction == action
+                            ? Color
+                                .accentColor
+                            : Color.primaryBackground, in: .rect(cornerRadii: cornerRadii))
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.selectedAction = action
+                            }
                         }
-                    }
-
             }
         }
         .padding(.horizontal, .paddingJumbo)
@@ -131,18 +136,18 @@ extension ProfileView {
         VStack {
             Text(
                 "Sammy IOS Client v1.00")
-            .foregroundStyle(.gray)
-            .font(.system(size: .fontSizeCaption))
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity)
+                .foregroundStyle(.gray)
+                .font(.system(size: .fontSizeCaption))
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
 
             Text(
                 "© 2025 Sammy")
-            .foregroundStyle(.gray)
-            .font(.system(size: .fontSizeCaption))
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity)
-            .padding(.top, .paddingMedium)
+                .foregroundStyle(.gray)
+                .font(.system(size: .fontSizeCaption))
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+                .padding(.top, .paddingMedium)
         }
     }
 }

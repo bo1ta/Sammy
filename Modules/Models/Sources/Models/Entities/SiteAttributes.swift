@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SiteAttributes: Decodable {
+public struct SiteAttributes: Decodable, Sendable {
     public let id: Int
     public let name: String
     public let sidebar: String?

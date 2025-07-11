@@ -1,6 +1,4 @@
-import FactoryTesting
 import Testing
-@testable import Factory
 @testable import Models
 @testable import Networking
 @testable import Sammy
@@ -8,17 +6,10 @@ import Testing
 // MARK: - PostsViewModelTests
 
 @Suite("PostsViewModel")
-struct PostsViewModelTests {
+class PostsViewModelTests {
     func loadPostsIsSuccessful() async throws {
         let mockPost = PostFactory.create()
-        Container.shared.postService.register {
-            MockPostService(expectedPosts: [mockPost])
-        }
-        defer {
-            Container.shared.postService.reset()
-        }
-
-        let viewModel = await PostsViewModel()
+        let viewModel = await PostsViewModel(service: MockPostService(expectedPosts: [mockPost]))
         #expect(await viewModel.posts.isEmpty)
 
         await viewModel.loadPosts()
@@ -28,14 +19,7 @@ struct PostsViewModelTests {
 
     @Test
     func loadPostsFails() async throws {
-        Container.shared.postService.register {
-            MockPostService(shouldFail: true)
-        }
-        defer {
-            Container.shared.postService.reset()
-        }
-
-        let viewModel = await PostsViewModel()
+        let viewModel = await PostsViewModel(service: MockPostService(shouldFail: true))
         #expect(await viewModel.posts.isEmpty)
 
         await viewModel.loadPosts()

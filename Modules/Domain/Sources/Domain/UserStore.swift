@@ -1,5 +1,4 @@
 import Combine
-import Factory
 import Foundation
 import Models
 import Networking
@@ -8,10 +7,24 @@ import Storage
 // MARK: - UserStore
 
 public final class UserStore: @unchecked Sendable {
-    @Injected(\.userRepository) private var repository
-    @Injected(\.authenticationHandler) private var authenticationHandler
-    @Injected(\.currentUserProvider) private var currentUserProvider
-    @Injected(\.tokenProvider) private var tokenProvider
+    public static let shared = UserStore()
+
+    private let repository: UserDataProviderProtocol
+    private let authenticationHandler: AuthenticationHandlerProtocol
+    private let currentUserProvider: CurrentUserProviderProtocol
+    private let tokenProvider: TokenProviderType
+
+    init(
+        repository: UserDataProviderProtocol = UserDataProvider(),
+        authenticationHandler: AuthenticationHandlerProtocol = AuthenticationHandler(),
+        currentUserProvider: CurrentUserProviderProtocol = CurrentUserProvider(),
+        tokenProvider: TokenProviderType = TokenProvider.instance)
+    {
+        self.repository = repository
+        self.authenticationHandler = authenticationHandler
+        self.currentUserProvider = currentUserProvider
+        self.tokenProvider = tokenProvider
+    }
 
     public private(set) var currentPerson: Models.PersonAttributes?
     public private(set) var isAnonymous = false

@@ -1,4 +1,3 @@
-import Factory
 import Models
 
 // MARK: - SiteServiceProtocol
@@ -10,7 +9,11 @@ public protocol SiteServiceProtocol {
 // MARK: - SiteService
 
 public struct SiteService: SiteServiceProtocol {
-    @Injected(\.client) private var client: APIClientProvider
+    private let client: APIClientProvider
+
+    public init(client: APIClientProvider = APIClient()) {
+        self.client = client
+    }
 
     public func getSite() async throws -> SiteResponse {
         let request = APIRequest(method: .get, route: .site(.index))
