@@ -1,10 +1,3 @@
-//
-//  AsyncEntityListener.swift
-//  LifeCoach
-//
-//  Created by Alexandru Solomon on 09.06.2025.
-//
-
 import CoreData
 import Foundation
 import os

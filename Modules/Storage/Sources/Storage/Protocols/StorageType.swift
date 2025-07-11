@@ -1,10 +1,3 @@
-//
-//  StorageType.swift
-//  MusculosApp
-//
-//  Created by Solomon Alexandru on 25.03.2024.
-//
-
 import CoreData
 import Foundation
 

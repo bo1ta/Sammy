@@ -1,10 +1,3 @@
-//
-//  WriteOnlyStore.swift
-//  Storage
-//
-//  Created by Alexandru Solomon on 08.06.2025.
-//
-
 public protocol WriteOnlyStore {
     /// Perform a write operation. Uses `writerDerivedStorage`
     ///

@@ -1,10 +1,3 @@
-//
-//  InMemoryCoreDataStore.swift
-//  Storage
-//
-//  Created by Alexandru Solomon on 11.07.2025.
-//
-
 import CoreData
 import OSLog
 
@@ -13,7 +6,7 @@ public class InMemoryCoreDataStore: CoreDataStore {
 
     private lazy var inMemoryContainer: NSPersistentContainer = {
         guard
-            let modelURL = Bundle.module.url(forResource: "SammyDataModel", withExtension: "momd"),
+            let modelURL = Bundle.module.url(forResource: "SammyDataModel", withExtension: ".momd"),
             let model = NSManagedObjectModel(contentsOf: modelURL)
         else {
             fatalError("Could not load Core Data model")
