@@ -1,3 +1,3 @@
 enum MockError: Error {
-    case someError
+  case someError
 }

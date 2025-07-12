@@ -2,9 +2,9 @@ import Foundation
 @testable import Networking
 
 struct MockAPIProvider: APIProvider {
-    var expectedData: Data?
+  var expectedData: Data?
 
-    func dispatch(_: APIRequest) async throws -> Data {
-        expectedData ?? Data()
-    }
+  func dispatch(_: APIRequest) async throws -> Data {
+    expectedData ?? Data()
+  }
 }

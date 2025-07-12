@@ -12,29 +12,29 @@ import Models
 /// 3. Maintains parent-child relationships between comments
 ///
 struct CommentNode: Identifiable {
-    /// The unique identifier matching the wrapped comment's ID
-    var id: Int
+  /// The unique identifier matching the wrapped comment's ID
+  var id: Int
 
-    /// The actual comment content and metadata
-    var comment: Comment
+  /// The actual comment content and metadata
+  var comment: Comment
 
-    /// Child comments in the reply hierarchy
-    var children: [CommentNode]
+  /// Child comments in the reply hierarchy
+  var children: [CommentNode]
 
-    /// The nesting depth in the comment tree (0 for root comments)
-    var depth: Int
+  /// The nesting depth in the comment tree (0 for root comments)
+  var depth: Int
 
-    /// Creates a comment node from a base comment
-    ///
-    /// - Parameters:
-    ///   - comment: The base comment to wrap
-    ///   - children: Immediate child/reply comments (default empty)
-    ///   - depth: Nesting level in the hierarchy (default 0)
-    ///
-    init(comment: Comment, children: [CommentNode] = [], depth: Int = 0) {
-        self.id = comment.id
-        self.comment = comment
-        self.children = children
-        self.depth = depth
-    }
+  /// Creates a comment node from a base comment
+  ///
+  /// - Parameters:
+  ///   - comment: The base comment to wrap
+  ///   - children: Immediate child/reply comments (default empty)
+  ///   - depth: Nesting level in the hierarchy (default 0)
+  ///
+  init(comment: Comment, children: [CommentNode] = [], depth: Int = 0) {
+    self.id = comment.id
+    self.comment = comment
+    self.children = children
+    self.depth = depth
+  }
 }
