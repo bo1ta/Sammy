@@ -6,6 +6,12 @@ struct LoginView: View {
   @Environment(\.authNavigator) private var authNavigator: AuthNavigator
   @State private var viewModel = LoginViewModel()
 
+  var destinationOverriden: Bool
+
+  init(destinationOverriden: Bool = false) {
+    self.destinationOverriden = destinationOverriden
+  }
+
   var body: some View {
     VStack(spacing: .paddingLarge) {
       Text("Logging into lemmy.world")
@@ -39,6 +45,7 @@ struct LoginView: View {
     .frame(maxHeight: .infinity)
     .padding(.horizontal, .paddingLarge)
     .background(Color.primaryGradientBackground)
+    .navigationBarBackButtonHidden(destinationOverriden)
   }
 }
 

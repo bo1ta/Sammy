@@ -37,6 +37,14 @@ final class AuthNavigator: Navigator {
 
 struct SplashView: View {
   @State private var navigator = AuthNavigator()
+  var overrideDestination: SplashDestinations?
+
+  init(overrideDestination: SplashDestinations? = nil) {
+    self.overrideDestination = overrideDestination
+    if let overrideDestination {
+      navigator.navigate(to: overrideDestination)
+    }
+  }
 
   var body: some View {
     NavigationStack(path: $navigator.path) {
@@ -61,6 +69,7 @@ struct SplashView: View {
           UserStore.shared.performAnonymousLogin()
         }
         .buttonStyle(PrimaryButtonStyle())
+        .opacity(overrideDestination != nil ? 0 : 1)
 
         Text("By continuing, you agree to our Terms of Service and Privacy Policy")
           .foregroundStyle(.textSecondary)
@@ -73,11 +82,11 @@ struct SplashView: View {
       .navigationDestination(for: SplashDestinations.self, destination: { destination in
         switch destination {
         case .login:
-          LoginView()
+          LoginView(destinationOverriden: overrideDestination != nil)
             .environment(\.authNavigator, navigator)
 
         case .register:
-          RegisterView()
+          RegisterView(destinationOverriden: overrideDestination != nil)
             .environment(\.authNavigator, navigator)
         }
       })

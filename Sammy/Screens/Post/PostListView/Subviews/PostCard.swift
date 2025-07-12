@@ -21,7 +21,7 @@ struct PostCard: View {
           .font(.system(size: .fontSizeSubheadline, weight: .regular))
       }
 
-      PostInteractionBar(postCounts: post.postCounts, onUpvote: { }, onDownvote: { }, onShare: { }, onBookmark: { })
+      PostInteractionBar(postCounts: post.postCounts, voteType: post.voteType, onVote: { _ in }, onShare: { }, onBookmark: { })
         .padding([.horizontal, .vertical])
     }
     .frame(maxWidth: .infinity)

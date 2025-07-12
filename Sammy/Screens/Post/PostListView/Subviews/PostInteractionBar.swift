@@ -3,9 +3,9 @@ import SwiftUI
 
 struct PostInteractionBar: View {
   var postCounts: PostCounts
+  var voteType: VoteType
 
-  var onUpvote: () -> Void
-  var onDownvote: () -> Void
+  var onVote: (VoteType) -> Void
   var onShare: () -> Void
   var onBookmark: () -> Void
 
@@ -28,27 +28,33 @@ struct PostInteractionBar: View {
   ///
   private var voteStackButton: some View {
     HStack {
-      Button(action: onUpvote, label: {
+      Button(action: {
+        onVote(.upvote)
+      }, label: {
         Image(.icArrow)
           .resizable()
           .renderingMode(.template)
           .scaledToFit()
           .frame(height: .iconSizeMedium)
-          .opacity(0.8)
+          .opacity(voteType == .upvote ? 1.0 : 0.8)
+          .foregroundStyle(voteType == .upvote ? Color.clear : Color.accent)
       })
 
       Text(String(postCounts.score))
         .font(.system(size: .fontSizeCaption, weight: .medium))
         .foregroundStyle(.textSecondary)
 
-      Button(action: onDownvote, label: {
+      Button(action: {
+        onVote(.downvote)
+      }, label: {
         Image(.icArrow)
           .resizable()
           .renderingMode(.template)
           .scaledToFit()
           .rotationEffect(.degrees(180))
           .frame(height: .iconSizeMedium)
-          .opacity(0.8)
+          .opacity(voteType == .downvote ? 1.0 : 0.8)
+          .foregroundStyle(voteType == .downvote ? Color.clear : Color.accent)
       })
     }
   }

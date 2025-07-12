@@ -26,5 +26,19 @@ struct AppTabView: View {
         }
       }
     }
+    .sheet(item: $navigator.presentingSheet) { destination in
+      modalViewBuilder(for: destination)
+    }
+    .fullScreenCover(item: $navigator.presentingFullScreenCover) { destination in
+      modalViewBuilder(for: destination)
+    }
+  }
+
+  @ViewBuilder
+  private func modalViewBuilder(for destination: ModalDestination) -> some View {
+    switch destination {
+    case .authentication:
+      SplashView(overrideDestination: .login)
+    }
   }
 }

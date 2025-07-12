@@ -14,16 +14,24 @@ final class PostDetailViewModel {
   private(set) var commentTree: [CommentNode] = []
   private(set) var errorMessage: String?
   private(set) var voteTask: Task<Void, Never>?
+  private(set) var post: Post
+
+  var isAuthenticated: Bool {
+    CurrentUserProvider.instance.isAuthenticated
+  }
 
   // MARK: - Init
 
-  let post: Post
   private let logger = Logger(subsystem: "com.Sammy", category: "PostDetailViewModel")
   private let commentProvider: CommentDataProviderProtocol
+  private let postProvider: PostDataProviderProtocol
+  private let appNavigator: NavigationProvider
 
-  init(post: Post, commentProvider: CommentDataProviderProtocol = CommentDataProvider()) {
+  init(post: Post, commentProvider: CommentDataProviderProtocol = CommentDataProvider(), postProvider: PostDataProviderProtocol = PostDataProvider(), appNavigator: NavigationProvider = AppNavigator.shared) {
     self.post = post
     self.commentProvider = commentProvider
+    self.postProvider = postProvider
+    self.appNavigator = appNavigator
   }
 
   // MARK: - Public methods
@@ -41,7 +49,30 @@ final class PostDetailViewModel {
     }
   }
 
-  func handleVote(_ voteType: VoteType, commentID: Comment.ID) {
+  func votePost(_ voteType: VoteType) {
+    guard isAuthenticated else {
+      appNavigator.presentSheet(.authentication)
+      return
+    }
+
+    voteTask?.cancel()
+
+    voteTask = Task {
+      do {
+        let updatedPost = try await postProvider.votePost(post.id, vote: voteType)
+        self.post = updatedPost
+      } catch {
+        logger.error("Error voting post. Error: \(error)")
+      }
+    }
+  }
+
+  func voteComment(_ voteType: VoteType, commentID: Comment.ID) {
+    guard isAuthenticated else {
+      appNavigator.presentSheet(.authentication)
+      return
+    }
+
     voteTask?.cancel()
 
     voteTask = Task {

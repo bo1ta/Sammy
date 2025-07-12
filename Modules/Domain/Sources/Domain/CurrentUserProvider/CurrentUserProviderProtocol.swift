@@ -10,7 +10,7 @@ public protocol CurrentUserProviderProtocol {
 }
 
 extension CurrentUserProviderProtocol {
-  var currentUserID: Int? {
+  public var currentUserID: Int? {
     switch getCurrentState() {
     case .authenticated(let localUser):
       localUser.id
@@ -18,13 +18,20 @@ extension CurrentUserProviderProtocol {
       nil
     }
   }
-
-  var currentPersonID: Int? {
+  
+  public var currentPersonID: Int? {
     switch getCurrentState() {
     case .authenticated(let localUser):
       localUser.personID
     case .unauthenticated, .anonymous:
       nil
     }
+  }
+  
+  public var isAuthenticated: Bool {
+    guard currentUserID != nil else {
+      return false
+    }
+    return true
   }
 }

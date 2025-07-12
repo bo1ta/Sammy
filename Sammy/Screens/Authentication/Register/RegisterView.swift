@@ -4,6 +4,12 @@ struct RegisterView: View {
   @Environment(\.authNavigator) private var authNavigator: AuthNavigator
   @State private var viewModel = RegisterViewModel()
 
+  var destinationOverriden: Bool
+
+  init(destinationOverriden: Bool = false) {
+    self.destinationOverriden = destinationOverriden
+  }
+
   var body: some View {
     ScrollView {
       VStack(spacing: .paddingLarge) {
@@ -34,6 +40,7 @@ struct RegisterView: View {
         authNavigator.pop()
       }
     }
+    .navigationBarBackButtonHidden(destinationOverriden)
   }
 
   @ViewBuilder

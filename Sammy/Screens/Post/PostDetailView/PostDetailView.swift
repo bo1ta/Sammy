@@ -17,7 +17,7 @@ struct PostDetailView: View {
   var body: some View {
     ScrollView {
       LazyVStack(alignment: .leading, spacing: .paddingMedium) {
-        PostBodyView(post: viewModel.post)
+        PostBodyView(post: viewModel.post, onVote: viewModel.votePost(_:), onShare: {}, onBookmark: {})
         commentSection
       }
     }

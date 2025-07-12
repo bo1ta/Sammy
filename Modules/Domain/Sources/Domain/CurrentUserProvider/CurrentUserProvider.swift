@@ -8,7 +8,7 @@ public class CurrentUserProvider: CurrentUserProviderProtocol {
   private static let currentUserKey = "currentUser"
   private static let anonymousUserKey = "anonymousUser"
 
-  public nonisolated(unsafe) static let instance = CurrentUserProvider()
+  public nonisolated(unsafe) static let instance: CurrentUserProviderProtocol = CurrentUserProvider()
 
   private var cachedState: CurrentUserState?
 
@@ -20,6 +20,15 @@ public class CurrentUserProvider: CurrentUserProviderProtocol {
     let currentUserState = loadFromUserDefaults()
     cachedState = currentUserState
     return currentUserState
+  }
+
+  public var currentLocalUser: LocalUser? {
+    switch getCurrentState() {
+    case .authenticated(let user):
+      return user
+    default:
+      return nil
+    }
   }
 
   public func setUser(_ localUser: LocalUser) {

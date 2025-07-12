@@ -3,6 +3,9 @@ import SwiftUI
 
 struct PostBodyView: View {
   var post: Post
+  var onVote: (VoteType) -> Void
+  var onShare: () -> Void
+  var onBookmark: () -> Void
 
   var body: some View {
     VStack(alignment: .leading, spacing: .paddingLarge) {
@@ -24,8 +27,8 @@ struct PostBodyView: View {
 
       PostInteractionBar(
         postCounts: post.postCounts,
-        onUpvote: { },
-        onDownvote: { },
+        voteType: post.voteType,
+        onVote: onVote,
         onShare: { },
         onBookmark: { })
     }
