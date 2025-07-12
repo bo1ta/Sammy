@@ -154,6 +154,11 @@
         <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostEntity" inverseName="postCounts" inverseEntity="PostEntity"/>
     </entity>
     <entity name="PostEntity" representedClassName="PostEntity" syncable="YES">
+        <attribute name="isHidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isRead" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isSaved" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="myVote" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="unreadComments" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="communityAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CommunityAttributesEntity" inverseName="posts" inverseEntity="CommunityAttributesEntity"/>
         <relationship name="creatorAttributes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonAttributesEntity" inverseName="posts" inverseEntity="PersonAttributesEntity"/>
         <relationship name="personDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonDetailsEntity" inverseName="posts" inverseEntity="PersonDetailsEntity"/>

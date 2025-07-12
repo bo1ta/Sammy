@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Models",
-    products: [
-        .library(
-            name: "Models",
-            targets: ["Models"]),
-    ],
-    targets: [
-        .target(name: "Models"),
-    ])
+  name: "Models",
+  products: [
+    .library(
+      name: "Models",
+      targets: ["Models"]),
+  ],
+  targets: [
+    .target(name: "Models"),
+  ])

@@ -9,7 +9,7 @@
 --importgrouping testable-bottom # sortedImports
 --commas always # trailingCommas
 --trimwhitespace always # trailingSpace
---indent 4 #indent
+--indent 2 #indent
 --ifdef no-indent #indent
 --indentstrings true #indent
 --wraparguments before-first # wrapArguments

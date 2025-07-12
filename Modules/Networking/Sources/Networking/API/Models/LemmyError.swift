@@ -1,3 +1,3 @@
 public struct LemmyError: DecodableModel {
-    var error: String
+  var error: String
 }

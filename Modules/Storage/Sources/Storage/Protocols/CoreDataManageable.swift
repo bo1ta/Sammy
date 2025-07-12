@@ -1,7 +1,7 @@
 import CoreData
 
 public protocol CoreDataManageable {
-    var viewContextForNotifications: NSManagedObjectContext { get }
+  var viewContextForNotifications: NSManagedObjectContext { get }
 
-    func reset()
+  func reset()
 }

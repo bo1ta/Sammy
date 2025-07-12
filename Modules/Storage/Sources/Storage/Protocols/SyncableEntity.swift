@@ -5,18 +5,18 @@ import Principle
 // MARK: - SyncableEntity
 
 public protocol SyncableEntity {
-    associatedtype ReadOnlyModel: Sendable
+  associatedtype ReadOnlyModel: Sendable
 
-    static func predicateForModel(_ model: ReadOnlyModel) -> NSPredicate
+  static func predicateForModel(_ model: ReadOnlyModel) -> NSPredicate
 
-    func updateEntityFrom(_ model: ReadOnlyModel, on storage: StorageType) throws
-    func populateEntityFrom(_ model: ReadOnlyModel, on storage: StorageType) throws
+  func updateEntityFrom(_ model: ReadOnlyModel, on storage: StorageType) throws
+  func populateEntityFrom(_ model: ReadOnlyModel, on storage: StorageType) throws
 }
 
 // MARK: - CoreDataSyncError
 
 enum CoreDataSyncError: Error {
-    case invalidContext
+  case invalidContext
 }
 
 extension NSManagedObject { }

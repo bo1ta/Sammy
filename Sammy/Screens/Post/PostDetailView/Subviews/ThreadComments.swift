@@ -10,18 +10,18 @@ import SwiftUI
 /// - Color-coded threading indicators for deep nesting
 ///
 struct ThreadComments: View {
-    var commentTree: [CommentNode]
+  var commentTree: [CommentNode]
 
-    var body: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading) {
-                ForEach(commentTree) { comment in
-                    ThreadedCommentNode(node: comment)
-                        .padding(.vertical, .paddingMedium)
-                }
-            }
+  var body: some View {
+    ScrollView {
+      LazyVStack(alignment: .leading) {
+        ForEach(commentTree) { comment in
+          ThreadedCommentNode(node: comment)
+            .padding(.bottom, .paddingSmall)
         }
+      }
     }
+  }
 }
 
 // MARK: - ThreadedCommentNode
@@ -36,32 +36,33 @@ struct ThreadComments: View {
 /// The view uses a color rotation system to distinguish different nesting levels.
 ///
 struct ThreadedCommentNode: View {
-    @State private var isCollapsed = false
+  @State private var isCollapsed = false
 
-    let node: CommentNode
+  let node: CommentNode
 
-    private let threadColors: [Color] = [
-        .blue, .green, .orange, .red, .purple, .pink,
-    ]
+  private let threadColors: [Color] = [
+    .blue, .green, .orange, .red, .purple, .pink,
+  ]
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            CommentRow(isCollapsed: $isCollapsed, node: node, depth: 0, onUpvote: { }, onDownvote: { })
-                .padding(.leading, CGFloat(node.depth) * 12)
+  var body: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      CommentRow(isCollapsed: $isCollapsed, node: node, depth: 0, onUpvote: { }, onDownvote: { })
+        .padding(.leading, CGFloat(node.depth) * 12)
+        .padding(.vertical, .paddingSmall)
 
-            if !isCollapsed {
-                ForEach(node.children) { childNode in
-                    HStack {
-                        Rectangle()
-                            .fill(threadColors[childNode.depth % threadColors.count])
-                            .frame(width: 2)
-                            .padding(.horizontal, 5)
+      if !isCollapsed {
+        ForEach(node.children) { childNode in
+          HStack {
+            Rectangle()
+              .fill(threadColors[childNode.depth % threadColors.count])
+              .frame(width: 2)
+              .padding(.horizontal, 5)
 
-                        /// Recursively render child comment
-                        ThreadedCommentNode(node: childNode)
-                    }
-                }
-            }
+            /// Recursively render child comment
+            ThreadedCommentNode(node: childNode)
+          }
         }
+      }
     }
+  }
 }

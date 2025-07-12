@@ -5,63 +5,63 @@ import protocol Networking.DecodableModel
 // MARK: - CurrentUserProvider
 
 public class CurrentUserProvider: CurrentUserProviderProtocol {
-    private static let currentUserKey = "currentUser"
-    private static let anonymousUserKey = "anonymousUser"
+  private static let currentUserKey = "currentUser"
+  private static let anonymousUserKey = "anonymousUser"
 
-    public nonisolated(unsafe) static let instance = CurrentUserProvider()
+  public nonisolated(unsafe) static let instance = CurrentUserProvider()
 
-    private var cachedState: CurrentUserState?
+  private var cachedState: CurrentUserState?
 
-    public func getCurrentState() -> CurrentUserState {
-        if let cachedState {
-            return cachedState
-        }
-
-        let currentUserState = loadFromUserDefaults()
-        cachedState = currentUserState
-        return currentUserState
+  public func getCurrentState() -> CurrentUserState {
+    if let cachedState {
+      return cachedState
     }
 
-    public func setUser(_ localUser: LocalUser) {
-        guard let data = try? JSONEncoder().encode(localUser) else {
-            return
-        }
-        UserDefaults.standard.set(data, forKey: Self.currentUserKey)
-        cachedState = .authenticated(localUser)
-    }
+    let currentUserState = loadFromUserDefaults()
+    cachedState = currentUserState
+    return currentUserState
+  }
 
-    public func setIsAnonymousUser(_ isAnonymous: Bool) {
-        UserDefaults.standard.set(isAnonymous, forKey: Self.anonymousUserKey)
+  public func setUser(_ localUser: LocalUser) {
+    guard let data = try? JSONEncoder().encode(localUser) else {
+      return
     }
+    UserDefaults.standard.set(data, forKey: Self.currentUserKey)
+    cachedState = .authenticated(localUser)
+  }
 
-    public func clearUser() {
-        UserDefaults.standard.removeObject(forKey: Self.currentUserKey)
-        cachedState = nil
-    }
+  public func setIsAnonymousUser(_ isAnonymous: Bool) {
+    UserDefaults.standard.set(isAnonymous, forKey: Self.anonymousUserKey)
+  }
 
-    private func loadFromUserDefaults() -> CurrentUserState {
-        if let localUser = loadCurrentUser() {
-            .authenticated(localUser)
-        } else if loadIsAnonymousUser() == true {
-            .anonymous
-        } else {
-            .unauthenticated
-        }
-    }
+  public func clearUser() {
+    UserDefaults.standard.removeObject(forKey: Self.currentUserKey)
+    cachedState = nil
+  }
 
-    private func loadIsAnonymousUser() -> Bool {
-        UserDefaults.standard.bool(forKey: Self.anonymousUserKey)
+  private func loadFromUserDefaults() -> CurrentUserState {
+    if let localUser = loadCurrentUser() {
+      .authenticated(localUser)
+    } else if loadIsAnonymousUser() == true {
+      .anonymous
+    } else {
+      .unauthenticated
     }
+  }
 
-    private func loadCurrentUser() -> LocalUser? {
-        guard
-            let data = UserDefaults.standard.data(forKey: Self.currentUserKey),
-            let localUser = try? LocalUser.createFrom(data)
-        else {
-            return nil
-        }
-        return localUser
+  private func loadIsAnonymousUser() -> Bool {
+    UserDefaults.standard.bool(forKey: Self.anonymousUserKey)
+  }
+
+  private func loadCurrentUser() -> LocalUser? {
+    guard
+      let data = UserDefaults.standard.data(forKey: Self.currentUserKey),
+      let localUser = try? LocalUser.createFrom(data)
+    else {
+      return nil
     }
+    return localUser
+  }
 }
 
 // MARK: - LocalUser + DecodableModel
