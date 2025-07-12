@@ -66,7 +66,8 @@ extension PostDetailView {
           .scaledToFit()
           .frame(height: .iconSizeSmall)
       }
-      .padding(.bottom, .paddingMedium)
+      .padding(.paddingMedium)
+      Divider()
 
       ThreadComments(commentTree: viewModel.commentTree)
     }

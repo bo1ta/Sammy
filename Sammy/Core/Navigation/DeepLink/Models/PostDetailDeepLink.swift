@@ -3,7 +3,7 @@ import Foundation
 import OSLog
 
 struct PostDetailDeepLink: DestinationProducingDeepLink {
-  static let host = "post"
+  static let host = "post-detail"
 
   private let logger = Logger()
   private let dataProvider: PostDataProviderProtocol
@@ -18,9 +18,10 @@ struct PostDetailDeepLink: DestinationProducingDeepLink {
 
   func navigationDestinations(from components: URLComponents) async -> NavigationType {
     guard
-      let postID = components.url?.lastPathComponent as? Int
+      let idString = components.url?.lastPathComponent as? String,
+      let postID = Int(idString)
     else {
-      logger.error("Invalid video deep link format: \(components)")
+      logger.error("Invalid post detail deep link format: \(components)")
       return .none
     }
 

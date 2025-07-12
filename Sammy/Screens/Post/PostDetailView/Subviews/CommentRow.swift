@@ -44,15 +44,7 @@ struct CommentRow: View {
           .opacity(0.95)
       }
 
-      HStack(spacing: .paddingSmall) {
-        upvoteButton
-
-        Text(String(node.comment.countsData.score))
-          .font(.system(size: .fontSizeCaption, weight: .bold))
-          .foregroundStyle(.textPrimary)
-
-        downvoteButton
-      }
+      CommentInteractionBar(comment: node.comment, onUpvote: {}, onDownvote: {}, onReply: {})
     }
     .frame(maxWidth: .infinity)
     .padding(.paddingMedium)
